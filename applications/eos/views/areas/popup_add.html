@@ -1,0 +1,40 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('LBL_ADD_NEW_AREA')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+			<form enctype="multipart/form-data" id="frmPopupAddArea" method="POST" action="{{=URL('areas', 'call/json/ajax_save_area')}}">
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='areas_area_code'>{{=T('LBL_AREAS_AREA_CODE')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.area_code}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='areas_area_name'>{{=T('LBL_AREAS_AREA_NAME')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.area_name}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='areas_order_no'>{{=T('Order number')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order_no}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='areas_description'>{{=T('LBL_AREAS_DESCRIPTION')}}</label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.description}}</div>
+                </div>
+
+                <input type="hidden" name="id" value="{{=frm.record.id if frm.record else ''}}" />
+			</form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary btnSave"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

@@ -1,0 +1,10 @@
+pymongo
+openpyxl
+requests
+redis
+pydal
+pyfcm
+PyExcelerate
+pyjwt
+python-dateutil
+tornado

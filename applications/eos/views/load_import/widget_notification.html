@@ -1,0 +1,31 @@
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5><i class="fa fa-bell"></i> {{=T('Notifications')}}</h5>
+        <div class="ibox-tools">
+            <span class="label label-warning-light pull-right">{{=total}} {{=T('Notifications')}}</span>
+        </div>
+    </div>
+    <div class="ibox-content" style="padding: 10px;">
+        <div class="scroll_content_notify">
+            <div class="feed-activity-list">
+                {{for item in items:}}
+                <div class="feed-element">
+                    <a href="#" class="pull-left">
+                        {{=item[0]}}
+                    </a>
+                    <div class="media-body ">
+                        <small class="pull-right">&nbsp;{{=item[1]}}</small>
+                        <strong>{{=item[2]}}</strong> {{=item[3]}} <br>
+                        <small class="text-muted">{{=T('on')}}&nbsp;{{=item[4]}}</small>
+                        <small class="text-muted pull-right"><a href="{{=item[5]}}">{{=T('View')}}</a></small>
+                    </div>
+                </div>
+                {{pass}}
+            </div>
+            <!-- <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> View more</button> -->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

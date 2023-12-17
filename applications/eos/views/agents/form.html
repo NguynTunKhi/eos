@@ -1,0 +1,134 @@
+{{extend 'layout_master.html'}}
+{{from applications.eos.modules import const}}
+{{block head}}
+<style type='text/css'>
+    
+</style>
+{{end}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('AGENT INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Master data')}}</li>
+            <li>{{=T('Agents list')}}</li>
+            <li class="active"><strong>{{=T('Agent information')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row" style="margin-top: -10px;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1"> {{=T('Agent info')}}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            {{f = frm.custom.widget}}
+                            {{=frm.custom.begin}}
+                            <div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_agent_name'>{{=T('Agent name')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.agent_name}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_agent_code'>{{=T('Agent code')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.agent_code}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_contact_point'>{{=T('Contact point')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.contact_point}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_phone'>{{=T('Phone number')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.phone}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_email'>{{=T('Email')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.email}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_manage_agent'>{{=T('Management agent')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <!-- Neu record hien tai la ROOT thi ko hien truong nay -->
+                                        {{if (not frm.record) or (frm.record and frm.record.manage_agent != ''):}}
+                                        <select class="form-control" name="manage_agent" id="agents_manage_agent">
+                                            <!-- <option value="">{{=T('-- Select management agent --')}}</option> -->
+                                            {{for item in agents:}}
+                                            <option value="{{=item.id}}">{{=item.agent_name}}</option>
+                                            {{pass}}
+                                        </select>
+                                        {{pass}}
+                                    </div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_province_id'>{{=T('LBL_PROVINCE')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.province_id}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_order_number'>{{=T('Order')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order_number}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_address'>{{=T('LBL_ADDRESS')}}</label>
+                                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.address}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_longitude'>{{=T('LBL_LONGITUDE')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.longitude}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_latitude'>{{=T('LBL_LATITUDE')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.latitude}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_description'>{{=T('LBL_DESCRIPTION')}}</label>
+                                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.description}}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row gray-bg" style="display: none; adding: 15px 15px;">
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_data_server'>{{=T('Server link')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.data_server}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_data_server_port'>{{=T('Port')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.data_server_port}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_username'>{{=T('Username')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.username}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_pwd'>{{=T('Password')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.pwd}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_username'>{{=T('Directory format')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.directory_format}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_pwd'>{{=T('File format')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.file_format}}</div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class='text-right'>
+                                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{=frm.custom.end}}
+                            <input type='hidden' value='{{=msg}}' id='hfError' />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfAgentId" value="{{=frm.record.id if frm.record else ''}}">
+<input type="hidden" id="hfAgentName" value="{{=frm.record.agent_name if frm.record else ''}}">
+<input type="hidden" id="hfError" value="{{=msg}}">
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

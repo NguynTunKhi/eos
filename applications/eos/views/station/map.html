@@ -1,0 +1,179 @@
+{{extend 'layout_master.html'}}
+
+{{block css }}
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'views/station/ol-layerswitcher.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'css/plugins/iCheck/custom.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'css/plugins/select2/select2.min.css')}}" type="text/css">
+{{ end }}
+
+<div class="fh-breadcrumb" style="height: 850px;">
+
+	<div class="full-height fh-height-map">
+		<div class="full-height-scroll white-bg border-left">
+            <div class='row panelSearch'>
+                <div class="col-md-3" style="padding: 0px;">
+                    <select class='form-control' id='cbbStationTypePanel'
+                        data-url="{{=URL('stations', 'call/json/get_station_by_station_type')}}">
+                        <option value=''>{{=T('-- Select station type --')}}</option>
+                        {{for item in common.get_station_types():}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-md-3" style="padding: 0px;">
+                    <select class='form-control' id='panelSearchArea'
+                        data-url="{{=URL('stations', 'call/json/get_station_by_area')}}">
+                        <option value=''>{{=T('Select an area')}}</option>
+                        {{for key in areas:}}
+                        <option value='{{=key}}'>{{=areas[key]['area_name']}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-md-3" style="padding: 0px;">
+                    <select class='form-control' id='panelSearchProvinces'
+                        data-url="{{=URL('stations', 'call/json/get_station_by_province')}}">
+                        <option value=''>{{=T('Select a province')}}</option>
+                        {{for item in default_provinces:}}
+                        <option selected value="{{=item.id}}">{{=item.province_name}}</option>
+                        {{pass}}
+                        {{for key in provinces:}}
+                        <option value='{{=key}}'>{{=provinces[key]['province_name']}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-md-3" style="padding: 0px;">
+                    <select class="form-control" id="cbbStations" style="width:100%">
+                        <option value=''>{{=T('Select a station')}}</option>
+                        {{for station in stations:}}
+                        <option value="{{=station['station_id']}}" data-lastCheckedTime="20:30 29-09-2018"
+                            data-id="{{=station['station_id']}}"
+                            data-lat="{{=station['latlon'][0]}}" data-lon="{{=station['latlon'][1]}}">{{=station['station_name']}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+            </div>
+            <div class="ibox-content gray-bg" style="height: 100%;">
+			    <div id="map" style="filter: contrast(120%)" data-url="{{=URL('station', 'call/json/get_station_for_map')}}"></div>
+            </div>
+		</div>
+	</div>
+
+    <div class="fh-column full-height">
+        <div class="fh-sidebar">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5 class="change-option-title" data-option="1">{{=T('Station status')}}</h5>
+                    <div class="ibox-tools">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-gear"></i>
+                        </a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a class="btnChangeOption active" href="javascript: void(0);" data-option="1">{{=T('Station status')}}</a>
+                            </li>
+                            <li><a class="btnChangeOption" href="javascript: void(0);" data-option="2">{{=T('Data status')}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ibox-content change-option">
+                    <div class="row active" data-option="1">
+                        {{for idx in station_status:}}
+                            {{status = station_status[idx]}}
+                            <div class="col-xs-6">
+                                <a class="btn btn-outline block-status active" data-status="{{=status['value']}}" style="opacity: 0.6;color: #fff;background: {{=status['color']}}">
+                                    <b class="status-num">{{=status['num']}}</b>
+                                    <span class="status-text">{{=status['name']}}</span>
+                                </a>
+                            </div>
+                        {{pass}}
+                    </div>
+                    <div class="row" data-option="2">
+                        {{for idx in station_status:}}
+                            {{status = station_status[idx]}}
+                            <div class="col-xs-6">
+                                <a class="btn btn-outline block-status active" data-status="{{=status['value']}}" style="color: #fff;background: {{=status['color']}}">
+                                    <b class="status-num">{{=status['num']}}</b>
+                                    <span class="status-text">{{=status['name']}}</span>
+                                </a>
+                            </div>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5 class="change-type-title" data-option="1">{{=T('All')}}</h5>
+                    <div class="ibox-tools">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-gear"></i>
+                        </a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a class="btnChangeType active" href="javascript: void(0);" data-type="">{{=T('All')}}</a></li>
+                            {{for key, item in const.STATION_TYPE.iteritems():}}
+                            <li><a class="btnChangeType" href="javascript: void(0);" data-type="{{=item['value']}}">{{=T(item['name'])}}</a></li>
+                            {{pass}}
+                        </ul>
+                    </div>
+                </div>
+                <div class="ibox-content change-type" style="overflow-y: auto;">
+                {{for st in station_group_by_type:}}
+                    <div class="ibox" data-type="{{=st}}">
+                        <div class="ibox-title">
+                            {{item = common.get_const_by_value(const.STATION_TYPE, st)}}
+                            <h5 data-option="1">{{=T(item['name']) if item else ''}}({{=len(station_group_by_type[st])}})</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            {{for item in station_group_by_type[st]:}}
+                            <div class="item" data-id="{{=item['id']}}" data-station_type="{{=item['station_type']}}" data-status="{{=item['status']}}"
+                                data-lat="{{=item['latitude']}}" data-lon="{{=item['longitude']}}">
+                                <a href="javascript: void(0);">{{=item['station_name']}}</a>
+                                <span style="color: {{=station_status[str(item['status'])]['color']}}">{{=item['status_disp']}}</span>
+                            </div>
+                            {{pass}}
+                        </div>
+                    </div>
+                {{pass}}
+                </div>
+            </div>
+        </div>
+	</div>
+
+    <div style="display: none;">
+        <span class="overlay" id="hoangsa"><i>VietNam Sea</i></span>
+        <div id="marker" title="Marker"></div>
+    </div>
+	<div class='clearfix'></div>
+</div>
+<input type="hidden" id="hfFocusedStation" value="{{=str(record.id) if record else ''}}"
+       data-longitude="{{=str(record.longitude) if record else ''}}"
+       data-latitude="{{=str(record.latitude) if record else ''}}">
+<div id="json_indicators" class="hide" style="display: none!important;">{{=json_indicators}}</div>
+<div id="json_station_status" class="hide" style="display: none!important;">{{=json_station_status}}</div>
+<div id="json_stations" class="hide" style="display: none!important;">{{=json_stations}}</div>
+<div id="json_area" class="hide" style="display: none!important;">{{=json_area}}</div>
+<div id="json_provinces" class="hide" style="display: none!important;">{{=json_provinces}}</div>
+<input type="hidden" id="hfUrlToHistoricalData" value="{{=URL('view_log', 'index', vars=dict(view_type=const.VIEW_BY['MINUTE']['value']))}}">
+<input type="hidden" id="hfUrlToSearchOnMap" value="{{=URL('station', 'call/json/search_on_map')}}">
+<input type="hidden" id="hfTotalStation" value="{{=total_station}}">
+
+{{block js}}
+    <script src="{{=URL('static', 'js/ol.js')}}"></script>
+    <script src="{{=URL('static', 'views/station/ol-layerswitcher.js')}}"></script>
+    <script src="{{=URL('static', 'js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+    <!-- iCheck -->
+    <script src="{{=URL('static', 'js/plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{=URL('static', 'js/plugins/select2/select2.full.min.js')}}"></script>
+{{end}}

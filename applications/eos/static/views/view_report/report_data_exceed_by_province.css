@@ -1,0 +1,37 @@
+#myCarousel{
+	height: 430px;
+}
+
+[id*='tramNuocThai']{
+	width: 100%;
+	max-width: 800px;
+	height: 400px;
+	margin: 0 auto
+}
+.left.carousel-control, .right.carousel-control{
+	background: #fff;
+    left: 0px;
+    bottom: 10px;
+    top: auto;
+    color: #999;
+}
+.left.carousel-control span, .right.carousel-control span{
+	font-size: 20px;
+	font-weight: normal;
+}
+.right.carousel-control{
+    left: 30px;
+}
+.my-panel .carousel-indicators{
+	bottom: 0px;
+    margin: 0px;
+    width: 50%;
+    left: 25%;
+    text-align: center;
+}
+.my-panel .carousel-indicators li{
+    background: #bbb;
+}
+.my-panel .carousel-indicators li:hover, .my-panel .carousel-indicators li.active{
+    background: green;
+}

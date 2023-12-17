@@ -1,0 +1,77 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeIn ">
+    <div class="col-lg-10">
+        <h2>{{=T('Datalogger list')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Master data')}}</a></li>
+            <li class="active"><strong>{{=T('Datalogger list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row animated fadeIn ">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <!--<div class="col-sm-3">-->
+                    <!--<select class="form-control" name="type" id="type">-->
+                        <!--<option value="">{{=T('&#45;&#45; Select station type &#45;&#45;')}}</option>-->
+                        <!--{{for key, item in const.STATION_TYPE.iteritems():}}-->
+                        <!--<option value="{{=item['value']}}">{{=item['name']}}</option>-->
+                        <!--{{pass}}-->
+                    <!--</select>-->
+                <!--</div> -->
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="sometext" placeholder="{{=T('Search')}}"> 
+                        <span class="input-group-btn"> 
+                            <button type="button" class="btn btn-primary" id="btn_search">{{=T('Go!')}}</button> 
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                data-url="{{=URL('datalogger', 'call/json/get_list_datalogger')}}">
+                <thead>
+                    <tr>
+                        <th>{{=T('LBL_STT')}}</th>
+                        <th>{{=T('Datalogger_ID')}}</th>
+                        <th>{{=T('Datalogger Name')}}</th>
+                        <th>{{=T('LBL_NOTE')}}</th>
+                        <th>{{=T('Station')}}</th>
+                        <th><input type='checkbox' group="0" class='select_all' id='chk_all_0' /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                {{if auth.has_permission('create', 'datalogger'):}}
+                <a class='btn btn-primary' type='button' href="{{=URL('form')}}"><i class="fa fa-plus"></i> {{=T('BTN_CREATE')}}</a>
+                {{pass}}
+                {{if auth.has_permission('delete', 'datalogger'):}}
+                <a id='btnDelete' class='btn btn-primary btnDisabled' type='button' href='javascript:void(0);'
+                    data-url="{{=URL('call/json/del_qcvn')}}"
+                    data-iTable="0"
+                    data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                    onclick="app.executeFunction(this);">
+                    <i class="fa fa-trash fa-white"></i> {{=T('BTN_DELETE')}}
+                </a>
+                {{pass}}
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

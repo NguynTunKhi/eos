@@ -1,0 +1,46 @@
+<style>
+    .chosen-container-single {width:100%}
+</style>
+
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Issue command')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+			<form enctype="multipart/form-data" id="frmPopupIssueCommand" method="POST" action="{{=URL('call/json/ajax_issue_command')}}">
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Station name')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_name}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Title')}}</label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.title}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Command content')}}</label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.command}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    <input type="hidden" value="{{=frm.record.id}}" name="id" />
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.station_id}}</div>
+                </div>
+			</form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary" id="btn_Save"><i class="fa fa-send"></i> {{=T('Issue command')}}</a>
+                <a href="javascript: void(0);" class="hide btn btn btn-primary btnSave"><i class="fa fa-send"></i> {{=T('Issue command')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

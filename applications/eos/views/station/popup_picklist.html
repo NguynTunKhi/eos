@@ -1,0 +1,67 @@
+{{from applications.eos.modules import const}}
+
+
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Select Station')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body" style="padding-top: 10px; overflow-y: auto;height: 60vh" >
+			<div class='row'>
+				<div class='col-md-3'>
+					<select class='form-control' id='cbbStationType'>
+                        <option value="">{{=T('-- Select station type --')}}</option>
+                        {{for item in common.get_station_types():}}
+						<option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+
+					</select>
+				</div>
+                <div class="col-sm-3">
+                    <select class="form-control" name="province_id" id="cbbProvinceId" >
+                        <option value="">{{=T('-- Select province --')}}</option>
+                        {{ pro_dic = common.get_province_dict()}}
+                         {{for item in pro_dic:}}
+						<option value="{{=item}}">{{=pro_dic[item]}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+				<div class='col-md-5'>
+					<input type='text' class='form-control' id='txtSearchStationOnPopup' placeholder='{{=T('Search...')}}' />
+				</div>
+				<div class='col-md-1'>
+					<a class='btn btn-primary' id='btnSearchStationOnPopup' href='javascript: void(0);'>
+						<i class='fa fa-search'></i>&nbsp;{{T('BTN_SEARCH')}}
+					</a>
+				</div>
+			</div>
+			<div class='clearfix'></div>
+            <table  id='custom_datatable_station_popup_picklist' class='table table-hover table-bordered'
+                   data-table="{{ =table }}" data-field="{{ =field }}" data-extend="{{=extend }}"
+                   data-url="{{=URL('station', 'call/json/get_list_for_popup_picklist', vars=dict(table=table, field=field, extend=extend))}}">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>{{=T('LBL_STATION_CODE')}}</th>
+                        <th>{{=T('LBL_STATION_NAME')}}</th>
+                        <th><input type='checkbox' name='select_all' class="select_all" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn-primary btnOK"><i class="fa fa-check"></i>&nbsp;&nbsp;Ok&nbsp;&nbsp;</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

@@ -1,0 +1,2 @@
+table td, table th{text-align: center;}
+div.dataTables_wrapper table.dataTable thead tr th{vertical-align: middle;!important;}

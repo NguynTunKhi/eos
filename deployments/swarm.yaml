@@ -1,0 +1,253 @@
+version: '3.3'
+services:
+  app:
+    image: registry.gitlab.com/env-soft/eos-backend:1bde4eab
+    command:
+     - python2
+     - web2py.py
+     - -a
+     - admin
+     - -i
+     - 0.0.0.0
+     - -p
+     - '8000'
+     - -K eos
+     - -X
+    tty: true
+    environment:
+      APP_SIDE: LOCAL_DP
+      ENV_MONGO_DB_NAME: eos
+      ENV_TW_HOST: https://envsoftdemo.cem.gov.vn
+      ENV_TW_PASSWORD_BASIC_AUTH_API: 1234567890!
+      ENV_TW_USER_BASIC_AUTH_API: binhduong
+      TZ: Asia/Bangkok
+    ports:
+     - 4000:8000
+    volumes:
+     - log:/app/applications/eip/log
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.app.local
+      target: /app/applications/eip/private/appconfig.ini
+     -
+      source: bd.app.local
+      target: /app/applications/eos/private/appconfig.ini
+    logging:
+      driver: none
+  app2:
+    image: registry.gitlab.com/env-soft/eos-backend:1bde4eab
+    command:
+     - python2
+     - web2py.py
+     - -a
+     - admin
+     - -i
+     - 0.0.0.0
+     - -p
+     - '8000'
+     - -K eos
+     - -X
+    tty: true
+    environment:
+      APP_SIDE: LOCAL_DP
+      ENV_MONGO_DB_NAME: eos
+      ENV_TW_HOST: https://envsoftdemo.cem.gov.vn
+      ENV_TW_PASSWORD_BASIC_AUTH_API: 1234567890!
+      ENV_TW_USER_BASIC_AUTH_API: binhduong
+      TZ: Asia/Bangkok
+    ports:
+     - 4001:8000
+    volumes:
+     - log:/app/applications/eip/log
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.app.local
+      target: /app/applications/eos/private/appconfig.ini
+     -
+      source: bd.app.local
+      target: /app/applications/eip/private/appconfig.ini
+    logging:
+      driver: none
+  etl-api:
+    image: registry.gitlab.com/env-soft/etl-api:4b41546b
+    command:
+     - python2
+     - stations_process_all.py
+    environment:
+      DATA_HOUR_MUST_UPDATE: 'true'
+      IMPORT_BY_DAYS: '1'
+      IS_GET_REAL_TIME_DATA: 'true'
+      IS_IMPORT_DATA: 'false'
+      IS_UPDATE_DATA_ADJUST_WHEN_IMPORT: 'false'
+      MAX_ADD_THREAD: '1000000'
+      NUMBER_THREAD_CONCURRENT: '100000'
+      TZ: Asia/Bangkok
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.etl-api-dp.local
+      target: /app/app_cf.py
+    logging:
+      driver: json-file
+    deploy:
+      replicas: 0
+      resources:
+        reservations:
+          memory: 4000M
+        limits:
+          memory: 4000M
+  etl-api-2:
+    image: registry.gitlab.com/env-soft/etl-api:ff9b3cb9
+    command:
+     - python2
+     - stations_process_all.py
+    environment:
+      IMPORT_BY_DAYS: '1'
+      IS_GET_REAL_TIME_DATA: 'true'
+      IS_IMPORT_DATA: 'false'
+      IS_UPDATE_DATA_ADJUST_WHEN_IMPORT: 'false'
+      MAX_ADD_THREAD: '1000000'
+      NUMBER_THREAD_CONCURRENT: '100000'
+      TZ: Asia/Bangkok
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.etl-api-dp.local
+      target: /app/app_cf.py
+    logging:
+      driver: none
+    deploy:
+      resources:
+        reservations:
+          memory: 4000M
+        limits:
+          memory: 4000M
+  etl-api-sendtw:
+    image: registry.gitlab.com/env-soft/etl-api:59616062
+    command:
+     - python2
+     - stations_send_tw.py
+    environment:
+      TZ: Asia/Bangkok
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.etl-api-dp.local
+      target: /app/app_cf.py
+    logging:
+      driver: json-file
+  etl-api-sync-status:
+    image: registry.gitlab.com/env-soft/etl-api:6a0ea3df
+    command:
+     - python2
+     - stations_data_hour.py
+    environment:
+      IMPORT_BY_DAYS: '1'
+      IS_GET_REAL_TIME_DATA: 'true'
+      IS_IMPORT_DATA: 'true'
+      IS_UPDATE_DATA_ADJUST_WHEN_IMPORT: 'false'
+      MAX_ADD_THREAD: '10000'
+      NUMBER_THREAD_CONCURRENT: '1000'
+      TZ: Asia/Bangkok
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.etl-api-dp.local
+      target: /app/app_cf.py
+    logging:
+      driver: none
+  etl-import-api:
+    image: registry.gitlab.com/env-soft/etl-api:4b41546b
+    command:
+     - python2
+     - stations_process_all.py
+    environment:
+      IMPORT_BY_DAYS: '920'
+      IS_GET_REAL_TIME_DATA: 'false'
+      IS_IMPORT_DATA: 'true'
+      IS_UPDATE_DATA_ADJUST_WHEN_IMPORT: 'false'
+      MAX_ADD_THREAD: '100000'
+      NUMBER_THREAD_CONCURRENT: '10000'
+      TZ: Asia/Bangkok
+    networks:
+     - diaphuong-eos
+    configs:
+     -
+      source: bd.etl-api-dp.local
+      target: /app/app_cf.py
+    logging:
+      driver: none
+  mariadb:
+    image: mariadb:10.7
+    environment:
+      MYSQL_DATABASE: bd
+      MYSQL_PASSWORD: An0thrS3crt
+      MYSQL_ROOT_PASSWORD: S3cret
+      MYSQL_USER: citizix_user
+    ports:
+     - 4306:3306
+    volumes:
+     - diaphuong.mysql:/var/lib/mysql
+    networks:
+     - diaphuong-eos
+    logging:
+      driver: json-file
+  mongodb:
+    image: mongo:4.0.1
+    environment:
+      MONGO_INITDB_DATABASE: eos
+      MONGO_INITDB_ROOT_PASSWORD: S3cr3t
+      MONGO_INITDB_ROOT_USERNAME: root
+    ports:
+     - 47017:27017
+    volumes:
+     - diaphuong.mongo:/data/db
+    networks:
+     - diaphuong-eos
+    logging:
+      driver: json-file
+  redis:
+    image: redis:5.0.6
+    networks:
+     - diaphuong-eos
+    logging:
+      driver: json-file
+  sync-indicators:
+    image: registry.gitlab.com/env-soft/etl-api:08982107
+    command:
+     - python2
+     - ./sync_jobs/sync_indicator.py
+    environment:
+      ENV_TW_HOST: https://cem.hap-technology.com
+      ENV_TW_PASSWORD_BASIC_AUTH_API: 1234567890!
+      ENV_TW_USER_BASIC_AUTH_API: binhduong
+      EOS_MONGO_URI: mongodb://root:S3cr3t@mongodb:27017/eos?retryReads=false&retryWrites=false&authSource=admin
+      SYNC_INDICATOR_TIME_SLEEP: '5'
+      TZ: Asia/Bangkok
+    networks:
+     - diaphuong-eos
+    logging:
+      driver: json-file
+networks:
+  diaphuong-eos:
+    external: true
+volumes:
+  diaphuong.mongo:
+    external: true
+  diaphuong.mysql:
+    external: true
+  log:
+    external: true
+configs:
+  bd.app.local:
+    external: true
+  bd.etl-api-dp.local:
+    external: true

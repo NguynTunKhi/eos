@@ -1,0 +1,145 @@
+{{extend 'layout_master.html'}}
+
+{{f=form.custom.widget}}
+{{=form.custom.begin}}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('TITLE_USER_FORM')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Administrator')}}</li>
+            <li>
+                <a href="/eos/users/index">{{=T('User list')}}</a>
+            </li>
+            <li class="active"><strong>{{=T('TITLE_USER_FORM')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="white-bg">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content mailbox-content">
+                    <div class="file-manager">
+                        {{if form.record and form.record.image:}}
+                        <img  src="{{=URL('default', 'download', args=form.record.image)}}",  height="50%", width="50%" />
+                        {{else:}}
+                        <img  src="{{=URL('static', 'img/clear.png')}}",  height="80px", width="50px" />
+                        {{pass}}
+                        <h2>
+                            {{if form.record:}}
+                            {{=form.record.fullname}}
+                            {{else:}}
+                            {{=T('Your name here')}}
+                            {{pass}}
+                        </h2>
+
+
+                        {{if form.record:}}
+                        <br>
+                        <a class="btn btn-block btn-primary compose-mail" href="{{=URL('stations',  vars={'user':form.record.id})}}">{{=T('List stations manager')}}</a>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 animated fadeInRight">
+            <div class="mail-box-header">
+                <div class="pull-right tooltip-demo">
+
+                </div>
+                <h2>{{=T('USER INFORMATION')}}</h2>
+            </div>
+            <div class="mail-box">
+                <div class="mail-body">
+                    <div class="row p-xs">
+                        <div class="row form-group">
+                            <label class='col-sm-5 col-md-2' for='auth_user_username'>{{=T('Username')}} <span style='color:red;'>*</span></label>
+                            <div class='col-sm-7 col-md-4'>{{=f.username}}</div>
+                            {{if not form.record:}}
+                            <label class='col-sm-5 col-md-2' for='auth_user_password'>{{=T('Password')}} {{if not form.record:}}<span style='color:red;'>*</span>{{pass}}</label>
+                            <div class='col-sm-7 col-md-4'>
+                                {{=f.password}}
+                            </div>
+                            {{pass}}
+                        </div>
+                        <div class="row form-group">
+                            <label class='col-sm-5 col-md-2' for='auth_user_last_name'>{{=T('Last name')}} <span style='color:red;'>*</span></label>
+                            <div class='col-sm-7 col-md-4'>{{=f.last_name}}</div>
+                            <label class='col-sm-5 col-md-2' for='auth_user_first_name'>{{=T('First name')}} <span style='color:red;'>*</span></label>
+                            <div class='col-sm-7 col-md-4'>{{=f.first_name}}</div>
+                        </div>
+                        <div class="row form-group">
+                            <label class='col-sm-4 col-md-2' for='auth_user_email'>{{=T('Email address')}} <span style='color:red;'>*</span></label>
+                            <div class='col-sm-8 col-md-4'>{{=f.email}}</div>
+                             <label class='col-sm-4 col-md-2' for='auth_user_phone'>{{=T('Phone number')}}</label>
+                            <div class='col-sm-8 col-md-4'>{{=f.phone}}</div>
+                        </div>
+                        <div class="row form-group">
+                            <label class='col-sm-4 col-md-2' for='auth_user_birthdate'>{{=T('Brith date')}}</label>
+                            <div class='col-sm-8 col-md-4'>{{=f.birthdate}}</div>
+                            <label class='col-sm-4 col-md-2' for='auth_user_gender'>{{=T('Gender')}}</label>
+                            <div class='col-sm-8 col-md-4'>{{=f.gender}}</div>
+                        </div>
+                        <div class="row form-group ">
+                            <label class='col-sm-4 col-md-2'>{{=T('Status')}}</label>
+                            <div class='col-sm-8 col-md-4'>{{=f.is_active}}</div>
+                            <label class='col-sm-4 col-md-2'>{{=T('Image')}}</label>
+                            <div class='col-sm-7 col-md-4'>{{=f.image}}</div>
+                        </div>
+                        <div class="hide row form-group">
+                            <label class='col-sm-4 col-md-2' for='auth_user_is_supper_admin'>{{=T('Supper Admin')}}</label>
+                            <div class='col-sm-8 col-md-4'>{{=f.is_supper_admin}} </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class='col-sm-4 col-md-2' for='auth_user_address'>{{=T('Address')}}</label>
+                            <div class='col-sm-8 col-md-10'>{{=f.address}}</div>
+                        </div>
+                        <div class="row form-group">
+                            <label class='col-sm-4 col-md-2'>Đơn vị quản lý</label>
+                             <div class='col-sm-8 col-md-10'>
+                                    <select class="form-control" name="agent_id" id="ftp_id">
+                                        <option value="">Chọn đơn vị</option>
+                                        {{selected=''}}
+                                        {{for agent in agents:}}
+                                            {{if str(agent_id) == str(agent['id']):}}
+                                                {{selected='selected'}}
+                                            {{pass}}
+                                            <option value="{{=agent['id']}}" {{=selected}}>{{=agent['agent_name']}}</option>
+                                            {{selected=''}}
+                                        {{pass}}
+                                    </select>
+                             </div>
+
+                        </div>
+                        <div class="row form-group ">
+                            <label class='col-sm-4 col-md-2'>{{=T('LBL_AUTH_USER_TYPE')}}</label>
+                            <div class='col-sm-8 col-md-4'>{{=f.type}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mail-body text-right tooltip-demo">
+                    <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i>
+                        </i>&nbsp;{{=T('Save')}}
+                    </a>
+                    <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{=form.custom.end}}
+
+<input type="hidden" id="hfError" value="{{=msg}}">
+<input type="hidden" id="hfdRecordId" value="{{=form.record.id if form.record else ''}}">
+
+{{ block js }}
+    <!-- <script src="{{=URL('static','js/jquery.number.js')}}"></script> -->
+{{ block }}
+

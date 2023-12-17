@@ -1,0 +1,19 @@
+{{extend 'layout_master.html'}}
+
+{{block css }}
+
+{{ end }}
+
+<div class="row">
+    Map here
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/highcharts.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/modules/exporting.js') }}"></script>
+    
+    
+    
+{{end}}
+

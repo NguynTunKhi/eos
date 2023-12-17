@@ -1,0 +1,11 @@
+<div style='margin-top: -50px; padding-top: 100px;'>
+    <ol class="breadcrumb" style=''>
+    {{for item in reversed(arr):}}
+        <li><a href="{{=item[1]}}">{{=item[2]}}</a></li>
+    {{pass}}
+    </ol>
+</div>
+<div style='text-align: center; margin-top: -20px; margin-bottom: 6px; font-size: 20pt;'>
+    <span>{{=title}}</span>
+</div>
+

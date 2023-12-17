@@ -1,0 +1,13 @@
+1. Set reload config data to False
+myconf = AppConfig(reload=False)
+
+2. Set log level to ERROR (app/modules/appbase.py)
+self._logger = util.init_log(level = logging.ERROR)
+
+3. make the session cookies secure with:
+session.secure()
+
+4. set all your tables to :
+migrate=False.
+
+5. Comment all populate DB

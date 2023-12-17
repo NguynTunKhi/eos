@@ -1,0 +1,96 @@
+<style>
+    .chosen-container-single {width:100%}
+</style>
+
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Equipment information')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+			<form enctype="multipart/form-data" id="frmPopupAddEquipment" method="POST" action="{{=URL('equipments', 'call/json/ajax_save_equipment')}}">
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_equipment'>{{=T('Equipment name')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.equipment}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_brandname'>{{=T('Brandname')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.brandname}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_implement_date'>{{=T('Implemented date')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.implement_date}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_start_date'>{{=T('Start running date')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.start_date}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_warranty_start'>{{=T('Warranty start')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.warranty_start}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_warranty_end'>{{=T('Warranty end')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.warranty_end}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_produce_date'>{{=T('Produced date')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.produce_date}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_provider'>{{=T('Provider')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.provider}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_lrv'>{{=T('LRV')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.lrv}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_urv'>{{=T('URV')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.urv}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_series'>{{=T('Series')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.series}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_made_in'>{{=T('Made in')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.made_in}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_status'>{{=T('Status')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.status}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_station_id'>{{=T('Station')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        {{if station:}}
+                            <input type="hidden" id="equipments_station_id" name="station_id" value="{{=str(station.id)}}">
+                            <label>{{=station.station_name}}</label>
+                        {{else:}}
+                            {{=f.station_id}}
+                        {{pass}}
+                    </div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_certification_deadline'>{{=T('Certification Deadline')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.certification_deadline}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='equipments_description'>{{=T('Description')}}</label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.description}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    {{if frm.record:}}
+                    <input type="text" value="{{=frm.record.id}}" name="id" />
+                    {{pass}}
+                </div>
+			</form>
+            <input type="hidden" value="{{=str(station.id) if station else ''}}" id="hfStationId" />
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary" id="btn_SaveEquip"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="hide btn btn btn-primary btnSave"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

@@ -1,0 +1,55 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('FTP INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Master data')}}</li>
+            <li>{{=T('Request Create Stations list')}}</li>
+            <li class="active"><strong>{{#=T('FTP info')}}{{=station_name}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row animated fadeIn ">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="input-group m-b">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary"
+                        id="btn-ftp-back"
+                        data-url="{{=URL('ftp_viewer', 'call/json/get_list_for_request_create_station', vars=request.vars)}}"
+                    >
+                        <i class="fa fa-chevron-left"></i></button> </span>
+                <input data-forDT="0" name="vFolder" type="text" id="m-folder" disabled class="form-control">
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-sm table-striped table-bordered table-hover table-responsive custom_datatable'
+                data-url="{{=URL('ftp_viewer', 'call/json/get_list_for_request_create_station', vars=request.vars)}}"
+                data-iTable="0"
+            >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{=T('Name')}}</th>
+                        <th>{{=T('Size')}}</th>
+                        <th>{{=T('Modify')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" data-forDT="0" name="request_create_station_id" id="hf-request-create-station-id" value="{{=request_create_station_id}}">
+<input type="hidden" data-forDT="0" name="data_folder" id="hf-f" value="{{=data_folder}}">

@@ -1,0 +1,90 @@
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-2 no-padding">
+            <div class="no-borders no-margins">
+                <select class="form-control station_status" name="station_status" id="station_status_wbst_{{=station_type}}"
+                        style="width: 100%;"
+                        data-forDT="wbst_{{=station_type}}"
+                        data-station_type="{{=station_type}}">
+                    <option value="">{{=T('-- Select station status --')}}</option>
+                    {{for key, item in const.STATION_STATUS.iteritems():}}
+                        {{if item['value'] not in [1, 2]:}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    {{pass}}
+                </select>
+                <table class="table table-striped no-margins">
+                    <thead>
+                        <tr>
+                            <th width="70%" class="text-left">{{=T('Station name')}}</th>
+                            <th width="30%">{{=T('Status')}}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="no-margins">
+                <div class="scroll_content">
+                    <table id='custom_datatable_wbst_{{=station_type}}' class='table table-hover custom_datatable' data-station_type="{{=station_type}}"
+                           data-iTable="wbst_{{=station_type}}"
+                           data-sDom="t"
+                           data-aoClass="['text-left', 'text-right']"
+                           data-fnCustomDrawCallback="fnCustomDrawCallback_wbst()"
+                           data-fnCustomServerData="fnCustomServerData_wbst(sSource, aoData, fnCallback)"
+                           data-aoColumns="[{'sWidth' : '70%', 'bSortable' : false}, {'sWidth' : '30%'}]"
+                           data-url="{{=URL('load_import', 'call/json/load_data_for_wbst', vars=dict(station_type=station_type))}}">
+                        <thead style="display: none!important;">
+                            <tr>
+                                <th width="70%" class="text-left">{{=T('Station name')}}</th>
+                                <th width="30%">{{=T('Status')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="widget_indicator_block" data-url="{{=URL('load_import', 'indicator_block')}}"></div>
+            <br>
+            <div class="ibox float-e-margins" style="margin-bottom: 0px">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-2">
+                            <select id="cbbDuration-{{=station_type}}" name="duration" class="form-control choose" style="">
+                                <option value="" selected>{{=T('Duration')}}</option>
+                                <option value="1">{{=T('1 day')}}</option>
+                                <option value="7">{{=T('7 days')}}</option>
+                                <option value="15">{{=T('15 days')}}</option>
+                                <option value="30">{{=T('30 days')}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="cbbShowBy-{{=station_type}}" name="show_by" class="form-control choose" style="">
+                                <option value="1" selected>{{=T('Show by minute')}}</option>
+                                <option value="2">{{=T('Show by hour')}}</option>
+                                <option value="3">{{=T('Show by day')}}</option>
+                                <option value="4">{{=T('Show by month')}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control date" id="chartStart-{{=station_type}}" placeholder="{{=T('From')}}">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btnStationTypeGo">{{=T('Go!')}}</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="widget_graph_detail" data-station_type="{{=station_type}}" data-url="{{=URL('load_import', 'graph_detail')}}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

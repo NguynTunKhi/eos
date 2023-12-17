@@ -1,0 +1,23 @@
+/* .table { */
+    /* padding: 1px!important; */
+/* } */
+/* .odd { */
+    /* padding: 1px!important; */
+/* } */
+/* .even { */
+    /* padding: 1px!important; */
+/* } */
+.adjust-control{
+    width: 100px!important;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+td {
+    padding-top: 2px!important;
+    padding-bottom: 2px!important;
+}
+
+#custom_datatable_1 tr td{
+    line-height: 32px;
+}

@@ -1,0 +1,106 @@
+{{extend 'layout_master.html'}}
+
+{{block head}}
+<!-- CSS -->
+{{end}}
+
+<div class="container">
+    <form class="form-signin" enctype="multipart/form-data" method="post" action="#">
+        <h2 class="form-signin-heading">{{=T('User Register')}}</h2>
+        {{val.validation_summary(form)}}
+        <div class="form-group error-wrapper">
+            <label class="control-label" for="lastname">{{=T('Last name')}}</label>
+            {{=form.custom.widget.lastname}}
+        </div>
+        <div class="form-group error-wrapper">
+            <label class="control-label" for="firstname">{{=T('First name')}}</label>
+            {{=form.custom.widget.firstname}}
+        </div>
+        <div class="form-group error-wrapper">
+            <label class="control-label" for="email">{{=T('Email')}}</label>
+            {{=form.custom.widget.email}}
+        </div>
+        <div class="form-group error-wrapper">
+            <label class="control-label" for="username">{{=T('Username')}}</label>
+            {{=form.custom.widget.username}}
+        </div>
+        <div class="form-group error-wrapper">
+            <label class="control-label" for="password">{{=T('Password')}}</label>
+            {{=form.custom.widget.password}}
+        </div>
+        <div class="form-group error-wrapper">
+            <label class="control-label" for="password_again">{{=T('Retype password')}}</label>
+            <input type="password" name="password_again" class="form-control" placeholder="{{=T('Please input password again!')}}" value="{{=(request.vars.password_again if request.vars.password_again else "")}}">
+        </div>
+        <button class="btn btn-lg btn-primary " type="submit">{{=T('BTN_REGISTER')}}</button>
+        {{=form.hidden_fields()}}
+        {{val.server_errors(form)}}
+    </form>
+</div> <!-- /container -->
+
+{{block body_end}}
+<script>
+    $(document).ready(function() {
+        jqval.validateForm("form",
+            {
+                username: {
+                    required: true,
+                    rangelength: [1, 64],
+                    slug: true,
+                    server: true,
+                },
+                password: {
+                    required: true,
+                    rangelength: [1, 64],
+                },
+                password_again: {
+                    required: true,
+                    rangelength: [1, 64],
+                    matchpassword: true,
+                },
+                lastname: {
+                    required: true,
+                    rangelength: [1, 128],
+                },
+                firstname: {
+                    required: true,
+                    rangelength: [1, 128],
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    server: true,
+                }
+            }, 
+            {
+                username: {
+                    required: "{{=T('MSG_ERR_NOT_EMPTY')}}",
+                    rangelength: "{{=T('ERR_MIN_MAX_1_64')}}",
+                    slug: "{{=T('ERR_SLUG')}}",
+                },
+                password: {
+                    required: "{{=T('MSG_ERR_NOT_EMPTY')}}",
+                    rangelength: "{{=T('ERR_MIN_MAX_1_64')}}",
+                },
+                password_again: {
+                    required: "{{=T('MSG_ERR_NOT_EMPTY')}}",
+                    rangelength: "{{=T('ERR_MIN_MAX_1_64')}}",
+                    matchpassword: "{{=T('ERR_UNMATCHED_PASSWORD')}}",
+                },
+                lastname: {
+                    required: "{{=T('MSG_ERR_NOT_EMPTY')}}",
+                    rangelength: "{{=T('ERR_MIN_MAX_1_128')}}",
+                },
+                firstname: {
+                    required: "{{=T('MSG_ERR_NOT_EMPTY')}}",
+                    rangelength: "{{=T('ERR_MIN_MAX_1_128')}}",
+                },
+                email: {
+                    required: "{{=T('MSG_ERR_NOT_EMPTY')}}",
+                    email: "{{=T('ERR_EMAIL')}}",
+                }
+            });
+        jqval.enableServerErrors("form");
+    });
+</script>
+{{end}}

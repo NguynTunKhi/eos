@@ -1,0 +1,112 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('REQUEST SYNC STATIONS')}}</h2>
+        <ol class="breadcrumb">
+            <li><a>{{=T('Home')}}</a></li>
+            <li><a>{{=T('Master data')}}</a></li>
+            <li class="active"><strong>{{=T('REQUEST SYNC STATIONS')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-3">
+                    <select class="form-control" name="type" id="type">
+                        <option value="">{{=T('-- Select station type --')}}</option>
+                        {{for item in common.get_station_types():}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" name="approve_status" id="approve_status">
+                        <option value="">{{=T('-- Select approve status --')}}</option>
+                        <option value="0">Chờ phê duyệt</option>
+                        <option value="1">Đã phê duyệt</option>
+                        <option value="2">Không phê duyệt</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="sometext" placeholder="{{=T('Search')}}">
+                        <span class="input-group-btn"> 
+                            <button type="button" class="btn btn-primary" id="btn_search">{{=T('Go!')}}</button> 
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                   data-url="{{=URL('request_sync_stations', 'call/json/list_request_sync_stations')}}">
+                <thead>
+                <tr id='tr-table'>
+                    <th>{{=T('LBL_STATION_NAME')}}</th>
+                    <th>{{=T('Station type')}}</th>
+                    <th>{{=T('Email')}}</th>
+                    <th>{{=T('Phone')}}</th>
+                    <th>{{=T('Description')}}</th>
+                    <th>{{=T('Approve Status')}}</th>
+                    <th>{{=T('Synced Station')}}</th>
+                    <th>{{=T('Reason')}}</th>
+                    <th>{{=T('Preview')}}</th>
+                    <th>{{=T('Approve')}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i
+                        class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+{{if auth.has_permission('approve', 'request_sync_stations'):}}
+<div class="modal fade" id="approveModal" tabindex="-1" role="dialog"
+     aria-labelledby="approveModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">{{=T('Approve sync stations')}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="rssSelectAction">{{=T('Approve/Reject')}}: </label>
+                    <select class="form-control form-control-lg" id="rssSelectAction">
+                        <option value="0">{{=T('APPROVE')}}</option>
+                        <option value="1">{{=T('REJECT')}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reason">{{=T('Approve/Rejected Reason')}}</label>
+                    <textarea class="form-control" id="reason" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{=T('Close')}}</button>
+                <button type="button" class="btn btn-primary" id="btnSubmitApprove" onclick="submitApprove()">
+                    {{=T('BTN_SUBMIT')}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{pass}}
+<input type="hidden" id="hfUrlLinkApproveRequestSyncStation"
+       value="{{=URL('request_sync_stations', 'call/json/approve_request_sync_station')}}"/>
+
+
+{{block js}}
+<script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

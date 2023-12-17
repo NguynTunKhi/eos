@@ -1,0 +1,43 @@
+{{extend 'layout_master.html'}}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{=LOAD('components', 'breadcrumb', vars=dict(title='News', items=[
+    dict(title='Home', link='/eos/dashboard/index'),
+    dict(title='manager_news', link=''),
+    dict(title='news_cat', link='/eos/news_cat/index'),
+    dict(title='BTN_CREATE', link='')
+]))}}
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+        {{f = frm.custom.widget}}
+        {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_cat_code'>{{=T('code_news')}} </label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_cat_code">{{=f.code}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_name'>{{=T('Name')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_name">{{=f.name}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_image'>{{=T('order no')}} </label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_image">{{=f.order_no}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_new_type'>{{=T('new_type')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_new_type">{{=f.new_type}}</div>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_is_actived">{{=f.is_actived}}</div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        {{=frm.custom.end}}
+        </div>
+    </div>
+</div>
+
+<input type='hidden' value='{{=msg}}' id='hfError' />

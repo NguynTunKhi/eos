@@ -1,0 +1,226 @@
+{{extend 'layout_master.html'}}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('ADJUSTMENT CALENDAR INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Station adjustment')}}</li>
+            <li>{{=T('Adjustments calendar list')}}</li>
+            <li class="active"><strong>{{=T('Adjustments calendar infomation')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            {{f = frm.custom.widget}}
+            {{=frm.custom.begin}}
+
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2' for='adjustments_calendar_station_id'>{{=T('Station name')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4'>
+                    {{if not frm.record:}}
+                    <select class="form-control m-b" name="station_id" id="adjustments_calendar_station_id"
+                            data-url="{{=URL('adjustments_schedule', 'call/json/get_list_indicator_by_station')}}">
+                        <option value="">{{=T('-- Select station --')}}</option>
+                        {{for item in stations:}}
+                        <option value="{{=item.id}}">{{=item.station_name}}</option>
+                        {{pass}}
+                    </select>
+                    <div class='hide'>{{=f.station_name}}</div>
+                    {{else:}}
+                    {{=f.station_name}}
+                    <input type="hidden" id="adjustments_calendar_station_id2" name="station_id"
+                           value="{{=frm.record.station_id}}"/>
+                    {{pass}}
+                </div>
+                <div class='hide'>
+                    {{=f.created_by}}
+                    <input type="text" id="hfMode" value="{{= 1 if frm.record else 0}}"/>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_created_date'>{{=T('Created date')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.created_date}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2' for='adjustments_calendar_indicator_id'>{{=T('Indicator')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4'>
+                    <select class="form-control m-b" name="indicator_id" id="adjustments_calendar_indicator_id">
+                        <option value=''>{{=T('Indicators Choose')}}</option>
+                        {{selected=''}}
+                        {{for item in list_indicators:}}
+                        {{if str(item.id) == str(indicator_id) :}}
+                        {{selected='selected'}}
+                        {{pass}}
+                        <option value_db="{{='%s' % (item.mapping_name if item.mapping_name else '-')}}"
+                                value="{{=item.id}}" {{=selected}}>{{='%s (%s)' % (item.mapping_name if
+                            item.mapping_name else '-', item.unit if item.unit else '-')}}
+                        </option>
+                        {{selected=''}}
+                        {{pass}}
+                    </select>
+                </div>
+                <input type="hidden" id="adjustments_calendar_indicator_name" name="indicator_name" value="{{=indicator_name}}">
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_province_code'>{{=T('Created by')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    {{if not frm.record:}}
+                    <input type="text" class="form-control" disabled value="{{=current_user.fullname}}"/>
+                    {{else:}}
+                    <input type="text" class="form-control" disabled value="{{=fullname}}"/>
+                    {{pass}}
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_title'>{{=T('Adjustment_title')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.title}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_content'>{{=T('LBL_NOTE')}}</label>
+                <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.content}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_from_date'>{{=T('From date')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    {{=f.from_date}}
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_to_date'>{{=T('To date')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    {{=f.to_date}}
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_adjustment_type'>{{=T('Adjustment_command_type')}}
+                    <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.adjustment_type}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_status'>{{=T('Status')}} <span
+                        style='color:red;'>*</span></label>
+                <!--<div class='col-sm-6 col-md-4 col-lg-4'>{{=f.status}}</div>-->
+                {{if can_update_status=='1':}}
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <select class="form-control m-b" name="status" id="f.status">
+                        {{selected=''}}
+                        {{for item in list_status_edit:}}
+                        {{if str(item['value']) == str(current_status) :}}
+                        {{selected='selected'}}
+                        {{pass}}
+                         <option value="{{=item['value']}}" {{=selected}}>{{=T(item['name'])}}</option>
+                        {{selected=''}}
+                        {{pass}}
+
+                    </select>
+                </div>
+                {{else:}}
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    {{=T(current_status_name)}}
+                </div>
+                {{pass}}
+
+
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='adjustments_calendar_submit_to'>{{=T('Submit to person')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.submit_to}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='logger_id'>{{=T('Datalogger_ID')}} <span
+                        style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.logger_id}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Hour start')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-3 col-md-2 col-lg-2'>
+                    <input type="text" class="form-control" id="start_time" name="start_time" placeholder="{{=T('Hour From')}}"/>
+                </div>
+                <div class='col-sm-3 col-md-2 col-lg-2'>
+                    <input type="text" class="form-control" id="end_time" name="end_time" placeholder="{{=T('Hour To')}}"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-4 col-lg-4' for='indicator_value_1'>{{=T('CMD_value_1')}} <span
+                            style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-8 col-lg-8'>{{=f.indicator_value_1}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-4 col-lg-4' for='indicator_value_2'>{{=T('CMD_value_2')}} </label>
+                    <div class='col-sm-6 col-md-8 col-lg-8'>{{=f.indicator_value_2}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-4 col-lg-4' for='tolerance_value'>{{=T('CMD_tolerance')}} <span
+                            style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-8 col-lg-8'>{{=f.tolerance_value}}</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="row form-group">
+                    <label class='col-sm-3 col-md-2 col-lg-2'>{{=T('Repeat')}}</label>
+                    <div class='col-sm-9 col-md-10 col-lg-10'>
+<!--                            <div class="i-checks"><label> <input type="radio" value="0" name="repeatMode" checked> <i></i> {{=T('No repeat')}} </label></div>-->
+<!--                            <div class="i-checks"><label> <input type="radio" value="1" name="repeatMode"> <i></i> {{=T('by minute')}} </label></div>-->
+<!--                            <div class="i-checks"><label> <input type="radio" value="2" name="repeatMode"> <i></i> {{=T('by hour')}} </label></div>-->
+                            <div class="i-checks"><label>
+                                <input id="optionsRadiosDaily" type="radio" value="daily" name="repeatMode"> <i></i> {{=T('Every day')}} </label>
+                            </div>
+                            <div class="i-checks ">
+                                <label>
+                                    <input id="optionsRadiosWeekly" type="radio" value="weekly" name="repeatMode"> <i></i> {{=T('Every week at')}}
+                                    <select id="weeklyFrequency" name="weeklyFrequency" data-placeholder="{{=T('Choose a day')}}" class="chosen-select" multiple style="width:300px;" tabindex="3">
+<!--                                            <option value="">{{=T('Select')}}</option>-->
+                                            <option selected value="0">{{=T('Mon')}}</option>
+                                            <option value="1">{{=T('Tue')}}</option>
+                                            <option value="2">{{=T('Wed')}}</option>
+                                            <option value="3">{{=T('Thu')}}</option>
+                                            <option value="4">{{=T('Fri')}}</option>
+                                            <option value="5">{{=T('Sat')}}</option>
+                                            <option value="6">{{=T('Sun')}}</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="i-checks">
+                                <label>
+                                    <input id="optionsRadiosMonthly" type="radio" value="monthly" name="repeatMode"> <i></i> {{=T('Every month at')}}
+<!--                                    <input id="monthlyFrequency" type="number" min="1" max="28" style="width: 20%;text-align:center;" value="1" disabled>-->
+                                    <select id="monthlyFrequency" name="monthlyFrequency" data-placeholder="{{=T('Choose a day')}}" class="chosen-select" multiple style="width:300px;" tabindex="3">
+<!--                                        <option value="">{{=T('Select')}}</option>-->
+                                        <option selected value="1">{{=T('Day')}} 1</option>
+                                        {{for i in range(2,32):}}
+                                            <option value="{{=i}}">{{=T('Day')}} {{=i}}</option>
+                                        {{pass}}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <input type="hidden" id="is_process" name="is_process" value="0">
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                {{if can_update_status=='1':}}
+                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                {{pass}}
+                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i>
+                    {{=T('BTN_BACK')}}</a>
+            </div>
+            <input type="hidden" id="hfCalendarId" value = "{{=URL('call/json/ajax_get_adjustments_calendar')}}" />
+            {{=frm.custom.end}}
+            <p class="errors text-danger"></p>
+        </div>
+    </div>
+</div>
+<input type='hidden' value='{{=msg}}' id='hfError'/>

@@ -1,0 +1,133 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('PUBLIC DATA')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Master data')}}</a></li>
+            <li class="active"><strong>{{=T('Public data')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Public Tabs')}}</label>
+                {{if eip_config:}}
+                    {{if (eip_config.ambient_air_is_public == True):}}
+                        <label data-station="station_style_4" class="" style="margin-right: 20px;">
+                            <input id="station_style_4" type="checkbox" checked="checked" value="on">&nbsp;{{=T('Ambient air')}}
+                        </label>
+                    {{else:}}
+                        <label data-station="station_style_4" class="" style="margin-right: 20px;">
+                            <input id="station_style_4" type="checkbox" value="on">&nbsp;{{=T('Ambient air')}}
+                        </label>
+                    {{pass}}
+                    {{if (eip_config.surface_water_is_public == True):}}
+                        <label data-station="station_style_1" class="" style="margin-right: 20px;">
+                            <input id="station_style_1" type="checkbox" checked="checked" value="on">&nbsp;{{=T('Surface water')}}
+                        </label>
+                    {{else:}}
+                        <label data-station="station_style_1" class="" style="margin-right: 20px;">
+                            <input id="station_style_1" type="checkbox" value="on">&nbsp;{{=T('Surface water')}}
+                        </label>
+                    {{pass}}
+                    {{if (eip_config.waste_water_is_public == True):}}
+                        <label data-station="station_style_0" class="" style="margin-right: 20px;">
+                            <input id="station_style_0" type="checkbox" checked="checked" value="on">&nbsp;{{=T('Waste water')}}
+                        </label>
+                    {{else:}}
+                        <label data-station="station_style_0" class="" style="margin-right: 20px;">
+                            <input id="station_style_0" type="checkbox" value="on">&nbsp;{{=T('Waste water')}}
+                        </label>
+                    {{pass}}
+
+                    {{if (eip_config.stack_emission_is_public == True):}}
+                        <label data-station="station_style_3" class="" style="margin-right: 20px;">
+                            <input id="station_style_3" type="checkbox" checked="checked" value="on">&nbsp;{{=T('Stack emission')}}
+                        </label>
+                    {{else:}}
+                        <label data-station="station_style_3" class="" style="margin-right: 20px;">
+                            <input id="station_style_3" type="checkbox" value="on">&nbsp;{{=T('Stack emission')}}
+                        </label>
+                    {{pass}}
+
+                {{pass}}
+                <!--{{for key, item in const.STATION_TYPE.iteritems():}}-->
+                    <!--{{if (item['value'] != 2):}}-->
+                        <!--<label data-station="station_style_{{=item['value']}}" class="" style="margin-right: 20px;">-->
+                            <!--<input id="station_style_{{=item['value']}}" type="checkbox" value="on">&nbsp;{{=T(item['name'])}}-->
+                        <!--</label>-->
+                    <!--{{pass}}-->
+                <!--{{pass}}-->
+            </div>
+        </div>
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-3">
+                    <select class="form-control m-b" name="station_type" id="station_type" data-forDT="0"
+                    data-url="{{=URL('public', 'call/json/dropdown_content/stations/station_type-is_qi/id/station_name')}}">
+                        <option value="">{{=T('-- Select station type --')}}</option>
+                        {{for item in common.get_station_types():}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control m-b" name="is_public" id="is_public" data-forDT="0"
+                    data-url="{{=URL('public', 'call/json/dropdown_content/stations/station_type-is_qi/id/station_name')}}">
+                        <option value="">{{=T('Chose status public')}}</option>
+                        <option value="1">{{=T('Was published')}}</option>
+                        <option value="0">{{=T('Not yet published')}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control m-b" name="station_id" id="station_id" data-forDT="0" >
+                        <option value="">{{=T('-- Select station --')}}</option>
+                        {{for item in stations:}}
+                        <option value="{{=item.id}}">{{=item.station_name}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <a id='btnSave' class='btn btn-primary ' data-url="{{=URL('call/json/ajax_save')}}"><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                data-url="{{=URL('call/json/get_list_stations_public')}}">
+                <thead>
+                    <tr>
+                        <th>{{=T('#')}}</th>
+                        <th>{{=T('Cho phép Công bố')}}</th>
+                        <th>{{=T('Station name')}}</th>
+                        <th>{{=T('Data type')}}</th>
+                        <th>{{=T('Indicator')}}</th>
+                        <!-- <th><input type='checkbox' group="0" class='select_all' id='chk_all_0' /></th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a class="btn btn-primary btnAddNew" href="javascript: void(0);" data-url="/eos/public/popup_config">
+                                <i class="fa fa-plus"></i> Cấu hình Công bố
+                            </a>
+                <a id='btnSave' class='btn btn-primary ' data-url="{{=URL('call/json/ajax_save')}}"><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

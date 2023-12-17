@@ -1,0 +1,372 @@
+.wrapper-content{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: absolute;
+	height: calc(100% - 100px);
+	width: 100%;
+    margin-left: -10px;
+    overflow: hidden;
+}
+.fh-breadcrumb{
+	height: 100%;
+}
+.fh-column{
+	position: absolute;
+    right: 5px;
+}
+.fh-height-map{
+	position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: calc(100% - 268px);
+}
+.fh-column .full-height-scroll{
+    /*height: calc(100% - 340px)!important;*/
+}
+div#map{
+    width: 100%;
+    height: calc(100% - 32px);
+    min-height: 460px;
+}
+.panelTieuChuan{
+    position: absolute;
+    background: transparent;
+    z-index: 9999;
+    left: 10px;
+    bottom: 5px;
+    text-align: center;
+}
+.ol-attribution {
+    bottom: 4.5em;
+}
+.ol-zoom {
+    bottom: .5em;
+    right: .5em;
+    top: unset;
+    left: unset;
+}
+.panelTieuChuan h4{
+    font-size: 10px;
+    padding: 0px;
+    margin: 2px;
+    text-align: left;
+}
+.panelTieuChuan div{
+    margin: 0%;
+    display: inline-block;
+}
+.panelTieuChuan div i{
+    width: 100%;
+    display: block;
+    min-height: 6px;
+    background: red;
+}
+.panelTieuChuan div span{
+    display: block;
+    text-align: left;
+    font-size: 9px;
+    min-width: 50px;
+    padding-right: 10px;
+}
+.panelControl{
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    right: 35px;
+    top: 10px;
+    text-align: left;
+}
+.panelControl > span{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0px 10px 0px 5px;
+    line-height: 32px;
+    display: inline-block;
+    background: #fff;
+    float: left;
+    width: 100px;
+}
+.panelControl >  label{
+    background: #fff;
+    float: left;
+    line-height: 32px;
+    width: 100px;
+}
+.panelControl > label input{
+    line-height: 32px;
+    display: inline-block;
+    height: 32px;
+    margin: 0px;
+    float: left;
+}
+.panelControl .toolParameters{
+    display: inline-block;
+    float: left;
+    width: 100px;
+    line-height: 32px;
+    position: relative;
+    background: #fff;
+    text-align: center;
+}
+.panelControl .toolParameters .items{
+    bottom: 0px;
+    text-align: left;
+}
+.panelControl .toolParameters .items .item{
+    margin: 0px;
+    padding: 0px 5px;
+    line-height: 23px;
+    height: 24px;
+}
+
+.mapMarker {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #088;
+    border-radius: 10px;
+    background-color: #0FF;
+    opacity: 1;
+}
+.popover {
+    max-width: 450px;
+}
+.popover-content {
+    min-width: 450px;
+    padding: 3px;
+}
+.mapLabel {
+    background: #56f37f;
+    border: 1px solid #ccc;
+    width: 130px;
+}
+.mapLabel h4{
+    padding: 5px;
+    margin: 0px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: bold;
+    background: #fff;
+    cursor: pointer;
+}
+.mapLabel p {
+    padding: 2px 5px;
+    margin: 0px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: #000;
+    font-weight: 600;
+    font-size: 9px;
+}
+#tblStation tbody tr{
+    cursor: pointer;
+}
+.block-status{
+    position: relative;
+    margin: 5px -10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    width: 120%;
+}
+.block-status.active{
+    background: #30b394;
+}
+.block-status .status-num{
+    font-size: 2.0em;
+    /* font-weight: bold; */
+    text-align: center;
+    height: 30px;
+    vertical-align: bottom;
+    padding-top: 0px;
+    float: left;
+    width: 100%;
+    line-height: 35px;
+}
+.block-status .status-text{
+    text-align: center;
+    padding: 0px;
+    overflow: hidden;
+    height: 15px;
+    line-height: 13px;
+    float: left;
+    width: 100%;
+}
+.block-status .check-link{
+    width: auto;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    font-size: 1.6em;
+}
+.change-option .row{
+    display: none;
+}
+.change-option .row.active{
+    display: block;
+}
+.btnChangeOption.active{
+    background: #e2e2e2;
+}
+.stationInfo table{
+    width: 100%;
+}
+/* The chkShowHideByStatus */
+.chkShowHideByStatus {
+    display: block;
+    padding-left: 35px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 25px;
+    height: 25px;
+    margin: 3px;
+    padding: 0px;
+}
+
+/* Hide the browser's default checkbox */
+.chkShowHideByStatus input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.chkShowHideByStatus:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.chkShowHideByStatus input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.chkShowHideByStatus input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.chkShowHideByStatus .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.ibox.float-e-margins{
+    margin-bottom: 0px;
+}
+.change-option{
+    padding: 5px 15px;
+}
+.ibox-content.change-type{
+    padding: 0px;
+}
+.ibox-content.change-type .ibox{
+    margin: 0px;
+}
+.ibox-content.change-type .ibox .ibox-title{
+    padding: 5px;
+    min-height: 32px;
+    border: none;
+    background: #eee;
+}
+.ibox-content.change-type .ibox .ibox-title h5{
+    font-size: 1.0em;
+    font-weight: 600;
+    margin: 0px;
+    line-height: 22px;
+}
+.ibox-content.change-type .ibox .ibox-content{
+    padding: 0px;
+}
+.ibox-content.change-type .ibox .ibox-content .item{
+    width: 100%;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+.ibox-content.change-type .ibox .ibox-content .item a{
+    max-width: 140px;
+    display: inline-block;
+}
+.ibox-content.change-type .ibox .ibox-content .item span{
+    float: right;
+    font-weight: 600;
+}
+.ibox-title{
+    padding: 5px;
+    min-height: 25px;
+}
+.panelSearch{
+    z-index: 99999;
+    top: 9px;
+    left: 50px;
+    min-width: 475px;
+    width: 100%;
+    margin: 1px 0px;
+}
+.view-more{
+    margin-left: 10px;
+    font-weight: 100;
+    font-style: italic;
+}
+.view-more:hover{
+    text-decoration: underline;
+}
+.chosen-drop{
+    z-index: 9999!important;
+}
+.stationInfo .exceed_value{
+    font-size: 0.85em;
+    padding-left: 10px;
+}
+
+#table-wrapper {
+  position:relative;
+}
+#table-scroll {
+  height:200px;
+  overflow:auto;
+  margin-top:20px;
+}
+#table-wrapper table {
+  width:100%;
+
+}
+
+#table-wrapper table thead th .text {
+  position:absolute;
+  top:-20px;
+  z-index:2;
+  height:20px;
+  width:35%;
+  border:1px solid red;
+}

@@ -1,0 +1,50 @@
+
+<link rel="stylesheet" href="{{=URL('static', 'views/load_import/widget_aqi.css')}}" type="text/css">
+
+<div class="animated fadeIn no-margins" style="">
+    <div class="row">
+        <div class="p-w-md m-t-sm white-bg">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title" style="padding: 7px 3px; border: 0px">
+                            <div class="ibox-tools">
+                                <div class="col-md-6">
+                                    <h5><i class="fa fa-location-arrow"></i> {{=T('AQI')}}</h5>
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <select class="form-control" name="station_id" id="widget_aqi_station">
+                                        <option value="">{{=T('-- Select station --')}}</option>
+                                        {{for item in stations:}}
+                                        <option value="{{=str(item.id)}}">{{=item.station_name}}</option>
+                                        {{pass}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="padding: 5px;">
+                            <div class="row">
+                                <div class="col-md-3 widget_aqi_info">
+                                    <h3 class="text-center indicator-name">{{=T('VN AQI')}}</h3>
+                                    <div class="indicator-value"></div>
+                                    <div class="at-time"></div>
+                                    <div class="at-date"></div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div id="detailChartWidgetAqi" data-url="{{=URL('load_import', 'call/json/get_chart_for_widget_aqi')}}"
+                                        style="min-height: 250px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'views/load_import/widget_aqi.js')}}"></script>
+{{end}}
+

@@ -1,0 +1,52 @@
+{{extend 'layout_master.html'}}
+{{block css }}
+{{ end }}
+
+<script src="{{=URL('static', 'js/jquery/jquery-2.1.1.js')}}" type="text/javascript"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('API list')}}</h2>
+        <ol class="breadcrumb">
+            <li><a>{{=T('Home')}}</a></li>
+            <li><a>{{=T('auth_api')}}</a></li>
+            <li class="active"><strong>{{=T('API list')}}</strong></li>
+        </ol>
+    </div>
+</div>
+<br>
+
+<!--Noi dung code-->
+<div class="row">
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>{{=T('API list')}}</h5>
+            <div class="ibox-tools">
+                <a class="close-link"><i class="fa fa-times"></i> </a>
+            </div>
+        </div>
+
+        <div class="ibox-content">
+            <table class='table table-striped table-bordered table-hover table-responsive'
+                   data-url="{{=URL('sharing_api', 'call/json/ajax_get_list_api')}}"
+                   id='custom_datatable_0'>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{=T('Name')}}</th>
+                    <th>{{=T('Type')}}</th>
+                    <th>{{=T('API')}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+<!--<script src="{{=URL('static', 'views/sharing_api/sharing_api.js')}}" type="text/javascript"></script>-->
+

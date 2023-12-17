@@ -1,0 +1,116 @@
+{{extend 'layout_master.html'}}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('AREAS LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Stations')}}</a></li>
+            <li class="active"><strong>{{=T('Areas list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" id="txtSearchForArea" class="form-control" placeholder="{{=T('Search')}}">
+                        <span class="input-group-btn"> 
+                            <button type="button" id="btnSearchForArea" class="btn btn-primary">{{=T('Go!')}}</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                        data-url="{{=URL('areas', 'call/json/get_list_areas')}}">
+                        <thead>
+                            <tr>
+                                <th>{{=T('#')}}</th>
+                                <th>{{=T('Area code')}}</th>
+                                <th>{{=T('Area name')}}</th>
+                                <th>{{=T('Order')}}</th>
+                                <th><input type='checkbox' group='0' class='select_all' /></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class='text-right'>
+                        {{if auth.has_permission('create', 'areas'):}}
+						<a href="javascript: void(0);" class="btn btn-primary btnAddNew" title="{{=T('New area')}}"
+							data-for="#hfAreaId"  data-callback="reloadDatatable()"
+							data-url="{{=URL('areas', 'popup_add')}}">
+							<i class="fa fa-plus"></i> {{=T('BTN_NEW_AREA')}}
+						</a>
+                        {{pass}}
+                        {{if auth.has_permission('delete', 'areas'):}}
+                        <a id='btnRemoveArea' class='btn btn-primary' type='button' href='javascript:void(0);'
+                            data-url="{{=URL('call/json/del_area_records/area_station')}}"
+                            data-iTable="0"
+                            data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                            onclick="app.executeFunction(this);">
+                            <i class="fa fa-trash fa-white"></i> {{=T('BTN_REMOVE')}}
+                        </a>
+                        {{pass}}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <table id='custom_datatable_1' class='table table-striped table-bordered table-hover table-responsive'
+                        data-url="{{=URL('areas', 'call/json/get_list_station_by_area')}}">
+                        <thead>
+                            <tr>
+                                <th>{{=T('#')}}</th>
+                                <th>{{=T('Name')}}</th>
+                                <th>{{=T('Type')}}</th>
+                                <th>{{=T('Order')}}</th>
+                                <th><input type='checkbox' group='1' class='select_all' /></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class='text-right'>
+                        {{if auth.has_permission('create', 'stations'):}}
+                        <a href="javascript: void(0);" class="btn btn-primary btnChoise" title="{{=T('Select Station')}}"
+                           id="btnSelectStationFromPopup"
+                           data-for="#hfStationId"
+                           data-url="{{=URL('station', 'popup_picklist')}}"
+                           data-multiple="true" data-extend="True" data-callback="addStationToArea()">
+                            <i class="fa fa-plus"></i>&nbsp;{{=T('BTN_ADD_STATION')}}
+                        </a>
+                        {{pass}}
+                        {{if auth.has_permission('delete', 'stations'):}}
+                        <a id='btnRemoveLinkStationFromArea' class='btn btn-primary' type='button' href='javascript:void(0);'
+                            data-url="{{=URL('call/json/del_records/area_station')}}"
+                            data-iTable="1"
+                            data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                            onclick="app.executeFunction(this);">
+                            <i class="fa fa-trash fa-white"></i> {{=T('BTN_REMOVE')}}
+                        </a>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hfAreaId" value="" />
+<input type="hidden" id="hfStationId" value="" />
+<input type="hidden" id="hfStationType" value="" />
+<input type="hidden" id="hfUrlLinkAreaToStation" value="{{=URL('station', 'call/json/link_area_to_station')}}" />
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

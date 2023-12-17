@@ -1,0 +1,40 @@
+{{extend 'layout_master_bak.html'}}
+
+{{block css }}
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'views/station/ol-layerswitcher.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'css/plugins/iCheck/custom.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'css/plugins/select2/select2.min.css')}}" type="text/css">
+{{ end }}
+
+<div class="fh-breadcrumb" style="height: 1000px;">
+	<div class="full-height fh-height-map" style="width: 100%;">
+		<div class="full-height-scroll white-bg border-left">
+            <div class="gray-bg" style="height: 100%;min-height: 1000px;">
+			    <div id="map" data-codes="{{=request.vars.station_codes}}" style="filter: contrast(120%);min-height: 1000px;" data-url="{{=URL('station', 'call/json/get_station_for_map')}}"></div>
+            </div>
+		</div>
+	</div>
+    <div style="display: none;">
+        <span class="overlay" id="hoangsa"><i>VietNam Sea</i></span>
+        <div id="marker" title="Marker"></div>
+    </div>
+	<div class='clearfix'></div>
+</div>
+<div id="json_indicators" class="hide" style="display: none!important;">{{=json_indicators}}</div>
+<div id="json_station_status" class="hide" style="display: none!important;">{{=json_station_status}}</div>
+<div id="json_stations" class="hide" style="display: none!important;">{{=json_stations}}</div>
+<div id="json_area" class="hide" style="display: none!important;">{{=json_area}}</div>
+<div id="json_provinces" class="hide" style="display: none!important;">{{=json_provinces}}</div>
+<input type="hidden" id="hfUrlToHistoricalData" value="{{=URL('view_log', 'index', vars=dict(view_type=const.VIEW_BY['MINUTE']['value']))}}">
+<input type="hidden" id="hfUrlToSearchOnMap" value="{{=URL('station', 'call/json/search_on_map')}}">
+<input type="hidden" id="hfTotalStation" value="{{=total_station}}">
+
+{{block js}}
+    <script src="{{=URL('static', 'js/ol.js')}}"></script>
+    <script src="{{=URL('static', 'views/station/ol-layerswitcher.js')}}"></script>
+    <script src="{{=URL('static', 'js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+    <!-- iCheck -->
+    <script src="{{=URL('static', 'js/plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{=URL('static', 'js/plugins/select2/select2.full.min.js')}}"></script>
+{{end}}

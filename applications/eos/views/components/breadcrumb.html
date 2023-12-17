@@ -1,0 +1,21 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=b_title}}</h2>
+        <ol class="breadcrumb">
+            {{for item in items: }}
+            {{if item == items[len(items)-1] : }}
+                    <li class="active"><strong>{{=T(item['title'])}}</strong></li>
+                {{else:}}
+                    {{if item['link']:}}
+                        <li><a href="{{=item['link']}}">{{=T(item['title'])}}</a></li>
+                    {{else:}}
+                        <li><a>{{=T(item['title'])}}</a></li>
+                    {{pass}}
+                {{ pass }}
+            {{pass}}
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<br>

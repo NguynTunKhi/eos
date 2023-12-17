@@ -1,0 +1,7 @@
+#rssSelectAction_chosen {
+    display: none !important;
+}
+
+#rssSelectAction {
+    display: block !important;
+}

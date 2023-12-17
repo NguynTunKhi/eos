@@ -1,0 +1,21 @@
+{{extend 'layout_master.html'}}
+
+{{include}}
+
+<a href="#" id="go_top" style="display: none;" title="{{=T('TXT_GO_TO_TOP')}}"></a>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#go_top').click(function(){
+            $('body,html').animate({scrollTop:0},400);
+            return false;
+        });
+        
+        $(window).scroll(function(){
+            if( $(window).scrollTop() == 0 ) {
+                $('#go_top').stop(false,true).fadeOut(600);
+            }else{
+                $('#go_top').stop(false,true).fadeIn(600);
+            }
+        });
+    });
+</script>

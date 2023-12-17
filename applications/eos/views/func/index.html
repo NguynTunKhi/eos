@@ -1,0 +1,56 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('FUNC LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Administrator')}}</a></li>
+            <li class="active"><strong>{{=T('Func list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                data-url="{{=URL('func', 'call/json/get_list_records')}}">
+                <thead>
+                    <tr>
+                        <th>{{=T('#')}}</th>
+                        <th>{{=T('Func code')}}</th>
+                        <th>{{=T('Func name')}}</th>
+                        <th>{{=T('Parent code')}}</th>
+                        <th><input type='checkbox' class='select_all' id='chk_all_0' group="0" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                {{if auth.has_permission('create', 'admin_func'):}}
+                <a class='btn btn-primary' type='button' href="{{=URL('form')}}"><i class="fa fa-plus"></i> {{=T('BTN_CREATE')}}</a>
+                {{pass}}
+                {{if auth.has_permission('delete', 'admin_func'):}}
+                <a id='btnDelete' class='btn btn-primary btnDisabled' type='button' href='javascript:void(0);'
+                    data-url="{{=URL('call/json/del_records/func')}}"
+                    data-iTable="0"
+                    data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                    onclick="app.executeFunction(this);">
+                    <i class="fa fa-trash fa-white"></i> {{=T('BTN_DELETE')}}
+                </a>
+                {{pass}}
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

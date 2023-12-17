@@ -1,0 +1,63 @@
+{{extend 'layout_master.html'}}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('PROVINCE INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Master data')}}</li>
+            <li>{{=T('Provinces list')}}</li>
+            <li class="active"><strong>{{=T('PROVINCE INFORMATION')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            {{f = frm.custom.widget}}
+            {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_province_code'>{{=T('LBL_PROVINCE_CODE')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.province_code}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_province_name'>{{=T('LBL_PROVINCE_NAME')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.province_name}}</div>
+            </div>
+            <div class='row form-group' data-url="{{=URL('call/json/get_list_provinces')}}">
+                <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_order_no'>{{=T('Order number')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order_no}}</div>
+                <!--{{if count_default_province == 0:}}
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_order_no'>{{=T('Default')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.default}}</div>
+                {{else:}}
+                    {{if default:}}
+                        <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_order_no'>{{=T('Default')}}</label>
+                        <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.default}}</div>
+                    {{else:}}
+                        <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_order_no' hidden>{{=T('Default')}}</label>
+                        <div class='col-sm-6 col-md-4 col-lg-4' hidden>{{=f.default}}</div>
+                    {{pass}}
+                {{pass}}-->
+                <label class='col-sm-6 col-md-2 col-lg-2' for='provinces_order_no'>{{=T('Default')}}</label>
+                        <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.default}}</div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+            {{=frm.custom.end}}
+        </div>
+    </div>
+</div>
+<input type='hidden' value='{{=msg}}' id='hfError' />

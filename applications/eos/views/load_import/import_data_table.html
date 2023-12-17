@@ -1,0 +1,402 @@
+<!-- Todo : - can chinh header tat ca "center" -->
+       <!-- - Cac dong can chinh "middle" hien tai dang "top" -->
+       <!-- - Check khi ko co sDom (cac control filter, infor, paging,...) -->
+       <!-- - Khi table be di thi control search can dc resize, hien tai dang bi fix length thi phai -->
+       <!-- - Them option de format color cho column -->
+
+<script type="text/javascript">
+    var oTable = new Array();
+    var isDbClick = new Array();
+    
+    function getSelectedItems(indexTable) {
+        var select_item_id = ".select_item_" + indexTable;
+        var selectItems = $(select_item_id);
+        var lengthOfSelectItems = selectItems.length;
+        var selectItem = null;
+        var is_checked = false;
+        var arrayData = '';
+
+        for (var i = 0; i < lengthOfSelectItems; i++) {
+            selectItem = $(selectItems[i]);
+            
+            if (selectItem.is(':checked')) {
+                if (!arrayData)
+                    arrayData += selectItem.val();
+                else
+                    arrayData += ',' + selectItem.val();
+                    
+                is_checked = true;
+            }
+        }
+
+        if (!is_checked) {
+            $.message({
+                s_content: "{{=T('MSG_WARN_NO_SELECTED')}}",
+                b_cancel: false,
+                s_img: "warn"
+            });
+            return;
+        }
+        
+        return arrayData;
+    }
+    
+    // Event for click button Xoa
+    /*
+    url: url x�a d?i tu?ng.
+    indexTable: Ch? s? c?a data-table trong form
+    ex: deleteItems('{{=URL('del_monthly_charge_detail')}}', 0);
+    */
+    function deleteItems(url, indexTable, options) {
+        //Thi?t l?p c�c th�ng s? m?c d?nh
+        var defaults = {
+            fnCall: null
+        };
+        //G�n gi� tr? v�o options
+        options =  $.extend(defaults, options);
+        arrayData = getSelectedItems(indexTable);
+        
+        $.message({
+            s_content: "{{=T('MSG_CONFIRM_DELETE')}}",
+            fn_call: function(anwser1) {
+                if (anwser1) {
+                    url_full = url + "?" + $.param({'id': arrayData});
+                    $.ajax({
+                        dataType: 'json', 
+                        url: url_full, 
+                        success: function(data) {
+                            if(data.success) {
+                                oTable[indexTable].fnDraw();
+                                var chk_all_id = '#chk_all_' + indexTable;
+                                $(chk_all_id).prop('checked', false);
+                                if (data.message) {
+                                    var message = [
+                                        "{{=T('MSG_NOTIFICATION')}}",
+                                        "<br />",
+                                        "<span class='text-red'>",
+                                        data.message,
+                                        "</span>"
+                                    ].join('');
+                                    $.message({
+                                        s_content: message,
+                                        s_img: 'warn',
+                                        b_cancel: false
+                                    });
+                                }
+                                if (typeof options.fnCall == 'function'){
+                                    if (options.fnCall != null) {
+                                        $.Callbacks().add(options.fnCall()).fire(null);
+                                    }
+                                }
+                                flashMessage("{{=T('MSG_INFO_UPDATE_SUCCESS')}}");
+                            }
+                            else {
+                                var message = [
+                                    "{{=T('MSG_ERR')}}",
+                                    "<br />",
+                                    "<span class='text-red'>",
+                                    data.message,
+                                    "</span>"
+                                ].join('');
+                                $.message({s_content: message,
+                                            b_cancel: false
+                                });
+                            }
+                        },   
+                        error: function(ex) {
+                            var message = [
+                                "{{=T('MSG_ERR')}}",
+                                "<br />",
+                                "<span class='text-red'>",
+                                ex.status,
+                                ": ",
+                                ex.statusText,
+                                "</span>"
+                            ].join('');
+                            $.message({s_content: message,
+                                b_cancel: false
+                            });
+                        }
+                    }).done(function() {
+                        if (oTable[1]) {
+                            oTable[1].fnDraw();
+                        }
+                        if (oTable[2]) {
+                            oTable[2].fnDraw();
+                        }
+                    });
+                }
+            }
+        });
+    }
+    
+    /*
+    functions:
+    - fnServerData(sSource, aoData, fnCallback)
+    - fnRowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull)
+    - fnDrawCallback()
+    - fnInitComplete()
+    */
+    function loadDataTable(sUrlAjaxSource, widthColums, variable_options) {
+        var options = {};
+        if (variable_options) options = variable_options;
+        var defaults = {
+            iIndexTable: 0,
+            iDisplayLength: 20,
+            iIndexId: 0,
+            sUrlAjaxSource: '',
+            arrayClass: [],
+            sUrlDbClick: '',
+            sParam: '',
+            sDom: "<'top' <'col-sm-1 drop-down-list' l><'col-sm-5' f><'col-sm-1 show-hide-advance-search'><'col-sm-5 alignRight' i>><'clear'><'middle't><'clear'><'bottom' <'col-sm-6 go-to-page'> <'col-sm-6 alignRight' p>><'clear'>",
+            fnRowCallback: '',
+            fnDrawCallback: '',
+            fnInitComplete: '',
+            fnServerData: '',
+            bEnterToFilter: true
+        };
+        //G�n gi� tr? v�o options
+        options =  $.extend(defaults, options);
+        var goToPage = 'go-to-page-' + options.iIndexTable;
+        options.sDom = options.sDom.replace('go-to-page', goToPage)
+        iDisplayLength = parseInt(options.iDisplayLength);
+        isDbClick[options.iIndexTable] = false;
+        urlDblClick = options.sUrlDbClick;
+        if(urlDblClick.trim() != '')
+            isDbClick[options.iIndexTable] = true;
+        var totalColums = widthColums.length;
+        var tbl_id = '#tbl_data_table' + '_' + options.iIndexTable;
+        oTable[options.iIndexTable] = $(tbl_id).dataTable({
+            //S? lu?ng b?n ghi tr�n 1 trang.
+            "iDisplayLength": iDisplayLength,
+            "aLengthMenu": [5, 10, 20, 50, 100],
+            "bServerSide": true,
+            "bDestroy": true,
+            "bAutoWidth": false,
+            "bSort": false,//Cho ph�p s?p x?p
+            "bFilter": true,//S? d?ng b? l?c d? li?u(?n/hi?n thu?c t�nh t�m ki?m)
+            "sDom": options.sDom,//�?nh nghia css cho c�c ph?n c?a b?ng
+            "bDeferRender": true,//Cho ph�p d?nh nghia l?i t?ng d�ng khi render d? li?u
+            "sPaginationType": "bootstrap",//Ki?u ph�n trang - M?c d?nh l� ph�n trang d?ng navigation
+            //URL d�ng d? l?y d? li?u t? server. C� ki?u tr? v? l� json
+            "sAjaxSource": sUrlAjaxSource,
+            "sAjaxDataProp": "aaData",//D? li?u tr? v? t? server. C� d?nh d?ng l� list<list<string>>
+            "fnServerData": function (sSource, aoData, fnCallback) {
+                
+                if (options.fnServerData) {
+                    eval(options.fnServerData + "(sSource, aoData, fnCallback);");
+                }
+
+                $.ajax({
+                    "dataType": 'json', 
+                    "type": "GET", 
+                    "url": sSource, 
+                    "data": aoData, 
+                    "success": function(data) {
+                        if(data.success) {
+                                fnCallback(data)
+                        }
+                        else {
+                            var message = [
+                                "{{=T('MSG_ERR')}}<br /><span class='text-red'>",
+                                data.message,
+                                "</span>"
+                            ].join('');
+                            $.message({s_content: message,
+                                b_cancel: false
+                            });
+                        }
+                    },
+                    "error": function(ex) {
+                        var message = [
+                            "{{=T('MSG_ERR')}}",
+                            "<br />",
+                            "<span class='text-red'>",
+                            ex.status,
+                            ": ",
+                            ex.statusText,
+                            "</span>"
+                        ].join('');
+                        $.message({s_content: message,
+                            b_cancel: false
+                        });
+                    }
+                });
+            },
+            //T�y ch?nh c�c th? tr thi datatables dua ra d? li?u
+            "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                if(isDbClick[options.iIndexTable])
+                    $(nRow).attr("data-id", aData[options.iIndexId]);
+                // Rule: date: alignCenter (default), text: alignLeft, number: alignRight 
+                for (var i = 0; i < totalColums; i++) {
+                    $($(nRow).children()[i]).addClass(options.arrayClass[i]);
+                }
+                if (options.fnRowCallback) {
+                    eval(options.fnRowCallback + "(nRow, aData, iDisplayIndex, iDisplayIndexFull);");
+                }
+                return nRow;
+            },
+            //T�y ch?n c�c c?t
+            "aoColumns": widthColums,
+            "oLanguage": {
+                "sZeroRecords": "{{=T('MSG_INFO_NO_RESULT')}}",
+                "sInfoEmpty": "",
+                "sInfo": "{{=T('DISPLAY')}}" + " _START_ - _END_ (" + "{{=T('IN')}}" +" _TOTAL_)",
+                "sInfoFiltered": "(Filter _MAX_ from results)",
+                "sInfoPostFix": "",
+                "sSearch": '',
+                "sLengthMenu": "_MENU_",
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst": "{{=T('FIRST')}}",
+                    "sPrevious": "{{=T('PREV')}}",
+                    "sNext": "{{=T('NEXT')}}",
+                    "sLast": "{{=T('LAST')}}"
+                }
+            },
+            //G?i h�m n�y khi mu?n x? l� sau khi v? xong datatables
+            "fnDrawCallback": function() {
+                var td_class = tbl_id + ' td.myMoney';
+                $(td_class).number(true, 2);
+        
+                //Event when dblclick on row
+                var tr_id = tbl_id + ' tbody tr';
+                $(tr_id).on("dblclick", function () {
+                    if(isDbClick[options.iIndexTable]) {
+                        var id_record = $(this).attr('data-id');
+                        if(id_record != null && id_record != undefined && id_record != '') {
+                            //Build url
+                            var url = options.sUrlDbClick + "/" + id_record + '?' + options.sParam;
+                            window.location = url;
+                        }
+                    }
+                });
+                
+                //S? ki?n thay d?i thu?c t�nh c?a checkbox tr�n h�ng
+                var select_item_id = '.select_item_' + options.iIndexTable;
+                var chk_all_id = '#chk_all_' + options.iIndexTable;
+                $(select_item_id).click(function() {
+                    //Ki?m tra xem c�c checkbox con d� du?c check h?t chua?
+                    //N?u chua th� b? check c?a checkbox 'all', ngu?c l?i th� check v�o checkbox 'all'
+                    if ($('.select_item_0:checked').length) {
+                        $('.btnDisabled').removeAttr('disabled');
+                    }
+                    else {
+                        $('.btnDisabled').attr('disabled', 'disabled');
+                    }
+                    var arr = $(select_item_id);
+                    for(var i = 0; i < arr.length; i++) {
+                        var item = $(arr[i]);
+                        if(!item.is(':checked'))
+                        {
+                            $(chk_all_id).prop('checked', false);
+                            return;
+                        }
+                    }
+                    $(chk_all_id).prop('checked', true);
+                });
+                
+                // Event for checkbox #chk_all
+                $(chk_all_id).click(function() {
+                    // Get value of checkbox #chk_all
+                    var valOfChkAll = $(this).prop("checked");
+                    if (valOfChkAll) {
+                        $('.btnDisabled').removeAttr('disabled');
+                    }
+                    else {
+                        $('.btnDisabled').attr('disabled', 'disabled');
+                    }
+                    
+                    // Get all checkbox items in body of table
+                    $(select_item_id).prop("checked", valOfChkAll);
+                });
+                
+                if (options.fnDrawCallback) {
+                    eval(options.fnDrawCallback + "();");
+                }
+            },
+            "fnInitComplete": function() {
+                if (options.fnInitComplete) {
+                    eval(options.fnInitComplete + "();");
+                }
+                
+                $(".show-hide-advance-search").html("<a href='javascript: void(0);' data-message='{{=T('TXT_SHOW_HIDE_ADVANCE_SEARCH')}}' class='hand-top'></a>");
+                $(".show-hide-advance-search").delegate("a", "click", function(){
+                    if($("#advanceSearch").attr('style').indexOf("display: block;") >= 0){
+                        $("#advanceSearch").hide(300);
+                        $(this).removeClass('hand-top');
+                        $(this).addClass('hand-right');
+                    } else {
+                        $("#advanceSearch").show(300);
+                        $(this).removeClass('hand-right');
+                        $(this).addClass('hand-top');
+                    }
+                });
+                
+                // Keypress cho cac truong tim kiem lien quan
+                $('.keypress_' + options.iIndexTable).bind('keypress', function(e) {
+                    if (e.keyCode != 13) return;
+                    var sSearch = '';
+                    if($(tbl_id + '_filter input').length){
+                        sSearch = $(tbl_id + '_filter input').val();
+                    }
+                    oTable[options.iIndexTable].fnFilter(sSearch);
+                    
+                    $('.go-to-page-number-' + options.iIndexTable).val('');
+                });
+                
+                // Them button go to page
+                $('.' + goToPage).html("Go to page: <input type='number' class='form-control go-to-page go-to-page-number-" + options.iIndexTable + "' style='height: 32px; padding: 0px 6px;' />");
+                onlyTypeNumber('.go-to-page-number-' + options.iIndexTable);
+                $('#tbl_data_table_' + options.iIndexTable + '_wrapper .go-to-page-number-' + options.iIndexTable).bind('keypress', function(e) {
+                    if (e.keyCode != 13) return;
+                    var pageNo = $(this).val().trim();
+                    if (pageNo == '') return;
+                    pageNo -= 0;
+                    if(pageNo <= 0) {
+                        oTable[options.iIndexTable].fnPageChange('last');
+                    }
+                    else {
+                        var totalRecord = $('#tbl_data_table_' + options.iIndexTable + '_info').html().substring($('#tbl_data_table_' + options.iIndexTable + '_info').html().indexOf('(')).replace('(' , '').replace(')', '').replace('Trong', '').trim();
+                        var recordPerPage = $('#tbl_data_table_' + options.iIndexTable + '_length select').val();
+                        var totalPage = totalRecord / recordPerPage;
+                        if(totalRecord % recordPerPage) {
+                            totalPage += 1;
+                        }
+                        if(pageNo >= totalPage){
+                            oTable[options.iIndexTable].fnPageChange('last');
+                        }
+                        else{
+                            oTable[options.iIndexTable].fnPageChange(pageNo - 1);
+                        }
+                    }
+                });
+                
+                $(tbl_id + '_filter input').attr('placeholder', "{{=T('PLH_SEARCH')}}...");
+                $(tbl_id + '_filter input').addClass('form-control');
+                if (options.bEnterToFilter) {
+                    $(tbl_id + '_filter input').unbind('keypress keyup').bind('keypress', function(e) {
+                        $('.go-to-page-number-' + options.iIndexTable).val('');
+                        if (e.keyCode != 13) return;
+                        oTable[options.iIndexTable].fnFilter($(this).val());
+                        index_row = 0;
+                    });
+                }
+            }
+        });
+        var dropdown_name = 'select[name=tbl_data_table_' + options.iIndexTable + '_length]';
+        $(dropdown_name).addClass('form-control data-table-select');
+    }
+    
+    // $(document).ready(function(){
+    //     $("body").delegate(".dataTables_filter input", "focusin", function(){
+    //         $(this).css({"width": "100%"});
+    //     });
+    //     $("body").delegate(".dataTables_filter input", "focusout", function(){
+    //         if (!$(this).val()){
+    //             $(this).css({"width": "35px"});
+    //         }
+    //     });
+    // });
+
+</script>

@@ -1,0 +1,108 @@
+{{extend 'layout_master.html'}}
+
+
+  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('CAMERA LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Realtime monitor')}}</a></li>
+            <li class="active"><strong>{{=T('Camara list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+        
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-3">
+                    <select class="form-control" name="station_type" id="station_type"
+                        data-url="{{=URL('commands','call/json/dropdown_content/stations/station_type/id/station_name')}}">
+                        <option value="">{{=T('-- Select station type --')}}</option>
+                        {{for i in range(len(station_type_value)):}}
+                        <option value="{{=station_type_value[i]}}">{{=station_type_disp[i]}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <select class="form-control m-b" name="station_id" id="station_id">
+                            <option value="">{{=T('-- Select station --')}}</option>
+                            {{for item in stations:}}
+                            <option value="{{=item.id}}">{{=item.station_name}}</option>
+                            {{pass}}
+                        </select>
+                        <span class="input-group-btn"> 
+                            <button type="button" class="btn btn-primary btn-sm" id="btn_search"
+                                data-url="{{=URL('call/json/search_camera', vars={})}}">{{=T('Go!')}}</button> 
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="text-right">
+                        <label class='' >{{=T('Display by row')}} : &nbsp;</label>
+                        <button type="button" id="btn_1" class="btn btn-block btn-outline btn-primary btnChangeColumn" style="margin-top: 5px;">1</button>
+                        <button type="button" id="btn_2" class="btn btn-block btn-outline btn-primary btnChangeColumn">2</button>
+                        <button type="button" id="btn_3" class="btn btn-block btn-outline btn-primary btnChangeColumn">3</button>
+                        <button type="button" id="btn_4" class="btn btn-block btn-outline btn-primary btnChangeColumn active">4</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content videos">
+<!--            <div data-page="1" id="video_list" class="row" style="min-height: 450px;"></div>-->
+             <div data-page="1"  class="row d-video-container">
+                <div class="col-sm-6">
+                    <img style="height: 60vh !important; width: 95% !important;" src=" https://27.118.28.236/cgi-bin-zm/nph-zms?scale=auto&mode=jpeg&maxfps=100&monitor=2&user=vsipquangngai&pass=1qazXSW@"  alt="ZIGUI Kênh Hở" />
+                    <p style="margin-top: 16px; text-align: center; font-weight: 600; font-size: 15px;">ZIGUI Kênh Hở</p>
+                </div>
+                <div class="col-sm-6">
+                    <img style="height: 60vh !important; width: 95% !important;" src="https://27.118.28.236/cgi-bin-zm/nph-zms?scale=auto&mode=jpeg&maxfps=100&monitor=1&user=vsipquangngai&pass=1qazXSW@" alt="ZIGUI Nhà Trạm" />
+                     <p style="margin-top: 16px; text-align: center; font-weight: 600; font-size: 15px;">ZIGUI Nhà Trạm</p>
+                </div>
+            </div>
+            <div class="row">
+                <i><b style="color: red;">Lưu ý:</b>  Nếu bạn không xem được camera, vui lòng kích vào <a href="https://27.118.28.236/zm/api/host/login.json?user=vsipquangngai&pass=1qazXSW@" target="_blank">đây</a>. Sau đó ấn f5 để tải lại trang camera.</i>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <div class="vxgplayer" -->
+    <!-- id="vxg_media_player1"  -->
+    <!-- width="200" -->
+    <!-- height="160" -->
+    <!-- url="rtsp://admin:123456789ab@14.241.75.200:554/ISAPI/Streaming/channels/1601&amp;iframe=2" -->
+    <!-- nmf-src="{{=URL('static', 'js/vxgplayer/pnacl/Release/media_player.nmf')}}" -->
+    <!-- nmf-path="media_player.nmf" -->
+    <!-- useragent-prefix="MMP/3.0" -->
+    <!-- latency="10000" -->
+    <!-- autohide="2" -->
+    <!-- volume="0.7" -->
+    <!-- avsync -->
+    <!-- controls -->
+    <!-- mute -->
+    <!-- aspect-ratio -->
+    <!-- aspect-ratio-mode="1" -->
+    <!-- auto-reconnect -->
+    <!-- connection-timeout="5000" -->
+    <!-- connection-udp="0" -->
+    <!-- custom-digital-zoom> -->
+<!-- </div> -->
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jwplayer-7.6.0/jwplayer.js')}}"></script>
+{{end}}
+

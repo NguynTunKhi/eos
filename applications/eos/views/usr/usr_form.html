@@ -1,0 +1,147 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('TITLE_USER_FORM')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Administrator')}}</li>
+            <li class="active">{{=T('User list')}}</li>
+            <li class="active"><strong>{{=T('User form')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <!-- <div class="ibox-title"> -->
+            <!-- <h5>All form elements <small>With custom checbox and radion elements.</small></h5> -->
+            <!-- <div class="ibox-tools"> -->
+                <!-- <a class="collapse-link"><i class="fa fa-chevron-up"></i></a> -->
+            <!-- </div> -->
+        <!-- </div> -->
+        <div class="ibox-content">
+        {{f=form.custom.widget}}
+        {{=form.custom.begin}}
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="tab-1" class="active"><a href="#tab-1" role="tab" data-toggle="tab"><i class="fa fa-home"></i> {{=T('LBL_USER_INFO')}}</a></li>
+                <li role="tab-2"><a href="#tab-2" role="tab" data-toggle="tab"><i class="fa fa-exclamation-circle"></i> {{=T('TXT_OPTIONAL_INFORMATION')}}</a></li>
+                {{if roles:}}
+                    <li role="tab-3"><a href="#tab-3" role="tab" data-toggle="tab"><i class="fa fa-check-square-o"></i> {{=T('LBL_NAME_ROLE')}}</a></li>
+                {{pass}}
+            </ul>
+            <div class="tab-content">
+                <!-- Default tab -->
+                <div id="tab-1" class="tab-pane fade in active">
+                    <!-- <div class='panel panel-default'> -->
+                        <div class='panel-body form-horizontal'>
+                            <div class="form-group">
+                                <label class='col-sm-4 col-md-2' for='usr_lastname'>{{=T('LBL_LAST_NAME')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-8 col-md-4'>{{=f.lastname}}</div>
+                                <label class='col-sm-4 col-md-2' for='usr_firstname'>{{=T('LBL_FIRST_NAME')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-8 col-md-4'>{{=f.firstname}}</div>
+                            </div>
+                            <div class="form-group ">
+                                <label class='col-sm-4 col-md-2' for='usr_email'>{{=T('LBL_EMAIL')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-8 col-md-4'>{{=f.email}}</div>
+                                <label class='col-sm-4 col-md-2' for='usr_username'>{{=T('LBL_USER_NAME')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-8 col-md-4'>{{=f.username}}</div>
+                            </div>
+                            <div class="form-group ">
+                                <label class='col-sm-4 col-md-2' for='usr_password'>{{=T('LBL_PASSWORD')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-8 col-md-4'>{{=f.password}}</div>
+                                <label class='col-sm-4 col-md-2' for='password_again'>{{=T('LBL_PASSWORD_RETYPE')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-8 col-md-4'>
+                                    <input id='password_again' type="password" name="password_again" class="form-control"
+                                           placeholder="{{=T('LBL_PASSWORD_RETYPE')}}"
+                                           value="{{=(request.vars.password_again if request.vars.password_again else "")}}">
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+                <!-- Default tab -->
+                <div id="tab-2" class="tab-pane fade in">
+                    <!-- <div class='panel panel-default'> -->
+                        <div class='panel-body'>
+                            <div class="row form-group ">
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_CUSTOMER_POSITION')}}</label>
+                                <div class='col-sm-8 col-md-4'>{{=f.positions}}</div>
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_DEGREE_STAFF')}}</label>
+                                <div class='col-sm-8 col-md-4'>{{=f.degree_staff}}</div>
+                            </div>
+                            <div class="row form-group ">
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_EMPLOYED_DATE')}}</label>
+                                <div class='col-sm-8 col-md-4'>{{=f.employed_date}}</div>
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_ADDRESS')}}</label>
+                                <div class='col-sm-8 col-md-4'>{{=f.address}}</div>
+                            </div>
+                            <div class="row form-group ">
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_SALARY_LEVEL')}}</label>
+                                <div class='col-sm-8 col-md-4'>
+                                    {{=f.salary_level}}
+                                    <input class="form-control cols50" id="usr_salary_level_tmp"type="text">
+                                </div>
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_SALARY')}}</label>
+                                <div class='col-sm-8 col-md-4'>
+                                    {{=f.salary}}
+                                    <input class="form-control cols50" id="usr_salary_tmp" type="text">
+                                </div>
+                            </div>
+                            <div class="row form-group ">
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_INSURANCE')}}</label>
+                                <div class='col-sm-8 col-md-4'>
+                                    {{=f.insurance}}
+                                    <input class="form-control cols50" id="usr_insurance_tmp" type="text">
+                                </div>
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_STATUS')}}</label>
+                                <div class='col-sm-8 col-md-4'>
+                                    {{=f.status}}
+                                </div>
+                            </div>
+                            <div class="row form-group ">
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_USR_IMAGE')}}</label>
+                                <div class='col-sm-8 col-md-4'>{{=f.image}}</div>
+                                <label class='col-sm-4 col-md-2'>{{=T('LBL_NOTE')}}</label>
+                                <div class='col-sm-8 col-md-4'>{{=f.note}}</div>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+                {{if roles:}}
+                    <div id="tab-3" class="tab-pane fade in">
+                        <!-- <div class='panel panel-default'> -->
+                            <div class='panel-body'>
+                                <ul>
+                                    {{for role in roles:}}
+                                    <li>{{=A(role.name, _href=URL('role', 'role_form', args=role.id))}}</li>
+                                    {{pass}}
+                                </ul>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                {{pass}}
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='row'>
+                <div class="col-sm-12 text-right">
+                    <button type="submit" class='btn btn-primary'><i class="fa fa-save fa-white"></i>&nbsp;{{=T('BTN_SAVE')}}</button>
+                    <!--<a id='btnReset' class='btn btn-primary' onclick='resetForm()'>
+                        <i class="fa fa-undo fa-white"></i>&nbsp;{{=T('BTN_RESET')}}</a> -->
+                    <a id='btnBack' class='btn btn-primary' onclick='app.confirmBack();'>
+                        <i class="fa fa-undo fa-white"></i>&nbsp;{{=T('BTN_BACK')}}</a>
+                </div>
+            </div>
+        {{=form.custom.end}}
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hfError" value="{{=msg}}">
+
+{{ block js }}
+    <script src="{{=URL('static','js/jquery.number.js')}}"></script>
+{{ block }}
+

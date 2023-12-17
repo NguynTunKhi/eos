@@ -1,0 +1,49 @@
+{{from applications.eos.modules import const}}
+{{from applications.eos.modules import common}}
+<div class="ibox-title">
+    <h5>Danh sách trạm theo trạng thái</h5>
+    <div class="ibox-tools">
+    </div>
+</div>
+<div class="ibox-content" style="height: 600px;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title" style="padding: 5px 0px; border:0px">
+            <div class="row no-borders no-margins">
+                <div class="col-sm-5" style="padding-right: 0px;">
+                    <select class="form-control m-b" name="status" id="scs1_status" data-forDT="scs1"
+                            style="margin-bottom: 0px;">
+                        <option value="">{{=T('-- Select status --')}}</option>
+                        <option value="1">{{=T('Exceed condition')}}</option>
+                        <option value="2">{{=T('Good condition')}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="scs_sometext" data-forDT="scs1" name="sometext"
+                               placeholder="{{=T('Station name')}}"/>
+                        <span class="input-group-btn">
+                                                <button type="button" class="btn btn-primary" id="btn_scs1_search">{{=T('Go!')}}</button>
+                                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content no-margins" style="padding-top: 0px">
+            <table id='custom_datatable_scs1'
+                   data-url="{{=URL('call/json/get_station_online')}}" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th style="width:70%; text-align:left">{{=T('Stations in operation')}}</th>
+                    <th style="width:30%">{{=T('Status')}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div></div>
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>
+

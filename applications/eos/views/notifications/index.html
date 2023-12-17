@@ -1,0 +1,54 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeIn">
+    <div class="col-lg-10">
+        <h2>{{=T('NOTIFICATIONS LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li class="active"><strong>{{=T('Notifications list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins animated fadeIn">
+        <!-- <div class="ibox-title"> -->
+            <!-- <div class="row"> -->
+            
+            <!-- </div> -->
+        <!-- </div> -->
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive' 
+                data-url="{{=URL('/call/json/get_list_notifications')}}">
+                <thead>
+                    <tr>
+                        <th>{{=T('LBL_STT')}}</th>
+                        <th>{{=T('Title')}}</th>
+                        <th>{{=T('Content')}}</th>
+                        <th>{{=T('Receivers')}}</th>
+                        <th>{{=T('Datetime')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class="text-right">
+                <!--
+                <a id='btnDelete' class='btn btn-custom-primary wid100' type='button' href='javascript:void(0);'
+                     onclick="deleteItems('{{=URL('del_customers')}}', 0)">
+                    {{=T('BTN_DELETE')}}
+                </a>
+                -->
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'>
+                    <i class="fa fa-undo fa-white"></i>&nbsp;{{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+
+{{ block js }}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{ block }}

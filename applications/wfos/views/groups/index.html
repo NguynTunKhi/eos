@@ -1,0 +1,48 @@
+{{extend 'master_layout.html'}}
+
+{{=LOAD('component', 'breadcrumb', vars=dict(title='Danh sách người dùng', items=[
+    dict(title='Dashboards', link='/wfos/default/index', icon='fa fa-home'),
+    dict(title='Administration', link='', icon='fa fa-sitemap'),
+    dict(title='Groups', link='', icon='')]))}}
+
+
+<div class="ibox-content m-b-sm border-bottom" style="border-radius: 5px; margin-top: 10px;">
+    <div class="row" style="margin-top: 10px; border-radius: 5px;">
+        <div class="col-sm-12">
+            <div class="input-group"><input type="text" data-forDT="0" name="search_text" id="txt-search" placeholder="Nhập từ khoá tìm kiếm" class="form-control">
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> {{=T('Search')}}
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ibox-content m-b-sm border" style=" margin-top: 10px !important; border-radius: 5px;">
+    <table class="table table-striped table-bordered table-hover" data-page-size="2"
+           data-filter=#filter
+           id="i-table-0"
+           data-url="{{=URL('call/json/get_list_groups', vars=request.vars)}}"
+    >
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{=T('Groupname')}}</th>
+            <th>{{=T('Management')}}</th>
+            <th>{{=T('Description')}}</th>
+            <th>{{=T('Action')}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="hr-line-dashed"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <button class="btn btn-info pull-right" type="button" onclick="window.location.href='form'"><i class="fa fa-plus-square-o"></i> {{=T('Thêm mới')}}</button>
+            <button class="btn btn-default pull-right mr-2" type="button"  id="btn-back"><i class="fa fa-history"></i> Back</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" charset="utf8" src="{{=URL('static', 'data-tables/custom-dt.js')}}"></script>

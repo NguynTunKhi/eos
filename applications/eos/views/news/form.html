@@ -1,0 +1,56 @@
+{{extend 'layout_master.html'}}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{=LOAD('components', 'breadcrumb', vars=dict(title='News', items=[
+    dict(title='Home', link='/eos/dashboard/index'),
+    dict(title='Settings', link=''),
+    dict(title='News', link='/eos/news/index'),
+    dict(title='BTN_CREATE', link='')
+]))}}
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+        {{f = frm.custom.widget}}
+        {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_title'>{{=T('Title')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-6 col-lg-12' id="news_title">{{=f.title}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_summary'>{{=T('Summary')}}<span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-6 col-lg-12' id="news_summary">{{=f.summary}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Content')}}<span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-6 col-lg-12'>{{=f.content}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_image'>{{=T('Image')}} </label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_image">{{=f.image}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_published'>{{=T('Published')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_published">{{=f.published}}</div>
+            </div>
+
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='news_cat_id'>{{=T('Category')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4' id="news_cat_id">{{=f.cat_id}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2 hide' for='news_new_type'>{{=T('News Type')}} </label>
+                <div class='col-sm-6 col-md-4 col-lg-4 hide' id="news_new_type">{{=f.new_type}}</div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        {{=frm.custom.end}}
+        </div>
+    </div>
+</div>
+
+<input type='hidden' value='{{=msg}}' id='hfError' />

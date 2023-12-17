@@ -1,0 +1,39 @@
+<!-- The Modal -->
+<div class="vcod">
+    <div class="all-cameras">
+        <a class="all-cameras-close"><i class="fa fa-times"></i></a>
+        <div class="slick-camera">
+        {{for row in rows:}}
+            <div class="item">
+                <div class="panel panel-default m-xxs">
+                    <div class="panel-body" style="padding: 3px;">
+                        <a href="javascript: void(0);" class="open_camera" data-source="{{=row.camera_source}}" data-img="{{=URL('static', 'images/example.jpg')}}">
+                            <i class="fa fa-play"></i>
+                        </a>
+                    </div>
+                    <div class="panel-footer camera-desc">{{=row.description if row.description else ''}}</div>
+                </div>
+            </div>
+        {{pass}}
+        </div>
+    </div>
+
+    <div class="for-camera">
+        <div class="for-camera-action">
+            <a class="action-hide">
+                <i class="fa fa-video-camera"></i>
+            </a>
+            <a class="action-back">
+                <i class="fa fa-mail-reply"></i>
+            </a>
+            <a class="action-close">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+        <div class="for-camera-content">
+            <div id="test"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

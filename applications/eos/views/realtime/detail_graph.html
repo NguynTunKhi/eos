@@ -1,0 +1,94 @@
+{{extend 'layout_master.html'}}
+
+{{block head}}
+<style type='text/css'>
+    
+</style>
+{{end}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('%(name)s') %dict(name=selected_st_name) }}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Realtime monitor')}}</li>
+            <li class="active"><strong>{{=T('Station indicator graphs')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>{{=station.station_name.upper()}}</h5>
+                </div>
+                <div class="col-md-8 text-right">
+                    <div class="ibox-tools">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <select id="cbbDuration" name="duration" class="form-control choose" style="">
+                                    <option value="" selected>{{=T('Duration')}}</option>
+                                    <option value="1">{{=T('1 day')}}</option>
+                                    <option value="7">{{=T('7 days')}}</option>
+                                    <option value="15">{{=T('15 days')}}</option>
+                                    <option value="30">{{=T('30 days')}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select id="cbbShowBy" class="form-control choose" style="width: 150px;">
+                                    <option value="1" selected>{{=T('Show by minute')}}</option>
+                                    <option value="2">{{=T('Show by hour')}}</option>
+                                    <option value="3">{{=T('Show by day')}}</option>
+                                    <option value="4">{{=T('Show by month')}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control date" id="chartStart" placeholder="{{=T('From')}}"> 
+                                    <span class="input-group-btn"> 
+                                        <button type="button" class="btn btn-primary btnStationTypeGo">{{=T('Go!')}}</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <a class="btn btn-default btn-sm" id="btnRefresh"><i class="fa fa-undo"></i> {{=T('Refresh')}}</a>
+                                <a class="hide btn btn-primary btn-sm" href="{{=URL('detail', args=[str(station.id)])}}">{{=T('Indicators')}}</a>
+                                <a class="btn btn-primary btn-sm" href="{{=URL('detail_camera', args=[str(station.id)])}}">{{=T('Cameras')}}</a>
+                                <!-- <a class="collapse-link"><i class="fa fa-chevron-up"></i></a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="panel-heading"> -->
+        <div class="ibox-content">
+            <div class="tabs-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="graph_detail">
+                            {{=LOAD('load_import', 'graph_detail', vars=dict(station_id=station.id))}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfStationId" value="{{=str(station.id)}}">
+<input type="hidden" id="hfIndicator" value="all">
+<input type="hidden" id="hfUrlGetChart" value="{{=URL('load_import', 'call/json/get_chart_for_station')}}">
+<input type="hidden" id="hfUrlGetChartForItem" value="{{=URL('load_import', 'call/json/get_chart_for_station_item')}}">
+<input type="hidden" id="hfUrlLoadGraph" value="{{=URL('load_import', 'graph_detail')}}" />
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/highcharts.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/modules/exporting.js') }}"></script>
+{{end}}

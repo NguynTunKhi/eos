@@ -1,0 +1,1167 @@
+{{extend 'layout_master.html'}}
+{{from applications.eos.modules import const}}
+{{block head}}
+<style type='text/css'>
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+{{end}}
+{{ mqtt_active = myconf.get('mqtt.active', default=False) }}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('STATION INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Master data')}}</li>
+            <li>{{=T('Stations list')}}</li>
+            <li class="active"><strong>{{=T('Station info')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row" style="margin-top: -10px;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" id="tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1"> {{=T('Station info')}}</a></li>
+                    {{if frm.record:}}
+<!--                    <li class=""><a data-toggle="tab" href="#tab-8">{{=T('QCVN')}}</a></li>-->
+                    <li class=""><a data-toggle="tab" href="#tab-3">{{=T('Indicators')}}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-9">{{=T('Send data')}}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-5">{{=T('Camera')}}</a></li>
+<!--                    <li class=""><a data-toggle="tab" href="#tab-6">{{=T('File mapping')}}</a></li>-->
+                    <li class=""><a data-toggle="tab" href="#tab-7">{{=T('Auto adjustment')}}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-4">{{=T('Add Alarm log')}}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2">{{=T('Equipments')}}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-10">{{=T('LBL_Datalogger')}}</a></li>
+                    {{pass}}
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            {{f = frm.custom.widget}}
+                            {{=frm.custom.begin}}
+                            <div style="margin-bottom: 50px;">
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_station_code'>{{=T('LBL_STATION_CODE')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_code}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_station_name'>{{=T('LBL_STATION_NAME')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_name}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_longitude'>{{=T('LBL_LONGITUDE')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.longitude}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_latitude'>{{=T('LBL_LATITUDE')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.latitude}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_province_id'>{{=T('LBL_PROVINCE')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <select class="form-control" name="province_id" id="province_id">
+                                            {{ if province == '' :}}
+                                            <option value="">{{=T('-- Chọn Tỉnh --')}}</option>
+                                            {{pass}}
+                                            {{selected=''}}
+                                            {{for province_data in provinces:}}
+                                                {{if province is not None and province is not '' and  str(province['id']) == str(province_data['id']):}}
+                                                    {{selected='selected'}}
+                                                {{pass}}
+                                                <option value="{{=province_data['id']}}" {{=selected}}>{{=province_data['province_name']}}</option>
+                                                {{selected=''}}
+                                            {{pass}}
+                                        </select>
+                                    </div>
+
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_career'>{{=T('Career')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.career}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_area_ids'>{{=T('Area')}}<span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.area_ids}}</div>
+
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_agent_id'>{{=T('Management agents')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.agents_id}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_contact_info'>{{=T('Contact Info')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.contact_info}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_address'>{{=T('LBL_ADDRESS')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.address}}</div>
+                                </div>
+
+
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_verification_deadline'>{{=T('Verification Deadline')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.verification_deadline}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_country_code'>{{=T('Country Code')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.country_code}}</div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_station_type'>{{=T('Station type')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_type}}</div>
+<!--                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_country_code'>{{=T('AQI/WQI station')}}</label>-->
+                                     <div class='col-sm-6 col-md-4 col-lg-4' style="display: none">{{=f.is_qi}}</div>
+                                </div>
+
+                                <!-- Block 2 -->
+                                <div class="animated fadeIn" style="margin-top: 10px!important;">
+                                    <div class="row" style="min-height: 50px;">
+                                        <div class="ibox float-e-margins" style="margin-bottom: -40px;">
+                                            <div class="ibox-title ">
+                                                <h5 style="padding-top: 0px;">Thông tin mở rộng</h5>
+                                                <div class="ibox-tools">
+                                                    <a data-toggle="collapse" href="#multiCollapseExample1" class="collapse-link" aria-expanded="false" aria-controls="multiCollapseExample1"><i class="fa fa-chevron-up"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="ibox-content gray-bg collapse" id="multiCollapseExample1">
+                                                <div class='row form-group'>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_order_in_area'>{{=T('Order in area')}}</label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order_in_area}}</div>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_order_no'>{{=T('Order number')}}</label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order_no}}</div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_frequency_receiving_data'>{{=T('frequency_receiving_data')}} <span style='color:red;'>*</span></label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.frequency_receiving_data}}</div>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_time_count_offline'>{{=T('time_count_offline')}} <span style='color:red;'>*</span></label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.time_count_offline}}</div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='period_ra'>{{=T('period_ra')}}</label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.period_ra}}</div>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='implement_agency_ra'>{{=T('implement_agency_ra')}}</label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.implement_agency_ra}}</div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_status'>{{=T('LBL_STATUS')}} <span style='color:red;'>*</span></label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.status}}</div>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_using_status'>{{=T('LBL_USING_STATUS')}} <span style='color:red;'>*</span></label>
+                                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.using_status}}</div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_data_source'>{{=T('LBL_DATA_SOURCES')}}</label>
+                                                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.data_source}}</div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_description'>{{=T('LBL_DESCRIPTION')}}</label>
+                                                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.description}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row gray-bg" style="padding: 15px 15px;">
+                            {{ if mqtt_active: }}
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='cbb-transfer-type'>{{=T('Transfer type')}}</label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4' id="cbb-transfer-type">{{=f.transfer_type}}</div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2 m-client-id' for='m-client-id'>{{=T('Datalogger_ID')}}</label>
+                                    <div class='col-sm-6 col-md-4 m-client-id' id="m-client-id">{{=f.mqtt_client_id}}</div>
+                                </div>
+                            {{pass}}
+                            <div id="m-mqtt">
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_mqtt_usr'>{{=T('Username')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4' id="stations_mqtt_usr">
+                                     {{=f.mqtt_usr}}
+                                    </div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_mqtt_pwd'>{{=T('Password')}} <span style='color:red;'>*</span></label>
+
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="password" class="form-control" id="stations_mqtt_pwd" name="mqtt_pwd"
+                                               value="{{=mqtt_pwd}}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="m-ftp">
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_retry'>{{=T('Account FTP')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <select class="form-control" name="ftp_id" id="ftp_id">
+                                            {{
+                                                ftp_info = None
+                                            }}
+                                            {{ if ftp_id_res == '' :}}
+                                            <option value="">{{=T('-- Select FTP Server --')}}</option>
+                                            {{pass}}
+                                            {{selected=''}}
+                                            {{for ftp_info in ftp_list:}}
+                                                {{agent_name=''}}
+                                                {{if ftp_id_res == ftp_info['ftp_id']:}}
+                                                    {{selected='selected'}}
+                                                {{pass}}
+                                                {{for agent in agents:}}
+                                                   {{if str(agent['id']) == ftp_info['ftp_administration_level']:}}
+                                                     {{agent_name= agent['agent_name']}}
+                                                   {{pass}}
+                                                {{pass}}
+                                                <option value="{{=ftp_info['id']}}" {{=selected}}>{{=(agent_name + ' -- ' +ftp_info['ftp_ip'] + ' -- '+ ftp_info['ftp_user'])}}</option>
+                                                {{selected=''}}
+                                            {{pass}}
+                                        </select>
+                                    </div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_retry'>{{=T('Retry number')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.retry}}</div>
+                                </div>
+                                {{if ftp_info is not None:}}
+                                <input type="hidden" value="{{=ftp_info['ftp_user']}}" id="stations_username">
+                                <input type="hidden" value="{{=ftp_info['ftp_password']}}" id="stations_pwd">
+                                <input type="hidden" value="{{=ftp_info['ftp_port']}}" id="stations_data_server_port">
+                                {{pass}}
+
+
+                                <div class='row form-group'>
+                                     <label class='col-sm-6 col-md-2 col-lg-2' for='stations_path_format'>{{=T('last_fime_name')}}<span style='color:red;'>*</span></label>
+                                     <div class='col-sm-6 col-md-4 col-lg-4' class="input-group m-b">
+                                        <input  type="text" name="ftp_file_name"  id="form-ftp-file_path"
+                                                    class="form-control" value="{{=ftp_last_file_name_res}}">
+                                        {{if request.vars.preview is None:}}
+                                        <span class="input-group-btn">
+                                             <a href="javascript: void(0);" class="btn btn-primary btnAddNew"  id="select_ftp_file_path" >
+                                                 <i class="fa fa-plus"></i> {{=T("Choose FTP file path")}} </a>
+                                        </span>
+                                         {{pass}}
+                                    </div>
+                                </div>
+
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2' for='stations_path_format'>{{=T('Stations path format')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-10 col-lg-10'>
+                                        {{=f.path_format}}
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                {{if frm.record:}}
+                                {{if auth.has_permission('check', 'stations'):}}
+                                <a href="javascript: void(0);" class="btn btn-primary" ID="btnFTP_Connect" title="{{=T('BTN_CREATE')}}"
+                                     data-url="{{=URL('stations', 'call/json/check_mapping_name_indicator')}}">
+                                     {{=T('FTP_connection')}}
+                                 </a>
+                                {{pass}}
+                                {{pass}}
+                                <a href="javascript: void(0);" class="btn btn-primary" ID="btncheckFTP_SHOW2" title="{{=T('BTN_CREATE')}}"
+                                     data-url="{{=URL('stations', 'call/json/check_connection_ftp2')}}">
+                                     {{=T('check FTP')}}
+                                 </a>
+                                <a href="javascript: void(0);" class="btn btn-warning hide" id="btn-mqtt-check"
+                                     data-url="{{=URL('stations', 'call/json/check_connect_mqtt')}}">
+                                     {{=T('check FTP')}}
+                                 </a>
+                                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                                <a id='btnBack' class='btn btn-default' href="{{=URL('stations', 'index')}}"><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                                <div style="display: none;">
+                                    {{=f.qi}}
+                                    {{=f.qi_time}}
+                                    {{=f.scan_failed}}
+                                    {{=f.file_mapping}}
+                                    {{=f.file_mapping_desc}}
+                                    {{=f.off_time}}
+                                    {{=f.is_public}}
+                                </div>
+                            {{=frm.custom.end}}
+                            <input type='hidden' value='{{=msg}}' id='hfError' />
+                            {{pass}}
+                        </div>
+                    </div>
+                    {{if frm.record:}}
+                    <div id="tab-10" class="tab-pane">
+                        <form id="frmTab10" autocomplete="off" >
+                        <div class="panel-body">
+                            {{f = frm.custom.widget}}
+                            <div>
+                                <div class='row form-group'>
+                                    <input type="text" class="form-control hide" id="station_name" name="station_name" value="{{=name}}"/>
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Datalogger_ID')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="text" class="form-control" id="logger_id" name="logger_id"
+                                               placeholder="{{=T('Datalogger_ID')}}"
+                                               value="{{=datalogger.logger_id if datalogger else ''}}"/>
+                                    </div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Datalogger Name')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="text" class="form-control" id="logger_name" name="logger_name"
+                                               placeholder="{{=T('Datalogger Name')}}"
+                                               value="{{=datalogger.logger_name if datalogger else ''}}"/>
+                                    </div>
+                                </div>
+                                <div class='row form-group'>
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>Loại Datalogger <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <select class="form-control m-b" name="type_logger" id="cbbTypeLogger">
+                                            <option value="">{{=T('-- Choose Datalogger Type --')}} </option>
+                                            {{selected=''}}
+                                            {{for item in type_datalogger:}}
+                                                {{if datalogger and datalogger.type_logger:}}
+                                                    {{if str(item['value']) == str(datalogger.type_logger):}}
+                                                        {{selected='selected'}}
+                                                    {{pass}}
+                                                {{pass}}
+                                                <option value="{{=item['value']}}" {{=selected}}>{{='%s' % (item['name'])}}</option>
+                                                {{selected=''}}
+                                            {{pass}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type='hidden' value='{{=msg}}' id='hfErrorDataloger' />
+<!--                            <div class="hr-line-dashed ibox-title">-->
+<!--                            </div>-->
+                            <hr align="left" style="border-top: 1px dashed #f1f1f1;width: 85%;"/>
+                            <div id="rp-content">
+                                <div class='row form-group' id="r-id">
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('ID command')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-10 col-md-6 col-lg-10'>
+                                        <input type="text" class="form-control" id="command_id" name="command_id"
+                                                value="{{=''}}" placeholder="{{=T('ID command')}}" required/>
+                                    </div>
+                                </div>
+                                <div class='row form-group' id="r-title">
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Command title')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-10 col-md-6 col-lg-10'>
+                                        <input type="text" class="form-control" id="command_name" name="command_name"
+                                                value="{{=''}}" placeholder="{{=T('Command title')}}" required/>
+                                    </div>
+                                </div>
+                                <div class='row form-group' id="r-ip">
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('IP')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-10 col-md-6 col-lg-10'>
+                                        <input type="text" class="form-control" id="ipADAM" name="r-ip"
+                                                value="{{=''}}" placeholder="http://x.x.x.x:80; https://x.x.x.x:80; https://example.com" required/>
+                                    </div>
+                                </div>
+                                <div class='row form-group' id="r-usr-pwd">
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Username')}} <span id="d-usr-req" style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="text" class="form-control" id="d-usr" name="r-usr"
+                                                value="{{=''}}" placeholder="{{=T('Username')}}" autocomplete="false"/>
+                                    </div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Password')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="password" class="form-control" id="d-pwd" name="r-pwd"
+                                               value="{{=''}}" placeholder="{{=T('Password')}}" autocomplete="false"/>
+                                    </div>
+                                </div>
+                                <div class='row form-group' id="r-ch-slot">
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('CH')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="text" class="form-control" id="ch" name="ch"
+                                               value="{{=''}}" placeholder="{{=T('CH')}}"/>
+                                    </div>
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Slot')}}<span style='color:red;'>*</span></label>
+                                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="text" class="form-control" id="slot" name="slot"
+                                                value="{{=''}}" placeholder="{{=T('Slot')}}"/>
+                                    </div>
+                                </div>
+
+                                <div class='row form-group' id="r-content">
+                                    <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Command content')}} <span style='color:red;'>*</span></label>
+                                    <div class='col-sm-10 col-md-6 col-lg-10'>
+                                        <input type="text" class="form-control" id="command_content" name="command_content"
+                                                value="{{=''}}" placeholder="{{=T('Command content')}}" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                <a href="javascript: void(0);" class="btn btn-primary" ID="btnAddDataCommand" title="{{=T('BTN_SAVE')}}"
+                                   data-url="{{=URL('stations', 'call/json/add_datalogger_command', vars={'station_id':station_id})}}">
+                                    <i class="fa fa-save"></i> {{=T('BTN_SAVE')}}
+                                </a>
+                                {{ if datalogger: }}
+                                    <a id='btnRemoveCommand' class='btn btn-danger' type='button' href='javascript:void(0);'
+                                    data-url="{{=URL('call/json/del_records/datalogger_command')}}"
+                                    data-iTable="10"
+                                    data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                                    onclick="app.executeFunction(this);">
+                                        <i class="fa fa-trash fa-white"></i> {{=T('BTN_REMOVE')}}
+                                    </a>
+                                {{pass}}
+                            </div>
+                            {{pass}}
+                            <input type='hidden' value='{{=msg}}' id='hfErrorDataCommand' />
+                            <table id='custom_datatable_10' class='table table-striped table-bordered table-hover table-responsive'
+                                data-url="{{=URL('stations', 'call/json/get_datalogger_command_by_station', vars={'station_id':station_id})}}">
+                                <thead>
+                                    <tr>
+                                        <th id='r-no'>{{=T('LBL_STT')}}</th>
+                                        <th id='r-del'><input type='checkbox' group="1" class='select_all' id='chk_all_0' /></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                <a id='btnBackDataCommand' class='btn btn-outline-secondary' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{pass}}
+                        </div>
+                        </form>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body">
+                            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                                data-url="{{=URL('equipments', 'call/json/get_equipments_by_station', vars={'station_id':station_id, 'type':type})}}">
+                                <thead>
+                                    <tr>
+                                        <th>{{=T('#')}}</th>
+                                        <th>{{=T('Equipments')}}</th>
+                                        <th>{{=T('Start date')}}</th>
+                                        <th>{{=T('Brandname')}}</th>
+                                        <th>{{=T('Provider')}}</th>
+                                        <th>{{=T('Series')}}</th>
+                                        <th>{{=T('LRV')}}</th>
+                                        <th>{{=T('URV')}}</th>
+                                        <th>{{=T('Status')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            {{if frm.record:}}
+                            <div class="hr-line-dashed"></div>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                <a href="javascript: void(0);" class="btn btn-primary btnAddNew" title="{{=T('BTN_CREATE')}}"
+                                    data-for="#hfEquipmentId"  data-callback="reloadDatatable_Equipment()"
+                                    data-url="{{=URL('equipments', 'popup_add_equipment', vars={'station_id' : station_id, 'type' : type})}}">
+                                    <i class="fa fa-plus"></i> {{=T('BTN_CREATE')}}
+                                </a>
+                                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{pass}}
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <div class="panel-body">
+                            <form id="frmTabIndicator" action="#" method="post">
+                                {{if request.vars.preview is None:}}
+                                <div class="form-group">
+                                    <!-- QCVN HEADER -->
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        <label>QCVN </label>
+                                    </div>
+                                        <div class="col-md-2">
+                                            <label class="lbl_qcvn_detail_const_area_value" id="lbl_qcvn_detail_const_area_value_type">{{=T('Type In QCVN')}}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="lbl_qcvn_detail_const_area_value" id="lbl_qcvn_detail_const_area_value_1" style="">{{=T('Confident One')}}(Kq/Kp)</label>
+                                            <!--{{for item in qcvn_const_value_by_qcvn:}}
+                                                    {{if qcvn_station_kind :}}
+                                                        {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1) :}}
+                                                            <label class="lbl_qcvn_detail_const_area_value" id="lbl_qcvn_detail_const_area_value_1" style="">Hệ số 1 <span style='color:red;'>*</span>(Kq/Kp)</label>
+                                                        {{else:}}
+                                                            <label class="lbl_qcvn_detail_const_area_value" id="lbl_qcvn_detail_const_area_value_1" style="">Hệ số 1 <span style='color:red;'>*</span>(Kq/Kp)</label>
+                                                        {{pass}}
+                                                    {{pass}}
+                                            {{pass}}-->
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="lbl_qcvn_detail_const_area_value" id="lbl_qcvn_detail_const_area_value_2" style="">{{=T('Confident Two')}}(Kf/Kv)</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="lbl_qcvn_detail_const_area_value" id="lbl_qcvn_detail_const_area_value_3" style="">{{=T('Confident Three')}}(Kf/Kv)</label>
+                                        </div>
+                                        
+                                    </div>
+                                    <!-- QCVN HEADER END -->
+                                    <!-- QCVN INPUT START -->
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        <select id="cbbQCVN_8" name="cbbQCVN_8" class="form-control choose" style="" data-url="{{=URL('qcvn', 'call/json/get_list_qcvn_kind_details')}}">
+                                            <option value="">{{=T('-- Select QCVN --')}}</option>
+                                            <option value="-999">Không chọn QCVN</option>
+                                            {{selected=''}}
+                                            {{for item in qcvns:}}
+                                                {{if qcvn_station_kind :}}
+                                                    {{if str(item.id) == str(qcvn_station_kind.qcvn_id) :}}
+                                                        {{selected='selected'}}
+                                                    {{pass}}
+                                                {{pass}}
+                                                <option value="{{=item.id}}" value_const="{{=item.qcvn_const_value}}"  {{=selected}}>{{='%s' % (item.qcvn_code)}}</option>
+                                                {{selected=''}}
+                                            {{pass}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select id="cbbQCVN_TYPE_CODE_8" name="cbbQCVN_TYPE_CODE_8" class="form-control choose hidden" style="" data-url="{{=URL('qcvn', 'call/json/get_qcvn_detail')}}">
+                                            <option value="">-- Chọn loại --</option>
+                                            {{selected=''}}
+                                            {{for item in qcvn_station_kind_list_by_qcvn:}}
+                                                {{if qcvn_station_kind :}}
+                                                    {{if str(item.id) == str(qcvn_station_kind.qcvn_kind_id) :}}
+                                                        {{selected='selected'}}
+                                                    {{pass}}
+                                                {{pass}}
+                                                <option value="{{=item.id}}" {{=selected}}>{{='%s' % (item.qcvn_kind)}}</option>
+                                                {{selected=''}}
+                                            {{pass}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{for item in qcvn_const_value_by_qcvn:}}
+                                            {{if qcvn_station_kind :}}
+                                                {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1):}}
+                                                    {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                                        <input type="text" class="form-control" id="qcvn_detail_const_area_value_1"  name="qcvn_detail_const_area_value_1" value="" placeholder="{{=T('Qcvn value constant area 1')}}" />
+                                                        <input type="hidden" class="form-control" id="qcvn_const_value"  name="" value="" />
+                                                    {{pass}}
+                                                {{else:}}
+                                                    {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                                        <input type="hidden" class="form-control" id="qcvn_detail_const_area_value_1"  name="qcvn_detail_const_area_value_1" value="" placeholder="{{=T('Qcvn value constant area 1')}}" />
+                                                    {{pass}}
+                                                {{pass}}
+                                            {{pass}}
+                                        {{pass}}
+                                        {{if (not qcvn_station_kind) or (qcvn_station_kind.qcvn_kind_id == '') :}}
+                                        <input type="hidden" class="form-control" id="qcvn_detail_const_area_value_1"  name="qcvn_detail_const_area_value_1" value="1" placeholder="{{=T('Qcvn value constant area 1')}}" />
+                                        {{pass}}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{for item in qcvn_const_value_by_qcvn:}}
+                                            {{if qcvn_station_kind :}}
+                                                {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1) :}}
+                                                    {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                                        <input type="text" class="form-control" id="qcvn_detail_const_area_value_2"  name="qcvn_detail_const_area_value_2" value="" placeholder="{{=T('Qcvn value constant area 2')}}" />
+                                                    {{pass}}
+                                                {{else:}}
+                                                    {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                                        <input type="hidden" class="form-control" id="qcvn_detail_const_area_value_2"  name="qcvn_detail_const_area_value_2" value="1" placeholder="{{=T('Qcvn value constant area 2')}}" />
+                                                    {{pass}}
+                                                {{pass}}
+                                            {{pass}}
+                                        {{pass}}
+
+                                        {{if (not qcvn_station_kind) or (qcvn_station_kind.qcvn_kind_id == '') :}}
+                                            <input type="hidden" class="form-control" id="qcvn_detail_const_area_value_2"  name="qcvn_detail_const_area_value_2" value="1" placeholder="{{=T('Qcvn value constant area 2')}}" />
+                                        {{pass}}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{for item in qcvn_const_value_by_qcvn:}}
+                                            {{if qcvn_station_kind :}}
+                                                {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1) :}}
+                                                    {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                                        <input type="text" class="form-control" id="qcvn_detail_const_area_value_3"  name="qcvn_detail_const_area_value_3" value="" placeholder="{{=T('Qcvn value constant area 3')}}" />
+                                                    {{pass}}
+                                                {{else:}}
+                                                    {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                                        <input type="hidden" class="form-control" id="qcvn_detail_const_area_value_3"  name="qcvn_detail_const_area_value_3" value="" placeholder="{{=T('Qcvn value constant area 3')}}" />
+                                                    {{pass}}
+                                                {{pass}}
+                                            {{pass}}
+                                        {{pass}}
+
+                                        {{if (not qcvn_station_kind) or (qcvn_station_kind.qcvn_kind_id == '') :}}
+                                            <input type="hidden" class="form-control" id="qcvn_detail_const_area_value_3"  name="qcvn_detail_const_area_value_3" value="1" placeholder="{{=T('Qcvn value constant area 3')}}" />
+                                        {{pass}}
+                                    </div>
+                                </div>
+                                <!-- QCVN INPUT END -->
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-2"> <!-- INDICATOR HEADER -->
+                                        <label>{{=T('Indicators Choose')}} <span style='color:red;'>*</span></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label style="display: none">{{=T('Tendency value')}}</label>
+                                        <label>{{=T('Indicator name in data file')}} <span style='color:red;'>*</span></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label style="display: none">{{=T('Preparing value')}}</label>
+                                        <label>{{=T('Convert rate')}} <span style='color:red;'>*</span></label>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <label>{{=T('Equipment name')}}</label>
+                                    </div>
+                                    <div class="col-md-2" style="display: none">
+                                        <label >{{=T('Exceed value')}}</label>
+                                    </div> <!-- INDICATOR HEADER END -->
+                                    <!--<div class="col-md-2">
+                                        <label style="display: none"></label>
+                                    </div>-->
+
+                                   <!-- <div class="col-md-2 text-right"></div>-->
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-2"> <!-- INDICATOR INPUT START -->
+                                        <select class="form-control m-b" name="indicator" id="cbbIndicatorId"
+                                            data-url="{{=URL('indicators', 'call/json/get_indicator_info')}}">
+                                            <option value="">-- {{=T('Indicators Choose')}} --</option>
+                                            {{for item in indicators:}}
+                                            <option value="{{=item.id}}">{{='%s (%s, %s)' % (item.indicator, item.source_name if item.source_name else '-', item.unit if item.unit else '-')}}</option>
+                                            {{pass}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" style="display: none;">
+                                        <input type="hidden" class="form-control" id="txtTendency" name="tendency" placeholder="{{=T('Tendency value')}}" />
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <input type="text" class="form-control" id="indicator_name_mapping" name="indicator_name_mapping" value="" placeholder="" />
+                                    </div>
+                                    <div class="col-md-2" style="display: none;">
+                                        <input type="hidden" class="form-control" id="txtPreparing" name="preparing" placeholder="{{=T('Preparing value')}}" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="convert_rate" name="convert_rate" value="1"  placeholder="" />
+                                    </div>
+                                    <div class="col-md-2" style="display: none;">
+                                        <input type="hidden" class="form-control" id="txtExceed" name="exceed" placeholder="{{=T('Exceed value')}}" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select id="cbbEquipment" name="cbbEquipment" class="form-control choose" style="">
+                                            <option value="">{{=T('-- Select equipment --')}}</option>
+                                            {{for item in equipments:}}
+                                            <option value="{{=item.id}}" data-max="{{=item.urv}}" data-min="{{=item.lrv}}">
+                                                {{='%s (%s)' % (item.equipment, item.series) if item.series else '%s' % item.equipment}}
+                                            </option>
+                                            {{pass}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" style="display: none">
+                                    </div>
+                                    <!-- INDICATOR INPUT END -->
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-2 text-right">
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <a id='btnUpdateListLinkStationIndicator' class='btn btn-primary btn-sm showConfirmBox'
+                                           data-url="{{=URL('stations', 'call/json/import_data_thongso')}}"
+                                           data-type="{{=frm.record.station_type}}"><i class="fa fa-list"></i> {{=T('Update List indicator')}}</a>
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <a id='btnLinkIndicatorToWaterStation' class='btn btn-primary btn-sm showConfirmBox'
+                                           data-url="{{=URL('stations', 'call/json/link_indicator_to_station')}}"
+                                           data-type="{{=frm.record.station_type}}"><i class="fa fa-plus"></i> {{=T('Add indicator')}}</a>
+                                    </div>
+                                </div>
+                                {{pass}}
+                                <div class="row form-group" style="display: none">
+                                    <div class="col-md-4">
+                                        <label>Tên QCVN</label>
+                                    </div>
+                                     <div class="col-md-2">
+                                        <label>Loại QCVN</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Cmin của thông số</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Cmax của thông số</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                        <div class="col-md-2">
+                                        {{if qcvn_station_kind:}}
+                                        <input type="text"  readonly class="form-control" id="cbbQCVN"  name="cbbQCVN" data-id="{{=qcvn_station_kind.qcvn_id}}" value="{{=qcvn_station_kind.qcvn_code}}" placeholder="{{=qcvn_station_kind.qcvn_code}}" />
+                                        <input type="hidden" class="form-control" id="cbbQCVN_AJAX"  name="cbbQCVN_AJAX" value="{{=qcvn_station_kind.qcvn_id}}"/>
+                                        {{pass}}
+                                    </div>
+                                        <div class="col-md-2">
+                                         {{if qcvn_station_kind:}}
+                                         <input type="text" readonly  class="form-control" id="cbbQCVN_TYPE_CODE"  name="cbbQCVN_TYPE_CODE" data-id="{{=qcvn_station_kind.qcvn_kind_name}}" value="{{=qcvn_station_kind.qcvn_kind_name}}" placeholder="{{=qcvn_station_kind.qcvn_kind_name}}" />
+                                         <input type="hidden" class="form-control" id="cbbQCVN_TYPE_CODE_AJAX"  name="cbbQCVN_TYPE_CODE_AJAX" value="{{=qcvn_station_kind.qcvn_kind_id}}"/>
+                                         <input type="hidden" class="form-control" id="cbbQCVN_heso_1"  name="cbbQCVN_heso_1" value="{{=qcvn_station_kind.qcvn_detail_const_area_value_1}}"/>
+                                         <input type="hidden" class="form-control" id="cbbQCVN_heso_2"  name="cbbQCVN_heso_2" value="{{=qcvn_station_kind.qcvn_detail_const_area_value_2}}"/>
+                                         {{pass}}
+
+                                        <!--<select id="cbbQCVN_TYPE_CODE" name="cbbQCVN_TYPE_CODE" class="form-control choose" style=""">-->
+                                            <!--<option value="">&#45;&#45; Chọn loại &#45;&#45;</option>-->
+                                        <!--</select>-->
+                                    </div>
+                                         <div class="col-md-2">
+                                        <input type="number" readonly class="form-control" id="qcvn_detail_min_value"  name="qcvn_detail_min_value" value="" placeholder="{{=T('Qcvn value min')}}" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" readonly class="form-control" id="qcvn_detail_max_value"  name="qcvn_detail_max_value" value="" placeholder="{{=T('Qcvn value max')}}" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <!--<input type="number" class="form-control" id="qcvn_detail_const_area_value"  name="qcvn_detail_const_area_value" value="" placeholder="{{=T('Qcvn value constant area')}}" />-->
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <fieldset style="display: none">
+                                         <div class="col-md-2">
+                                       <label>Giá trị đo dưới</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <label>Giá trị đo trên</label>
+                                    </div>
+                                    </fieldset>
+
+                                    </div>
+                                <div class="row form-group">
+
+                                    <fieldset style="display: none">
+                                        <div class="col-md-2">
+                                        <input type="text" class="form-control" id="lrv" name="lrv" value="" placeholder="Min" readonly />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="urv" name="urv" value="" placeholder="Max" readonly />
+                                    </div>
+                                    </fieldset>
+
+                                </div>
+
+                                <div class="row ibox-content" style="padding-top: 0px; overflow-x:auto;">
+                                    <div class=" table-responsive">
+                                        <table id='custom_datatable_1' class='table table-striped table-bordered table-hover table-responsive '
+                                            data-url="{{=URL('stations', 'call/json/get_list_indicators_for_station',vars={'preview':request.vars.preview})}}">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2">{{=T('LBL_STT')}}</th>
+                                                    <th rowspan="2">{{=T('Indicator')}}</th>
+                                                    <th rowspan="2" class="">{{=T('Mapping name')}}</th>
+                                                    <th rowspan="2">{{=T('Convert rate')}}</th>
+                                                    <!--<th rowspan="2">-->
+                                                        <!--<span style="background:#99CC00; color:white" class="badge">{{=T('Tendency value')}}</span>-->
+                                                    <!--</th>-->
+                                                    <!--<th rowspan="2">-->
+                                                        <!--<span style="background:#FF9900; color:white" class="badge">{{=T('Preparing value')}}</span>-->
+                                                    <!--</th>-->
+                                                    <!--<th rowspan="2">-->
+                                                        <!--<span style="background:#FF0000; color:white" class="badge">{{=T('Exceed value')}}</span>-->
+                                                    <!--</th>-->
+                                                    <th colspan="3" rowspan="1" class="sorting_disabled">{{=T('Equipments')}}</th>
+                                                    <th colspan="7" rowspan="1" class="sorting_disabled">{{=T('QCVN')}}</th>
+                                                    <th rowspan="2" colspan="1" class="text-nowrap">{{=T('Status')}}</th>
+                                                    <th rowspan="2" colspan="1" class="text-nowrap">{{=T('Edit')}}</th>
+                                                    <th rowspan="2"><input type='checkbox' group="1" class='select_all' id='chk_all_1' /></th>
+                                                </tr>
+                                                <tr>
+                                                    <th><span class="text-nowrap">{{=T('Equipment name')}}</span></th>
+                                                    <th>Min</th>
+                                                    <th>Max</th>
+                                                    <th><span>{{=T('qcvn_code')}}</span></th>
+                                                    <th>K1</th>
+                                                    <th>K2</th>
+                                                    <th>K3</th>
+                                                    <th class="text-nowrap">{{=T('qcvn_type_code')}}</th>
+                                                    <th class="text-nowrap">{{=T('Qcvn value cmin')}}</th>
+                                                    <th class="text-nowrap">{{=T('Qcvn value cmax')}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed" style="margin-top: -30px;"></div>
+                                {{if request.vars.preview is None:}}
+                                <div class="row">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class='text-right'>
+                                        <a id='btnUpdateAllIndicator' class='btn btn-primary' type='button' href='javascript:void(0);'
+                                            data-url="{{=URL('stations', 'call/json/edit_station_indicator')}}"
+                                            data-iTable="1"
+                                            onclick="app.executeFunction(this);">
+                                            <i class="fa fa-edit fa-white"></i> {{=T('Cập nhật trạng thái')}}
+                                        </a>
+                                        {{if auth.has_permission('delete', 'master_indicator'):}}
+                                        <a id='btnRemoveLinkIndicatorFormStation' class='btn btn-danger' type='button' href='javascript:void(0);'
+                                            data-url="{{=URL('stations', 'call/json/del_station_indicator')}}"
+                                            data-iTable="1"
+                                            data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                                            onclick="app.executeFunction(this);">
+                                            <i class="fa fa-trash fa-white"></i> {{=T('BTN_REMOVE')}}
+                                        </a>
+                                        {{pass}}
+                                        <a class='btn btn-secondary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                                    </div>
+                                </div>
+                                {{pass}}
+                            </form>
+                        </div>
+                    </div>
+                    <div id="tab-9" class="tab-pane">
+                        <div class="panel-body">
+                            <div class='row form-group'>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_time'>{{=T('Send_time')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        {{if data_send:}}
+                                        <input type="text" class="form-control" id="time_send_data_show" name="preparing"
+                                               value="{{=data_send.time_send_data}}"/>
+                                        {{else:}}
+                                        <input type="text" class="form-control" id="time_send_data" name="preparing"
+                                               value="60"/>
+                                        {{pass}}
+                                </div>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_filename'>{{=T('Filename')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        <input type="text" class="form-control" id="file_name" value="{{=send_file_name}}">
+                                </div>
+
+                            </div>
+                             <div class='row form-group'>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_ip'>{{=T('FTP server IP')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        {{if data_send:}}
+                                        <input type="text" class="form-control" id="ftp_ip_show" name="preparing"
+                                               value="{{=data_send.ftp_ip}}"/>
+                                        {{else:}}
+                                        <input type="text" class="form-control" id="ftp_ip" name="preparing"
+                                               value="ftp.envisoft.gov.vn"/>
+                                        {{pass}}
+                                </div>
+                                 <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_ip'>{{=T('Port')}} <span style='color:red;'>*</span></label>
+                                 <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        {{if data_send:}}
+                                        <input type="text" class="form-control" id="ftp_port_show" name="preparing"
+                                               value="{{=data_send.ftp_port}}"/>
+                                        {{else:}}
+                                        <input type="text" class="form-control" id="ftp_port" name="preparing"
+                                               value="21"/>
+                                        {{pass}}
+                                </div>
+                                <label class='col-sm-6 col-md-2 col-lg-2 hide'>{{=T('File format')}}  <span style='color:red;'>*</span></label>
+                                 {{if data_send :}}
+                                 <div class='col-sm-6 col-md-4 col-lg-4 hide'>
+                                     {{if data_send.file_format == 'txt':}}
+                                    <div class="i-checks radio-inline col-sm-2"><label> <input type="radio" value="{{=T('TXT')}}" name="repeatMode"  checked> <i></i> {{=T('TXT')}} </label></div>
+                                     <div class="i-checks radio-inline col-sm-2"><label> <input type="radio" value="{{=T('CSV')}}" name="repeatMode" > <i></i> {{=T('CSV')}} </label></div>
+                                     {{else:}}
+                                     <div class="i-checks radio-inline col-sm-2"><label> <input type="radio" value="{{=T('TXT')}}" name="repeatMode"  > <i></i> {{=T('TXT')}} </label></div>
+                                <div class="i-checks radio-inline col-sm-2"><label> <input type="radio" value="{{=T('CSV')}}" name="repeatMode" checked > <i></i> {{=T('CSV')}} </label></div>
+                                     {{pass}}
+                                </div>
+                                 {{else:}}
+                                 <div class='col-sm-6 col-md-4 col-lg-4 hide'>
+                                <div class="i-checks radio-inline col-sm-2"><label> <input type="radio" value="{{=T('TXT')}}" name="repeatMode"  checked> <i></i> {{=T('TXT')}} </label></div>
+                                <div class="i-checks radio-inline col-sm-2"><label> <input type="radio" value="{{=T('CSV')}}" name="repeatMode"  > <i></i> {{=T('CSV')}} </label></div>
+                                </div>
+                                 {{pass}}
+                             </div>
+                             <div class='row form-group'>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_path'>{{=T('FTP server path')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        {{if data_send:}}
+                                        <input type="text" class="form-control" id="ftp_path_show" name="preparing"
+                                               value="{{=data_send.ftp_path}}"/>
+                                        {{else:}}
+                                        <input type="text" class="form-control" id="ftp_path" name="preparing"
+                                               value="{{=res_ftp_folder_path}}"/>
+                                        {{pass}}
+                                </div>
+                                 <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_status'>{{=T('LBL_STATUS')}} <span style='color:red;'>*</span></label>
+                                 <div class='col-sm-6 col-md-4 col-lg-4'>
+                                     {{if data_send:}}
+                                        <select class="form-control m-b" name="status" id="send_status_show">
+                                         {{selected=''}}
+                                         {{for item in list_status_data_send:}}
+                                         {{if str(item['value']) == str(current_send_status) :}}
+                                         {{selected='selected'}}
+                                         {{pass}}
+                                         <option value="{{=item['value']}}" {{=selected}}>{{=T(item['name'])}}</option>
+                                         {{selected=''}}
+                                         {{pass}}
+                                        </select>
+                                     {{else:}}
+                                        <select class="form-control m-b" name="status" id="send_status">
+                                         {{selected=''}}
+                                         {{for item in list_status_data_send:}}
+                                         {{if str(item['value']) == str(current_send_status) :}}
+                                         {{selected='selected'}}
+                                         {{pass}}
+                                         <option value="{{=item['value']}}" {{=selected}}>{{=T(item['name'])}}</option>
+                                         {{selected=''}}
+                                         {{pass}}
+                                        </select>
+                                     {{pass}}
+
+                                </div>
+
+                            </div>
+                            <div class='row form-group'>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_user'>{{=T('FTP server user name')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        {{if data_send:}}
+                                        <input type="text" class="form-control" id="user_ftp_show" name="preparing"
+                                               value="{{=data_send.ftp_user}}"/>
+                                        {{else:}}
+                                        <input type="text" class="form-control" id="user_ftp" name="preparing"
+                                               value=""/>
+                                        {{pass}}
+                                </div>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_data_pass'>{{=T('LBL_PASSWORD')}} <span style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                        {{if data_send:}}
+                                        <input type="password" class="form-control" id="password_show" name="preparing"
+                                               value="{{=data_send.ftp_password}}"/>
+                                        {{else:}}
+                                        <input type="password" class="form-control" id="password" name="preparing"
+                                               value=""/>
+                                        {{pass}}
+                                </div>
+                            </div>
+
+                            <div class='row form-group'>
+                                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_send_from_date'>{{=T('Data Transfer Date')}} <span
+                                    style='color:red;'>*</span></label>
+                                <div class='col-sm-6 col-md-4 col-lg-4'>
+                                    {{if data_send:}}
+                                        <input type="text" class="form-control datetime" id="send_data_from_date_show" value="{{=data_send.from_date}}">
+                                    {{else:}}
+                                        <input type="text" class="form-control datetime" id="send_data_from_date" placeholder="{{=T('Data Transfer Date')}}" value="">
+                                    {{pass}}
+                                </div>
+
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {{if request.vars.preview is None:}}
+                             <div class='text-right'>
+                                 {{if data_send:}}
+                                 <a href="javascript: void(0);" class="btn btn-primary" ID="btncheckFTP_SHOW" title="{{=T('BTN_SAVE')}}"
+                                     data-url="{{=URL('stations', 'call/json/check_connection_ftp')}}">
+                                     {{=T('check FTP')}}
+                                 </a>
+                                 <a href="javascript: void(0);" class="btn btn-primary" ID="btnSaveSendData" title="{{=T('BTN_SAVE')}}"
+                                   data-url="{{=URL('stations', 'call/json/save_send_data')}}">
+                                    <i class="fa fa-save"></i> {{=T('Edit')}}
+                                 </a>
+                                 {{else:}}
+                                 <a href="javascript: void(0);" class="btn btn-primary" ID="btncheckFTP" title="{{=T('BTN_SAVE')}}"
+                                     data-url="{{=URL('stations', 'call/json/check_connection_ftp')}}">
+                                     {{=T('check FTP')}}
+                                 </a>
+                                 <a href="javascript: void(0);" class="btn btn-primary" ID="btnCreatSendData" title="{{=T('BTN_SAVE')}}"
+                                    data-url="{{=URL('stations', 'call/json/save_send_data')}}">
+                                    <i class="fa fa-save"></i> {{=T('BTN_SAVE')}}
+                                 </a>
+                                 {{pass}}
+                                 <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div id="tab-4" class="tab-pane">
+                        <div class="panel-body">
+                            <div class='row'>
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <span class='badge' style="background:#FF0000; color:white">{{=T('Exceed threshold')}}</span>
+                                        </div>
+                                        <div class="ibox-content bg-muted">
+                                            <div class="form-group">
+                                                <label>{{=T('Notify by')}}</label>
+                                                <div>
+                                                    <input type="checkbox" {{='checked' if alarm and alarm.exceed_method_email else ''}} id="exceed_method_email"> Email
+                                                    <input type="checkbox" {{='checked' if alarm and alarm.exceed_method_sms else ''}} id="exceed_method_sms"> SMS
+                                                    <input type="checkbox" {{='checked' if alarm and alarm.exceed_method_notification else ''}} id="exceed_method_notification"> Notification
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>{{=T('Notify frequency')}}</label>
+                                                {{if alarm:}}
+                                                <input type="text" class="form-control" id="frequency_notify" name="frequencynotify"
+                                                value="{{=alarm.frequency_notify}}"/>
+                                                {{else:}}
+                                                <input type="text" class="form-control" id="frequency_notify" name="preparing"
+                                                    value="5"/>
+                                                {{pass}}
+<!--                                                <inputnumber class="form-control"  id="frequency_notify" rows="3" >{{=alarm.frequency_notify if alarm and alarm.frequency_notify else ''}}</inputnumber>-->
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label>{{=T('Notify emails list')}}</label>
+                                                <textarea class="form-control" id="exceed_emails" rows="3" placeholder="{{=T('Enter list emails separated by comma')}}">{{=alarm.exceed_email_list if alarm and alarm.exceed_email_list else ''}}</textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>{{=T('Notify mobile phones list')}}</label>
+                                                <textarea class="form-control" id="exceed_phones" rows="3" placeholder="{{=T('Enter list phone numbers separated by comma')}}">{{=alarm.exceed_phone_list if alarm and alarm.exceed_phone_list else ''}}</textarea>
+                                            </div>
+                                             <div class="form-group">
+                                                <label>{{=T('Email header')}}</label>
+                                                <textarea class="form-control" id="exceed_emails_header" rows="3" placeholder="{{=T('Enter mail header...')}}">{{=alarm.exceed_emails_header if alarm and alarm.exceed_emails_header else ''}}</textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>{{=T('Message content')}}</label>
+                                                <textarea class="form-control" id="exceed_msg" rows="8" placeholder="{{=T('Enter message content...')}}">{{=alarm.exceed_msg if alarm and alarm.exceed_msg else ''}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                <a id='btnAddStationAlarm' class='btn btn-primary '
+                                       data-url="{{=URL('stations', 'call/json/ajax_save_station_alarm')}}"
+                                       data-type="{{=frm.record.station_type}}">
+                                    <i class="fa fa-save"></i> {{=T('BTN_SAVE')}}
+                                </a>
+                                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div id="tab-5" class="tab-pane">
+                        <div class="panel-body">
+                            <table id='custom_datatable_3' class='table table-striped table-bordered table-hover table-responsive'
+                                data-url="{{=URL('camera_links', 'call/json/get_list_camera_by_station', vars={'station_id':station_id, 'name':name, 'type':type})}}">
+                                <thead>
+                                    <tr>
+                                        <th>{{=T('#')}}</th>
+                                        <th>{{=T('Visible')}}</th>
+                                        <th>{{=T('Camera name')}}</th>
+                                        <th>{{=T('Camera source')}}</th>
+                                        <th>{{=T('Order')}}</th>
+                                        <th>{{=T('Edit')}}</th>
+                                        <th><input type='checkbox' group="3" class='select_all' id='chk_all_3' /></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            {{if frm.record:}}
+                            <div class="hr-line-dashed"></div>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                <a href="javascript: void(0);" class="btn btn-primary btnAddNew" title="{{=T('BTN_CREATE')}}"
+                                    data-for="#hfCameraId"  data-callback="reloadDatatable_Camera()"
+                                    data-url="{{=URL('camera_links', 'popup_add_camera', vars={'station_id':station_id, 'type':type, 'name':name})}}">
+                                    <i class="fa fa-plus"></i> {{=T('BTN_CREATE')}}
+                                </a>
+                                <a id='btnDelete' class='btn btn-primary' type='button' href='javascript:void(0);'
+                                    data-url="{{=URL('call/json/del_records/camera_links')}}"
+                                    data-iTable="3"
+                                    data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                                    onclick="app.executeFunction(this);">
+                                    <i class="fa fa-trash fa-white"></i> {{=T('BTN_DELETE')}}
+                                </a>
+                                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{pass}}
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div id="tab-6" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="row form-group">
+                                <label class="col-md-2" for='fileMapping'>{{=T('File mapping')}}</label>
+                                <div class=" col-md-10"><input type="text" class="form-control" id="fileMapping"
+                                    value="{{=frm.record.file_mapping if frm.record.file_mapping else ''}}"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-md-2" for='fileMappingDesc'>{{=T('Description')}}</label>
+                                <div class=" col-md-10">
+                                    <textarea class="form-control" id="fileMappingDesc" rows="8" placeholder="">{{=frm.record.file_mapping_desc if frm.record.file_mapping_desc else ''}}</textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            {{if request.vars.preview is None:}}
+                            <div class='text-right'>
+                                <a id='btnFileMapping' class='btn btn-primary '
+                                       data-url="{{=URL('stations', 'call/json/ajax_save_file_mapping')}}">
+                                    <i class="fa fa-save"></i> {{=T('BTN_SAVE')}}
+                                </a>
+                                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                            </div>
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div id="tab-7" class="tab-pane">
+                        <form id="frmTab7">
+                            <div class="panel-body">
+                                <table id='custom_datatable_auto_adjust' class='table table-striped table-bordered table-hover table-responsive'
+                                    data-url="{{=URL('stations', 'call/json/get_list_indicators_auto_adjust')}}">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" colspan="1">{{=T('Indicator')}}</th>
+                                            <th rowspan="2" colspan="1">{{=T('Equal 0')}}</th>
+                                            <th rowspan="2" colspan="1">{{=T('Negative value')}}</th>
+                                            <th rowspan="2" colspan="1">{{=T('Out of range 2')}}</th rowspan="2">
+                                            <th rowspan="2" colspan="1">{{=T('Equipment adjust')}}</th rowspan="2">
+                                            <th rowspan="2" colspan="1">{{=T('Equipment error 2')}}</th rowspan="2">
+                                            <th rowspan="2" colspan="1">{{=T('Continuous value equally')}}</th rowspan="2">
+                                            <th rowspan="2" colspan="1">{{=T('Remove with indicator')}}</th rowspan="2">
+                                            <th rowspan="2" colspan="1">{{=T('Giá Trị bất thường')}}</th>
+                                            <th colspan="3" rowspan="1" class="sorting_disabled">{{=T('So sánh gía trị thông sô')}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>{{=T('So sánh')}}</th>
+                                            <th>{{=T('Hệ số')}}</th>
+                                            <th>{{=T('Thông số')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <div class="hr-line-dashed" style="margin-top: -15px;"></div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                    </div>
+                                    {{if request.vars.preview is None:}}
+                                    <div class='text-right'>
+                                        <a id='btnAutoAdjust' class='btn btn-primary '
+                                               data-url="{{=URL('stations', 'call/json/ajax_save_auto_adjust')}}">
+                                            <i class="fa fa-save"></i> {{=T('BTN_SAVE')}}
+                                        </a>
+                                        <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+                                    </div>
+                                    {{pass}}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {{pass}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfStationId" value="{{=frm.record.id if frm.record else ''}}">
+<input type="hidden" id="hfStationName" value="{{=frm.record.station_name if frm.record else ''}}">
+<input type="hidden" id="hfStationType" value="{{=frm.record.station_type if frm.record else ''}}">
+<input type="hidden" id="hfError" value="{{=msg}}">
+
+<input type="hidden" id="mq-port" value="{{=myconf.get('mqtt.port')}}">
+<input type="hidden" id="mq-ws" value="{{=myconf.get('mqtt.ws')}}">
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/mqtt/mqttws31.min.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+
+    {{if not qcvn_station_kind or (qcvn_station_kind.qcvn_kind_id == ''):}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#cbbQCVN_TYPE_CODE_8_chosen").attr("style", "Display: none;");
+            $(".lbl_qcvn_detail_const_area_value").attr("style", "Display: none;");
+        });
+    </script>
+    {{pass}}
+{{end}}

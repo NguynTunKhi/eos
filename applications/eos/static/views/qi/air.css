@@ -1,0 +1,280 @@
+.wrapper-content{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: absolute;
+	height: calc(100% - 100px);
+	width: 100%;
+    margin-left: -10px;
+    overflow: hidden;
+}
+.fh-breadcrumb{
+	height: 100%;
+    margin-right: -24px;
+}
+.fh-column{
+	position: absolute;
+    right: 25px;
+    max-width: 240px;
+}
+.fh-height-map{
+	position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: calc(100% - 268px);
+}
+.fh-column .full-height-scroll{
+    /*height: calc(100% - 340px)!important;*/
+}
+div#map{
+    width: 100%;
+    height: calc(100% - 32px);
+    min-height: 460px;
+}
+.panelTieuChuan{
+    position: absolute;
+    background: transparent;
+    z-index: 2;
+    left: 10px;
+    bottom: 5px;
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+}
+.panelTieuChuan *{
+    float: left;
+    display: inline-block;
+    padding: 1px;
+    font-weight: 400;
+    font-size: 10px;
+}
+.panelControl{
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    right: 35px;
+    top: 10px;
+    text-align: left;
+}
+.panelControl > span{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0px 10px 0px 5px;
+    line-height: 32px;
+    display: inline-block;
+    background: #fff;
+    float: left;
+    width: 100px;
+}
+.panelControl >  label{
+    background: #fff;
+    float: left;
+    line-height: 32px;
+    width: 100px;
+}
+.panelControl > label input{
+    line-height: 32px;
+    display: inline-block;
+    height: 32px;
+    margin: 0px;
+    float: left;
+}
+.panelControl .toolParameters{
+    display: inline-block;
+    float: left;
+    width: 100px;
+    line-height: 32px;
+    position: relative;
+    background: #fff;
+    text-align: center;
+}
+.panelControl .toolParameters .items{
+    bottom: 0px;
+    text-align: left;
+}
+.panelControl .toolParameters .items .item{
+    margin: 0px;
+    padding: 0px 5px;
+    line-height: 23px;
+    height: 24px;
+}
+.ol-attribution {
+    bottom: 4.5em;
+}
+.ol-zoom {
+    bottom: .5em;
+    right: .5em;
+    top: unset;
+    left: unset;
+}
+
+.mapMarker {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #088;
+    border-radius: 10px;
+    background-color: #0FF;
+    opacity: 1;
+    font-size: 9px;
+    text-align: center;
+    line-height: 20px;
+
+}
+.popover {
+    max-width: 300px;
+}
+.popover-content {
+    min-width: 300px;
+    padding: 3px;
+}
+.mapLabel {
+    background: #56f37f;
+    border: 1px solid #ccc;
+    width: 130px;
+}
+.mapLabel h4{
+    padding: 5px;
+    margin: 0px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: bold;
+    background: #fff;
+    cursor: pointer;
+}
+.mapLabel p {
+    padding: 2px 5px;
+    margin: 0px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    font-weight: 600;
+    font-size: 9px;
+}
+.nameOfRule{
+    background: #00A065;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 70px;
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bolder;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 5px;
+}
+.lastCheckedTime{
+    line-height: 25px;
+    font-weight: 600;
+    padding-left: 3px;
+}
+.lastCheckedTime span{
+    line-height: 25px;
+    float: right;
+    font-weight: 100;
+    padding-right: 3px;
+}
+.noteForData{
+    color: #fff;
+    background: #23c6c8;
+    line-height: 20px;
+    font-size: 1.5em;
+    padding: 5px 3px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.panelSearch{
+    z-index: 99999;
+    top: 9px;
+    left: 50px;
+    min-width: 475px;
+    width: 100%;
+    margin: 1px 0px;
+}
+.panelSearch>*{
+    float: left;
+}
+.panelSearch #panelSearchArea{
+    width: 210px;
+    display: inline-block;
+}
+.panelSearch #panelSearchProvinces{
+    width: 205px;
+    display: inline-block;
+}
+.panelSearch #panelSearchStationName{
+    display: inline-block;
+    width: 240px;
+}
+.view-more {
+    margin-left: 10px;
+    font-weight: 100;
+    font-style: italic;
+}
+.chosen-container .chosen-container-single {
+    padding-left: 10px;
+}
+.chosen-drop{
+    z-index: 9999!important;
+}
+.custom-index{
+    line-height: 80px;
+    font-size: 5em;
+    font-weight: bolder;
+    text-align: center;
+}
+.custom-name{
+font-size: 3.0em;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px #666;
+}
+.custom-image{
+
+}
+.custom-image img{
+    width: 100%;
+}
+.custom-index-popover{
+    font-size: 1.2em;
+    font-weight: bolder;
+    padding: 2px;
+    border-radius: 50px;
+    display: inline-block;
+    text-align: center;
+}
+.widget_aqi_info{
+    height: 100%;
+    background: #4dce6e;
+    color: #fff;
+    padding: 0px;
+    margin-left: 12px;
+}
+.widget_aqi_info .indicator-name{
+    font-size: 1.3em;
+    color: #fff;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 10px;
+}
+.widget_aqi_info .indicator-value{
+    color: #333;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    min-height: 50px;
+    line-height: 50px;
+    display: inline-block;
+    float: left;
+}
+.widget_aqi_info .at-time,
+.widget_aqi_info .at-date{
+    font-size: 1.0em;
+    color: #fff;
+    width: 100%;
+    clear: both;
+    float: left;
+    text-align: right;
+    padding-right: 30px;
+    margin-top: -20px;
+}

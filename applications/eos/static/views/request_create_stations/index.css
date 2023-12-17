@@ -1,0 +1,7 @@
+#rcsSelectAction_chosen {
+    display: none !important;
+}
+
+#rcsSelectAction {
+    display: block !important;
+}

@@ -1,0 +1,59 @@
+{{#import random}}
+
+<style type='text/css'>
+    
+</style>
+
+<div class="row" style="margin-left: 11px;">
+    <div class="col-sm-3 custom-index" style="background-color: {{=aqi_detail_info['bgColor'] if aqi_detail_info.has_key('bgColor') else ''}};
+        color: {{=aqi_detail_info['color'] if aqi_detail_info.has_key('color') else ''}}">
+        {{=aqi_value}}
+    </div>
+    <div class="col-sm-9">
+        <span class="" style="font-size: 2.2em;">{{=station_name}}</span>
+        <div style="margin-left: 5px;">
+            {{if res:}}
+                {{=qi_time_2}} <i>{{=qi_time_1}}</i><br>{{=T(aqi_detail_info['description'])}}
+            {{else:}}
+                {{=T('No data')}}
+            {{pass}}
+        </div>
+    </div>
+</div>
+<!-- <div class="row custom-image text-center"><img src="{{#=URL('static', 'views/qi/air_%s.png' % str(random.randint(1,5)))}}" ></div> -->
+<div class="row gray-bg" id="chart_aqi" style="margin: 10px 10px; padding-top: 10px;">
+     
+    {{for indicator in res.keys():}} 
+        <div class="row" style="margin-bottom: 8px; justify-content: space-between;display: flex;">
+            <h4  class='col-md-2' style="padding-left: 25px; padding-top: 10px;">{{=indicator}}</h4>
+            <h4  class='col-md-1' style=" padding-top: 10px;">{{=res[indicator]['values'][0]}}</h4>
+            <!-- <div class='col-sm-9'><span id="line1"></span></div> -->
+            <div class='col-md-9'>
+                <span class="sparklines sparklines-{{=indicator}}"
+                        sparkHeight='35px' 
+                        sparkBarWidth="6" 
+                        sparkChartRangeMin="0"
+                        sparkType="bar" >{{=','.join(reversed(res[indicator]['values']))}}</span>
+            </div>
+        </div> 
+    {{pass}} 
+</div>
+<div class="hf_color_map hide">{{=color_map}}</div>
+<div class="hf_indicators hide">{{=res_json}}</div>
+
+<script type="text/javascript">
+    var colorMap = $('.hf_color_map').html();
+    colorMap = JSON.parse(colorMap);
+
+    //$('.sparklines').sparkline('html', { enableTagOptions: true, colorMap: {'0:1': 'red', '2:4': 'yellow', '5:7': 'black','8:9': 'blue','10:': 'purple'} });
+    // $('.sparklines').sparkline('html', { enableTagOptions: true, colorMap: colorMap });
+
+</script>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'views/load_import/aqi_detail.js')}}"></script>
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'views/load_import/aqi_detail.css')}}" />
+{{end}}
+
+

@@ -1,0 +1,55 @@
+{{extend 'layout_master.html'}}
+
+
+  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('CAMERA LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Realtime monitor')}}</a></li>
+            <li class="active"><strong>{{=T('Camara list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <h2>Giám sát trực tuyến</h2>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-sm" id="btn_history"
+                            data-url="{{=URL('call/json/history_camera', vars={})}}" >test</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content videos">
+            <div data-page="1" id="video_list"  class="row" style="min-height: 450px;"></div>
+            <div id="myModal" class="modal" >
+                <span class="close">&times;</span>
+                <img class="modal-content" id="img01" >
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jwplayer-7.6.0/jwplayer.js')}}"></script>
+{{end}}
+

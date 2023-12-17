@@ -1,0 +1,174 @@
+<!-- The Modal -->
+<div class="modal" id="edit_thong_so_modal">
+    <div class="modal-content modal-lg" style="width: 80%vw;">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T("Edit Station Indicator")}}</strong>
+                <span id="edit_thong_so_close" class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <form id="efrmTabIndicator" action="#" method="post">
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label>QCVN </label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="lbl_qcvn_detail_const_area_value" id="elbl_qcvn_detail_const_area_value_type">{{=T('Type In QCVN')}}</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="lbl_qcvn_detail_const_area_value" id="elbl_qcvn_detail_const_area_value_1" style="">{{=T('Confident One')}}(Kq/Kp)</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="lbl_qcvn_detail_const_area_value" id="elbl_qcvn_detail_const_area_value_2" style="">{{=T('Confident Two')}}(Kf/Kv)</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="lbl_qcvn_detail_const_area_value" id="elbl_qcvn_detail_const_area_value_3" style="">{{=T('Confident Three')}}(Kf/Kv)</label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-2">
+                    <select id="ecbbQCVN_8" name="cbbQCVN_8" class="form-control choose" style="width:100%;" data-url="{{=URL('qcvn', 'call/json/get_list_qcvn_kind_details')}}">
+                        <option value="">{{=T('-- Select QCVN --')}}</option>
+                        {{selected_zero=''}}
+                        {{if str(qcvn_id) == "-999" :}}
+                            {{selected_zero='selected'}}
+                        {{pass}}
+                        <option {{=selected_zero}} value="-999">Không chọn QCVN</option>
+                        {{selected=''}}
+                        {{for item in qcvns:}}
+                            {{if str(item.id) == str(qcvn_id) :}}
+                                {{selected='selected'}}
+                            {{pass}}
+                            <option value="{{=item.id}}" value_const="{{=item.qcvn_const_value}}"  {{=selected}}>{{='%s' % (item.qcvn_code)}}</option>
+                            {{selected=''}}
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="ecbbQCVN_TYPE_CODE_8" name="cbbQCVN_TYPE_CODE_8" class="form-control choose hidden" style="" data-url="{{=URL('qcvn', 'call/json/get_qcvn_detail')}}">
+                        <option value="">-- Chọn loại --</option>
+                        {{selected=''}}
+                            {{for item in qcvn_station_kind_list_by_qcvn:}}
+                                {{if default_qcvn_kind_id :}}
+                                    {{if str(item.id) == str(default_qcvn_kind_id) :}}
+                                        {{selected='selected'}}
+                                    {{pass}}
+                                {{pass}}
+                                <option value="{{=item.id}}" {{=selected}}>{{='%s' % (item.qcvn_kind)}}</option>
+                                {{selected=''}}
+                            {{pass}}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    {{for item in qcvn_const_value_by_qcvn:}}
+                        {{if qcvn_station_kind :}}
+                            {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1):}}
+                                {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                    <input type="text" class="form-control" id="eqcvn_detail_const_area_value_1"  name="qcvn_detail_const_area_value_1" value="{{=qcvn_detail_const_area_value_1}}" placeholder="{{=T('Qcvn value constant area 1')}}" />
+                                    <input type="hidden" class="form-control" id="qcvn_const_value"  name="" value="{{=item.qcvn_const_value}}" />
+                                {{pass}}
+                            {{else:}}
+                                {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                    <input type="hidden" class="form-control" id="eqcvn_detail_const_area_value_1"  name="qcvn_detail_const_area_value_1" value="{{=qcvn_detail_const_area_value_1}}" placeholder="{{=T('Qcvn value constant area 1')}}" />
+                                {{pass}}
+                            {{pass}}
+                        {{pass}}
+                    {{pass}}
+                    {{if (not qcvn_station_kind) or (qcvn_station_kind.qcvn_kind_id == '') :}}
+                    <input type="hidden" class="form-control" id="eqcvn_detail_const_area_value_1"  name="qcvn_detail_const_area_value_1" value="{{=qcvn_detail_const_area_value_1}}" placeholder="{{=T('Qcvn value constant area 1')}}" />
+                    {{pass}}
+                </div>
+                <div class="col-md-2">
+                    {{for item in qcvn_const_value_by_qcvn:}}
+                        {{if qcvn_station_kind :}}
+                            {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1) :}}
+                                {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                    <input type="text" class="form-control" id="eqcvn_detail_const_area_value_2"  name="qcvn_detail_const_area_value_2" value="{{=qcvn_detail_const_area_value_2}}" placeholder="{{=T('Qcvn value constant area 2')}}" />
+                                {{pass}}
+                            {{else:}}
+                                {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                    <input type="hidden" class="form-control" id="eqcvn_detail_const_area_value_2"  name="qcvn_detail_const_area_value_2" value="{{=qcvn_detail_const_area_value_2}}" placeholder="{{=T('Qcvn value constant area 2')}}" />
+                                {{pass}}
+                            {{pass}}
+                        {{pass}}
+                    {{pass}}
+
+                    {{if (not qcvn_station_kind) or (qcvn_station_kind.qcvn_kind_id == '') :}}
+                        <input type="hidden" class="form-control" id="eqcvn_detail_const_area_value_2"  name="qcvn_detail_const_area_value_2" value="{{=qcvn_detail_const_area_value_2}}" placeholder="{{=T('Qcvn value constant area 2')}}" />
+                    {{pass}}
+                </div>
+                <div class="col-md-2">
+                    {{for item in qcvn_const_value_by_qcvn:}}
+                        {{if qcvn_station_kind :}}
+                            {{if (str(item.id) == str(qcvn_station_kind.qcvn_id)) and (item.qcvn_const_value == 1) :}}
+                                {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                    <input type="text" class="form-control" id="eqcvn_detail_const_area_value_3"  name="qcvn_detail_const_area_value_3" value="{{=qcvn_detail_const_area_value_3}}" placeholder="{{=T('Qcvn value constant area 3')}}" />
+                                {{pass}}
+                            {{else:}}
+                                {{if (qcvn_station_kind and (qcvn_station_kind.qcvn_kind_id != '')):}}
+                                    <input type="hidden" class="form-control" id="eqcvn_detail_const_area_value_3"  name="qcvn_detail_const_area_value_3" value="{{=qcvn_detail_const_area_value_3}}" placeholder="{{=T('Qcvn value constant area 3')}}" />
+                                {{pass}}
+                            {{pass}}
+                        {{pass}}
+                    {{pass}}
+
+                    {{if (not qcvn_station_kind) or (qcvn_station_kind.qcvn_kind_id == '') :}}
+                        <input type="hidden" class="form-control" id="eqcvn_detail_const_area_value_3"  name="qcvn_detail_const_area_value_3" value="{{=qcvn_detail_const_area_value_3}}" placeholder="{{=T('Qcvn value constant area 3')}}" />
+                    {{pass}}
+                </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label>{{=T('Indicators Choose')}} <span style='color:red;'>*</span></label>
+                    </div>
+                    <div class="col-md-4">
+                        <label>{{=T('Indicator name in data file')}} <span style='color:red;'>*</span></label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4" >
+                        <select class="form-control m-b" name="indicator" id="ecbbIndicatorId"
+                        data-url="{{=URL('indicators', 'call/json/get_indicator_info')}}">
+                            {{for item in indicators:}}
+                            {{selected_indicator=''}}
+                            {{if str(indicator_id) == str(item.id) :}}
+                                {{selected_indicator='selected'}}
+                            {{pass}}
+                            <option {{=selected_indicator}} value="{{=item.id}}" >{{='%s' % (item.indicator)}}</option>
+                            {{pass}}
+                        </select>
+                    </div>
+                    <div class="col-md-4" >
+                        <input type="text" class="form-control" id="eindicator_name_mapping" name="indicator_name_mapping" value="{{=mapping_name}}" placeholder="" />
+                    </div>
+                    <!-- INDICATOR INPUT END -->
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-2 text-right">
+                        <div class="col-md-2"> <!-- INDICATOR INPUT START -->
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <input id="station_indicator_id" type="hidden" value="{{=station_indicator_id}}" />
+                        <input id="url_form" type="hidden" value="{{=URL('form', args=[station_id])}}" />
+                    </div>
+                    <div class="col-md-2 text-right" >
+                        <a id='ebtnLinkIndicatorToWaterStation' class='btn btn-primary btn-sm showConfirmBox'
+                        data-url="{{=URL('stations', 'call/json/elink_indicator_to_station')}}"
+                        ><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                    </div>
+                </div>
+        </form>
+        </div>
+    </div>
+</div>
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/mqtt/mqttws31.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+{{end}}
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

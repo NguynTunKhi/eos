@@ -1,0 +1,64 @@
+<style>
+    .chosen-container-single {width:100%}
+</style>
+
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('QCVN Detail')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+                <div class='row form-group'>
+			<form enctype="multipart/form-data" id="frmPopupAddQCVN" method="POST" action="{{=URL('qcvn', 'call/json/ajax_save_qcvn_detail')}}">
+                <div class='row form-group'>
+                   <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_para_code'>{{=T('para_code')}}<span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.para_code}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_para_name'>{{=T('para_name')}}<span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.para_name}}</div>
+                </div> 
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_minimum'>{{=T('minimum')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.minimum}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_maximum'>{{=T('maximum')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.maximum}}</div>
+                </div> 
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_unit'>{{=T('unit')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.unit}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_qcvn_id'>{{=T('QCVN')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.qcvn_id}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='qcvn_detail_description'>{{=T('Description')}}</label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.description}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    {{if frm.record:}}
+                    <input type="text" value="{{=frm.record.id}}" name="id" />
+                    {{pass}}
+                </div>
+			</form>
+            <input type="hidden" value="{{=qcvn_id}}" id="hfQCVNId" />
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary" id="btn_SaveEquip"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="hide btn btn btn-primary btnSave"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

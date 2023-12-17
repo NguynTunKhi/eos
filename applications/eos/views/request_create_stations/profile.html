@@ -1,0 +1,420 @@
+{{extend 'layout_master.html'}}
+{{from applications.eos.modules import const}}
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeIn">
+    <div class="col-lg-10">
+        <h2>{{=T('REQUEST CREATE STATION PROFILE')}}</h2>
+        <ol class="breadcrumb">
+            <li><a>{{=T('Home')}}</a></li>
+            <li><a>{{=T('Master data')}}</a></li>
+            <li class="active"><strong>{{=T('Request Create Station Profile')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('STATION INFORMATION')}}</h5>
+        </div>
+        <div class="ibox-content" id="div_info" style="padding-top: 0px; overflow-x:auto;">
+            {{f = frm.custom.widget}}
+            {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_station_code'>{{=T('LBL_STATION_CODE')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.station_code}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_station_name'>{{=T('LBL_STATION_NAME')}} </label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.station_name}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_longitude'>{{=T('LBL_LONGITUDE')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.longitude}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_latitude'>{{=T('LBL_LATITUDE')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.longitude}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_province_id'>{{=T('LBL_PROVINCE')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=province.province_name if province else ''}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_station_type'>{{=T('Station type')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=type.station_type if type else ''}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_area_id'>{{=T('Area')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=area.area_name if area else ''}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_order_in_area'>{{=T('Order in area')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.order_in_area}}" disabled>
+                </div>
+            </div>
+
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_agent_id'>{{=T('Management agents')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=agent.agent_name if agent else ''}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_order_no'>{{=T('Order number')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.order_no}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_frequency_receiving_data'>{{=T('frequency_receiving_data')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.frequency_receiving_data}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_time_count_offline'>{{=T('time_count_offline')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.time_count_offline}}" disabled>
+                </div>
+            </div>
+
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_contact_point'>{{=T('Contact point')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.contact_point}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_phone'>{{=T('Phone number')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.phone}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_email'>{{=T('Email')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.email}}" disabled>
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_status'>{{=T('LBL_STATUS')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=status['name']}}" disabled>
+                </div>
+            </div>
+
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_address'>{{=T('LBL_ADDRESS')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.address}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_data_source'>{{=T('LBL_DATA_SOURCES')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.data_source}}" disabled>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='stations_description'>{{=T('LBL_DESCRIPTION')}}</label>
+                <div class='col-md-4'>
+                    <input class='form-control' type='text' value="{{=request_create_station.description}}" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!--indicator-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('INDICATORS INFORMATION')}}</h5>
+        </div>
+        <div class="ibox-content" id="div_indicator" style="padding-top: 0px; overflow-x:auto;">
+            <div class=" table-responsive">
+                <table id='custom_datatable_indicator'
+                       class='table table-striped table-bordered table-hover table-responsive '
+                       data-url="{{=URL('request_create_stations', 'call/json/get_list_indicators_for_request_create_station')}}">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">{{=T('LBL_STT')}}</th>
+                        <th rowspan="2">{{=T('Indicator')}}</th>
+                        <th rowspan="2" class="">{{=T('Mapping name')}}</th>
+                        <th rowspan="2">{{=T('Convert rate')}}</th>
+                        <th colspan="3" rowspan="1" class="sorting_disabled">{{=T('Equipments')}}</th>
+                        <th colspan="4" rowspan="1" class="sorting_disabled">{{=T('QCVN')}}</th>
+                        <th rowspan="2" colspan="1" class="text-nowrap">{{=T('Status')}}</th>
+                    </tr>
+                    <tr>
+                        <th><span class="text-nowrap">{{=T('Equipment name')}}</span></th>
+                        <th>Min</th>
+                        <th>Max</th>
+                        <th><span>{{=T('qcvn_code')}}</span></th>
+                        <th class="text-nowrap">{{=T('qcvn_type_code')}}</th>
+                        <th class="text-nowrap">{{=T('Qcvn value cmin')}}</th>
+                        <th class="text-nowrap">{{=T('Qcvn value cmax')}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<!--data transfer-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('SEND DATA')}}</h5>
+        </div>
+        <div class="ibox-content">
+            <div id="div_send_data" class="tab-pane">
+                <div class="panel-body">
+                    <div class='row form-group'>
+                        <label class='col-md-1' for='stations_send_data_time'> {{=T('Send_time')}} </label>
+                        <div class='col-md-2'>
+                            {{if data_send:}}
+                            <input type="text" class="form-control" id="time_send_data_show" name="preparing"
+                                   value="{{=data_send.time_send_data}}" disabled/>
+                            {{else:}}
+                            <input type="text" class="form-control" id="time_send_data" name="preparing" value="" disabled/>
+                            {{pass}}
+                        </div>
+                        <div class='col-md-1'></div>
+                        <label class='col-md-1' for='stations_send_data_filename'> {{=T('Filename')}} </label>
+                        <div class='col-md-2'>
+                            <input type="text" class="form-control" id="file_name" value="{{=send_file_name}}" disabled>
+                        </div>
+                        <div class='col-md-1'></div>
+                        <label class='col-md-1' for='stations_send_data_ip'> {{=T('FTP server IP')}} </label>
+                        <div class='col-md-2'>
+                            {{if data_send:}}
+                            <input type="text" class="form-control" id="ftp_ip_show" name="preparing"
+                                   value="{{=data_send.ftp_ip}}" disabled/>
+                            {{else:}}
+                            <input type="text" class="form-control" id="ftp_ip" name="preparing" value="" disabled/>
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div class='row form-group'>
+                        <label class='col-md-1' for='stations_send_data_path'>{{=T('FTP server path')}}</label>
+                        <div class='col-md-2'>
+                            {{if data_send:}}
+                            <input type="text" class="form-control" id="ftp_path_show" name="preparing"
+                                   value="{{=data_send.ftp_path}}" disabled/>
+                            {{else:}}
+                            <input type="text" class="form-control" id="ftp_path" name="preparing" value="" disabled/>
+                            {{pass}}
+                        </div>
+                        <div class='col-md-1'></div>
+                        <label class='col-md-1' for='stations_send_data_status'>{{=T('LBL_STATUS')}}</label>
+                        <div class='col-md-2'>
+                            {{if data_send:}}
+                            <input type="text" class="form-control" id="send_data_status" name="preparing"
+                                   value="{{=T(send_data_status['name'])}}" disabled/>
+                            {{pass}}
+                        </div>
+                    </div>
+                    <div class='row form-group'>
+                        <label class='col-md-1' for='stations_send_data_user'>{{=T('FTP server user name')}}</label>
+                        <div class='col-md-2'>
+                            {{if data_send:}}
+                            <input type="text" class="form-control" id="user_ftp_show" name="preparing"
+                                   value="{{=data_send.ftp_user}}" disabled/>
+                            {{else:}}
+                            <input type="text" class="form-control" id="user_ftp" name="preparing" value="" disabled/>
+                            {{pass}}
+                        </div>
+                        <div class='col-md-1'></div>
+                        <label class='col-md-1' for='stations_send_from_date'>{{=T('From date')}}</label>
+                        <div class='col-md-2'>
+                            {{if data_send:}}
+                            <input type="text" class="form-control datetime" id="send_data_from_date_show"
+                                   value="{{=data_send.from_date}}" disabled>
+                            {{else:}}
+                            <input type="text" class="form-control datetime" id="send_data_from_date"
+                                   placeholder="{{=T('From date')}}" value="" disabled>
+                            {{pass}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<!--camera-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('CAMERA')}}</h5>
+        </div>
+        <div class="ibox-content" id="div_camera" style="padding-top: 0px; overflow-x:auto;">
+            <div class="panel-body">
+                <!--                       REPLACE WITH REQUEST_CREATE_STATION-->
+                <table id='custom_datatable_camera' class='table table-striped table-bordered table-hover table-responsive'
+                    data-url="{{=URL('camera_links', 'call/json/get_list_camera_by_request_create_station', vars={'request_create_station_id':request_create_station_id, 'type':type, 'view_only': 1})}}">
+                    <thead>
+                        <tr>
+                            <th>{{=T('#')}}</th>
+                            <th>{{=T('Visible')}}</th>
+                            <th>{{=T('Camera name')}}</th>
+                            <th>{{=T('Camera source')}}</th>
+                            <th>{{=T('Order')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<!--auto adjust-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('AUTO ADJUSTMENT')}}</h5>
+        </div>
+        <div class="ibox-content" id="div_auto_adjust" style="padding-top: 0px; overflow-x:auto;">
+            <div class=" table-responsive">
+                <table id='custom_datatable_auto_adjust' class='table table-striped table-bordered table-hover table-responsive'
+                    data-url="{{=URL('request_create_stations', 'call/json/get_list_indicators_auto_adjust')}}">
+                    <thead>
+                        <tr>
+                            <th>{{=T('Indicator')}}</th>
+                            <th>{{=T('Equal 0')}}</th>
+                            <th>{{=T('Negative value')}}</th>
+                            <th>{{=T('Out of range 2')}}</th>
+                            <th>{{=T('Equipment adjust')}}</th>
+                            <th>{{=T('Equipment error 2')}}</th>
+                            <th>{{=T('Continuous value equally')}}</th>
+                            <th>{{=T('Remove with indicator')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<!--alarm-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('ADD ALARM LOG')}}</h5>
+            <span class='badge' style="background:#FF0000; color:white; margin-left:10px;">{{=T('Exceed threshold')}}</span>
+        </div>
+        <div class="ibox-content bg-muted">
+            <div class="form-group">
+                <label>{{=T('Notify by')}}</label>
+                <div>
+                    <input type="checkbox" {{='checked' if alarm and alarm.exceed_method_email else ''}} id="exceed_method_email" disabled> Email
+                    <input type="checkbox" {{='checked' if alarm and alarm.exceed_method_sms else ''}} id="exceed_method_sms" disabled> SMS
+                    <input type="checkbox" {{='checked' if alarm and alarm.exceed_method_notification else ''}} id="exceed_method_notification" disabled> Notification
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{=T('Notify frequency')}}</label>
+                {{if alarm:}}
+                <input type="text" class="form-control" id="frequency_notify" name="frequencynotify" value="{{=alarm.frequency_notify}}" disabled/>
+                {{else:}}
+                <input type="text" class="form-control" id="frequency_notify" name="preparing" value="5" disabled/>
+                {{pass}}
+            </div>
+            <div class="form-group">
+                <label>{{=T('Notify emails list')}}</label>
+                <textarea class="form-control" id="exceed_emails" disabled>{{=alarm.exceed_email_list if alarm and alarm.exceed_email_list else ''}}</textarea>
+            </div>
+            <div class="form-group">
+                <label>{{=T('Notify mobile phones list')}}</label>
+                <textarea class="form-control" id="exceed_phones" disabled>{{=alarm.exceed_phone_list if alarm and alarm.exceed_phone_list else ''}}</textarea>
+            </div>
+             <div class="form-group">
+                <label>{{=T('Email header')}}</label>
+                <textarea class="form-control" id="exceed_emails_header" disabled>{{=alarm.exceed_emails_header if alarm and alarm.exceed_emails_header else ''}}</textarea>
+            </div>
+            <div class="form-group">
+                <label>{{=T('Message content')}}</label>
+                <textarea class="form-control" id="exceed_msg" disabled>{{=alarm.exceed_msg if alarm and alarm.exceed_msg else ''}}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<!--devices-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('EQUIPMENTS LIST')}}</h5>
+        </div>
+        <div class="ibox-content" id="div_equipment" style="padding-top: 0px; overflow-x:auto;">
+            <div class=" table-responsive">
+                <table id='custom_datatable_equipment' class='table table-striped table-bordered table-hover table-responsive'
+                       data-url="{{=URL('equipments', 'call/json/get_equipments_by_request_create_station', vars={'request_create_station_id':request_create_station_id, 'type':type, 'view_only':1})}}">
+                    <thead>
+                        <tr>
+                            <th>{{=T('#')}}</th>
+                            <th>{{=T('Equipments')}}</th>
+                            <th>{{=T('Start date')}}</th>
+                            <th>{{=T('Brandname')}}</th>
+                            <th>{{=T('Provider')}}</th>
+                            <th>{{=T('Series')}}</th>
+                            <th>{{=T('LRV')}}</th>
+                            <th>{{=T('URV')}}</th>
+                            <th>{{=T('Status')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!--datalogger-->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('LBL_Datalogger')}}</h5>
+        </div>
+        <div class="ibox-content" id="div_datalogger" style="padding-top: 0px; overflow-x:auto;">
+            <div class=" table-responsive">
+<!--                       REPLACE WITH REQUEST_CREATE_STATION-->
+                <table id='custom_datatable_datalogger' class='table table-striped table-bordered table-hover table-responsive'
+                    data-url="{{=URL('request_create_stations', 'call/json/get_datalogger_command_by_request_create_station', vars={'request_create_station_id':request_create_station_id})}}">
+                    <thead>
+                        <tr>
+                            <th id='r-no'>{{=T('LBL_STT')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<input type="hidden" id="hfRequestCreateStationId" value="{{=request_create_station_id if request_create_station_id else ''}}">
+
+{{block js}}
+<script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

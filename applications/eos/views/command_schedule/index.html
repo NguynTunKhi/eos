@@ -1,0 +1,106 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('COMMANDS SCHEDULE')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Command get data')}}</a></li>
+            <li class="active"><strong>{{=T('Command schedule')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row" style="margin-bottom: 3px">
+                <div class="col-sm-3">
+                    <select class="form-control m-b" name="command_id" id="dt0_command_id" data-forDT="0">
+                        <option value="">{{=T('-- Select command name --')}}</option>
+                        {{for command in commands:}}
+                        <option value='{{=str(command.id)}}'>{{=command.title}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control m-b" name="station_id" id="dt0_station_id" data-forDT="0">
+                        <option value="">{{=T('-- Select station --')}}</option>
+                        {{for station in stations:}}
+                        <option value='{{=str(station.id)}}'>{{=station.station_name}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" name="frequency" id="dt0_frequency" data-forDT="0">
+                        <option value="">{{=T('-- Select frequency --')}}</option>
+                        {{for key, item in const.FREQUENCY.iteritems():}}
+                        <option value='{{=item['value']}}'>{{=T(item['text'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <!--<input type="text" class="form-control" id="dt0_sometext" data-forDT="0" name="sometext" placeholder="{{=T('Search')}}">-->
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" id="btn_search">{{=T('Go!')}}</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 3px">
+                <!--<div class="col-sm-2">
+                    <input type="text" id="dt0_from_date" name="from_date" data-forDT="0" placeholder="{{=T('From date')}}" class="date form-control"/>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" id="dt0_to_date" name="to_date" data-forDT="0" placeholder="{{=T('To date')}}" class="date form-control"/>
+                </div>-->
+
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                data-url="{{=URL('command_schedule', 'call/json/get_list_schedule')}}">
+                <thead>
+                    <tr>
+                        <th>{{=T('LBL_STT')}}</th>
+                        <th>{{=T('Title')}}</th>
+                        <th>{{=T('Station name')}}</th>
+                        <th>{{=T('No of bottles')}}</th>
+                        <th>{{=T('From Date')}}</th>
+                        <th>{{=T('To Date')}}</th>
+<!--                        <th>{{=T('Hour start')}}</th>-->
+<!--                        <th>{{=T('Repeat')}}</th>-->
+<!--                        <th>{{=T('Repeat time')}}</th>-->
+                        <th><input type='checkbox' group="0" class='select_all' id='chk_all_0' /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+               {{if auth.has_permission('create', 'command_schedule'):}}
+                <a class='btn btn-primary' type='button' href="{{=URL('form')}}"><i class="fa fa-plus"></i> {{=T('BTN_CREATE')}}</a>
+                {{pass}}
+                {{if auth.has_permission('delete', 'command_schedule'):}}
+                <a id='btnDelete' class='btn btn-primary btnDisabled' type='button' href='javascript:void(0);'
+                    data-url="{{=URL('call/json/del_command_schedule')}}"
+                    data-iTable="0"
+                    data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                    onclick="app.executeFunction(this);">
+                    <i class="fa fa-trash fa-white"></i> {{=T('BTN_DELETE')}}
+                </a>
+                {{pass}}
+                </div>
+        </div>
+    </div>
+</div>
+
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

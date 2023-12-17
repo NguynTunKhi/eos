@@ -1,0 +1,143 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('REQUEST INDICATORS LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li><a>{{=T('Home')}}</a></li>
+            <li><a>{{=T('Master data')}}</a></li>
+            <li class="active"><strong>{{=T('Request Indicators list')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-3">
+                    <select class="form-control" name="type" id="type">
+                        <option value="">{{=T('-- Select station type --')}}</option>
+                        {{for item in common.get_station_types():}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" name="approve_status" id="approve_status">
+                        <option value="">{{=T('-- Select approve status --')}}</option>
+                        <option value="0">Chờ phê duyệt</option>
+                        <option value="1">Đã phê duyệt</option>
+                        <option value="2">Không phê duyệt</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="sometext" placeholder="{{=T('Search')}}">
+                        <span class="input-group-btn"> 
+                            <button type="button" class="btn btn-primary" id="btn_search">{{=T('Go!')}}</button> 
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                   data-url="{{=URL('request_indicators', 'call/json/list_request_indicator_local_dp')}}">
+                <thead>
+                <tr id='tr-table'>
+                    <th>{{=T('#')}}</th>
+                    <th>{{=T('Indicator')}}</th>
+                    <th>{{=T('Environmental components')}}</th>
+                    <th>{{=T('Unit')}}</th>
+                    <th>{{=T('Alias (in source file)')}}</th>
+                    <th>{{=T('Order')}}</th>
+                    <th>{{=T('Description')}}</th>
+                    <th>{{=T('Approve Status')}}</th>
+                    <th>{{=T('Approve/Rejected Reason')}}</th>
+                    <th>{{=T('Edit')}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                {{if auth.has_permission('create', 'request_indicators'):}}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
+                    <i class="fa fa-check"></i> {{=T('BTN_CREATE')}}
+                </button>
+                {{pass}}
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i
+                        class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+{{if auth.has_permission('edit', 'request_indicators') or auth.has_permission('create', 'request_indicators'):}}
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+     aria-labelledby="editModalTitle" aria-hidden="true" data-id="">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editModalTitle">{{=T('Edit request indicator')}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="update_indicator_name">{{=T('Indicator Name')}}: </label>
+                    <input class="form-control" id="update_indicator_name" type="text" required
+                           placeholder="{{=T('Indicator Name')}}">
+                </div>
+                <div class="form-group">
+                    <label for="update_source_name">{{=T('Alias (in source file)')}}: </label>
+                    <input class="form-control" id="update_source_name" type="text" required
+                           placeholder="{{=T('Alias (in source file)')}}">
+                </div>
+                <div class="form-group">
+                    <label for="update_indicator_type">{{=T('Indicator Type')}}: </label>
+                    <select class="form-control form-control-lg" id="update_indicator_type">
+                        <option value="0">Nước thải (NT)</option>
+                        <option value="1">Nước mặt (NM)</option>
+                        <option value="2">Không khí (KK)</option>
+                        <option value="3">Khí thải (KT)</option>
+                        <option value="4">Nước ngầm (NN)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="update_unit">{{=T('Measure unit')}}: </label>
+                    <input class="form-control" id="update_unit" type="text" required
+                           placeholder="{{=T('Measure unit')}}">
+                </div>
+                <div class="form-group">
+                    <label for="update_order_no">{{=T('Order number')}}: </label>
+                    <input class="form-control" id="update_order_no" type="number" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="update_description">{{=T('Description')}}</label>
+                    <textarea class="form-control" id="update_description" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{=T('Close')}}</button>
+                <button type="button" class="btn btn-primary" id="update_button" onclick="submitSave()">
+                    {{=T('BTN_SUBMIT')}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{pass}}
+<input type="hidden" id="hfUrlLinkGetRequestIndicator"
+       value="{{=URL('request_indicators', '/call/json/get_request_indicator_local_dp')}}"/>
+<input type="hidden" id="hfUrlLinkUpdateRequestIndicator"
+       value="{{=URL('request_indicators', '/call/json/update_request_indicator_local_dp')}}"/>
+<input type="hidden" id="hfUrlLinkCreateRequestIndicator"
+       value="{{=URL('request_indicators', '/call/json/create_request_indicator_local_dp')}}"/>
+
+
+{{block js}}
+<script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

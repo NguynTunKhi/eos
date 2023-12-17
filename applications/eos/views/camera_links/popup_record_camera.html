@@ -1,0 +1,39 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg" style="width:50%;height:auto">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Camara information')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+			<form enctype="multipart/form-data" id="frmPopupRecordCamera" method="POST" action="{{=URL('camera_links', 'call/json/ajax_save_content_record')}}">
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_record_content'>Nội dung ghi hình</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.content}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_record_time'>Thời gian ghi hình</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.time}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_record_camera_id'>{{=T('Station ID')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" name="station_id" value="{{=station_id}}" />
+                    </div>
+
+                </div>
+			</form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary" id = "btn_Save"><i class="fa fa-save"  ></i> {{=T('Save')}}</a>
+                 <a href="javascript: void(0);" class="hide btn btn btn-primary btnSave"><i class="fa fa-send"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

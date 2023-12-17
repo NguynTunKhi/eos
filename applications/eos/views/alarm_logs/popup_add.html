@@ -1,0 +1,54 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-md">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Add Alarm log')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+			<form enctype="multipart/form-data" id="frmPopupAddAlarmLog" method="POST" action="{{=URL('call/json/ajax_add_alarm_log')}}">
+                <div class='hide'>
+                    {{=f.station_name}}
+                    {{=f.alarm_datetime}}
+                    {{=f.alarm_type}}
+                    {{=f.status}}
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='alarm_logs_station_id'>{{=T('Station')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_id}}</div>
+                    <label class='col-sm-6 col-md-3 col-lg-3' for='alarm_logs_alarm_level'>{{=T('Alarm level')}}</label>
+                    <div class='col-sm-6 col-md-3 col-lg-3'>{{=f.alarm_level}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='alarm_logs_alarm_to'>{{=T('Alarm to')}}</label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.alarm_to}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='alarm_logs_send_sms'>{{=T('Send SMS')}}</label>
+                    <div class='col-sm-6 col-md-1 col-lg-1'>{{=f.send_sms}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2 alarm_to_phone' for='alarm_logs_alarm_to_phone'>{{=T('Phone')}}</label>
+                    <div class='col-sm-6 col-md-7 col-lg-7 alarm_to_phone'>{{=f.alarm_to_phone}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='alarm_logs_content'>{{=T('Content')}}<span class="text-red">*</span></label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.content}}</div>
+                </div>
+			</form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                {{if not alarm_logs:}}
+                <a href="javascript: void(0);" class="btn btn-primary btn_SaveAlarmLog"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-primary btnSave hide"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                {{pass}}
+                <a href="javascript: void(0);" class="btn btn-primary btnCancel"><i class="fa fa-times"></i> {{=T('Close')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

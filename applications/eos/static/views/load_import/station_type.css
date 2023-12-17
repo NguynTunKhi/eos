@@ -1,0 +1,24 @@
+.product-box1:hover,
+.product-box1.active {
+  border: 0px solid transparent;
+  -webkit-box-shadow: 0 3px 7px 0 #a8a8a8;
+  -moz-box-shadow: 0 3px 7px 0 #a8a8a8;
+  box-shadow: 0 3px 7px 0 #a8a8a8;
+}
+
+.item-block-1 {
+    padding: 0px;
+    padding-top: 8px;
+}
+@media (min-width: 1200px){
+    .widget_st{
+        width: 20%;
+        padding: 0px 10px;
+    }
+}
+.fa-sigma:before{
+    content: "\03a3";
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}

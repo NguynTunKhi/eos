@@ -1,0 +1,236 @@
+<div class="ibox float-e-margins" style="margin-bottom: -40px;">
+    <div class="ibox-title" style="">
+        <div class="row">
+            <div class="col-md-10">
+                <h5 style="padding-top: 0px;">{{=T("Statitical summary")}} : &nbsp;</h5>
+                <span class="">
+                    <label>{{=T("Total station")}}: {{=total_station}}, {{=T("Total station offline")}}: {{=total_offline}}, {{=T("Total station online")}}: {{=total_online}} ({{=T('Total station good')}}: {{=total_good}}, {{=T('Total station exceed')}}: {{=total_exceed}}, {{=T('Total sensor error')}}: {{=total_error}}, {{=T('Total station adjust')}}: {{=total_adjust}})</label>
+                </span>
+            </div>
+            <div class="col-md-2 text-right">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content gray-bg" style="padding-top: 5px;padding-bottom: 5px;">
+        <div class="row">
+            <div class="ibox ">
+                <div class="col-lg-6" style="padding: 0px;">
+                    <div class="ibox-title">
+                        <h5>Thống kê tổng số trạm vượt chuẩn </h5>
+                    </div>
+                    <div class="ibox-content" style="height: 600px;">
+                        <div>
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-shrink text-center">
+                                    <canvas id="doughnutChart" height="355" width="761"
+                                    style="display: block; width: 761px; height: 355px;"
+                                    class="chartjs-render-monitor"></canvas>
+
+                                </div>
+                            </div>
+                            <div id="sparkline_0"></div>
+                            <div class="col-md-12" style="margin-top: 20px; ">
+                                <h5>THỐNG KÊ TỔNG HỢP</h5>
+                                <table class="table table-bordered" style="border-top: 0px #FFFFFF !important;">
+                                    <tbody>
+                                    <tr>
+                                        <td><img style="width:27px;" src="/eos/static/images/menu/tt.png" loading="lazy"
+                                                 sizes="20px"
+                                                 srcset="https://assets-global.website-files.com/5742791ef73852c326ca74b9/65493a7673e7eca1b11a8991_total-p-500.png 500w, https://assets-global.website-files.com/5742791ef73852c326ca74b9/65493a7673e7eca1b11a8991_total.png 512w"
+                                                 alt="" class="image-27"></td>
+                                        <td style="text-align: left">Tổng số trạm vượt chuẩn</td>
+                                        <td><b>{{=total_exceed}}</b></td>
+                                        <td><img style="width:27px;" src="/eos/static/images/menu/kk.png" loading="lazy"
+                                                 alt="" class="image-28"></td>
+                                        <td style="text-align: left">Không khí</td>
+                                        <td><b>{{=total_kk}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><img style="width:27px;" src="/eos/static/images/menu/kt.png" loading="lazy"
+                                                 alt="" class="image-28"></td>
+                                        <td style="text-align: left">Khí thải</td>
+                                        <td><b>{{=total_kt}}</b></td>
+                                        <td><img style="width:27px;" src="/eos/static/images/menu/nt.png" loading="lazy"
+                                                 sizes="20px"></td>
+                                        <td style="text-align: left">Nước thải</td>
+                                        <td><b>{{=total_nt}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><img style="width:27px;" src="/eos/static/images/menu/nm.png" loading="lazy"
+                                                 sizes="20px"></td>
+                                        <td style="text-align: left">Nước mặt</td>
+                                        <td><b>{{=total_nm}}</b></td>
+                                        <td><img style="width:27px;" src="/eos/static/images/menu/nng.png"
+                                                 loading="lazy" sizes="20px"></td>
+                                        <td style="text-align: left">Nước ngầm</td>
+                                        <td><b>{{=total_nn}}</b></td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+<!--                                <span class="">-->
+<!--                                    <label style="padding-top: 0px; font-size: 15px;font-weight: lighter">{{=T("Total station")}}: {{=total_station}}, {{=T("Total station offline")}}: {{=total_offline}}, {{=T("Total station online")}}: {{=total_online}} ({{=T('Total station good')}}: {{=total_good}}, {{=T('Total station exceed')}}: {{=total_exceed}}, {{=T('Total sensor error')}}: {{=total_error}}, {{=T('Total station adjust')}}: {{=total_adjust}})</label>-->
+<!--                                </span>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" style="padding: 0px;">
+                    <div id="blockChart2"
+                         data-url="{{=URL('load_import', 'station_condition_status')}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link type="text/css" rel="stylesheet" href="{{=URL('static', 'views/load_import/station_type.css')}}"/>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/Chart.min.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'views/load_import/station_type.js')}}"></script>
+<script>
+
+    var stationTypeInterval = setInterval(function (e) {
+        if (typeof jQuery != 'function') {
+            return false;
+        }
+        clearInterval(stationTypeInterval);
+        Chart.pluginService.register({
+        beforeDraw: function (chart) {
+            if (chart.config.options.elements.center) {
+                // Get ctx from string
+                var ctx = chart.chart.ctx;
+
+                // Get options from the center object in options
+                var centerConfig = chart.config.options.elements.center;
+                var fontStyle = centerConfig.fontStyle || 'Arial';
+                var txt = centerConfig.text;
+                var color = centerConfig.color || '#000';
+                var maxFontSize = centerConfig.maxFontSize || 75;
+                var sidePadding = centerConfig.sidePadding || 20;
+                var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
+                // Start with a base font of 30px
+                ctx.font = "30px " + fontStyle;
+
+                // Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+                var stringWidth = ctx.measureText(txt).width;
+                var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+                // Find out how much the font can grow in width.
+                var widthRatio = elementWidth / stringWidth;
+                var newFontSize = Math.floor(30 * widthRatio);
+                var elementHeight = (chart.innerRadius * 2);
+
+                // Pick a new font size so it will not be larger than the height of label.
+                var fontSizeToUse = Math.min(newFontSize, elementHeight, maxFontSize);
+                var minFontSize = centerConfig.minFontSize;
+                var lineHeight = centerConfig.lineHeight || 25;
+                var wrapText = false;
+
+                if (minFontSize === undefined) {
+                    minFontSize = 20;
+                }
+
+                if (minFontSize && fontSizeToUse < minFontSize) {
+                    fontSizeToUse = minFontSize;
+                    wrapText = true;
+                }
+
+                // Set font settings to draw it correctly.
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                ctx.font = fontSizeToUse + "px " + fontStyle;
+                ctx.fillStyle = color;
+
+                if (!wrapText) {
+                    ctx.fillText(txt, centerX, centerY);
+                    return;
+                }
+
+                var words = txt.split(' ');
+                var line = '';
+                var lines = [];
+
+                // Break words up into multiple lines if necessary
+                for (var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = ctx.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > elementWidth && n > 0) {
+                        lines.push(line);
+                        line = words[n] + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                }
+
+                // Move the center up depending on line height and number of lines
+                centerY -= (lines.length / 2) * lineHeight;
+
+                for (var n = 0; n < lines.length; n++) {
+                    ctx.fillText(lines[n], centerX, centerY);
+                    centerY += lineHeight;
+                }
+                //Draw text in center
+                ctx.fillText(line, centerX, centerY);
+            }
+        }
+    });
+            var doughnutData = {
+                labels: ["Không khí" , "Khí thải", "Nước Thải", "Nước Mặt", "Nước Ngầm"],
+                datasets: [{
+                    data: [{{=total_kk}}, {{=total_kt}}, {{=total_nt}}, {{=total_nm}}, {{=total_nn}}],
+                    backgroundColor: ["#4b7902", "#70b603", "#2c2a80", "#5351b0", "#51caff"]
+                }]
+            };
+            var doughnutOptions = {
+                elements: {
+                    center: {
+                        text: '{{=total_exceed}} TRẠM',
+                        color: '#333', // Default is #000000
+                        sidePadding: 20, // Default is 20 (as a percentage)
+                        minFontSize: 14, // Default is 20 (in px), set to false and text will not wrap.
+                        lineHeight: 25 // Default is 25 (in px), used for when text wraps
+                    }
+                },
+                responsive: true,
+                legend: {
+                    display: false,
+                    position: "bottom",
+                }
+            };
+            var ctx4 = document.getElementById("doughnutChart").getContext("2d");
+            new Chart(ctx4, {type: 'doughnut', data: doughnutData, options: doughnutOptions});
+                $(document).ready(function () {
+                    var values = [{{=total_kk}}, {{=total_kt}}, {{=total_nt}}, {{=total_nm}}, {{=total_nn}}];
+                    var color_map = {
+                        "#4b7902": "Không khí",
+                        "#70b603": "Khí thải",
+                        "#2c2a80": "Nước thải",
+                        "#5351b0": "Nước mặt",
+                        "#51caff": "Nước ngầm"
+                    }
+                    $("#sparkline_3").sparkline(values, {
+                        type: 'pie',
+                        height: '350',
+                        sliceColors: ['#4b7902', '#70b603', '#2c2a80', '#5351b0', '#51caff'],
+                        tooltipFormatter: (function (sparkline, options, fields) {
+                            // console.log(fields);
+                            var define = color_map[fields.color];
+                            return define + ":" + fields.value;
+                            ;
+                        }),
+                        options: {
+                            tooltips: {
+                                yAlign: "bottom"
+                            }
+                        }
+
+                    });
+                });
+    }, 100);
+
+</script>
+

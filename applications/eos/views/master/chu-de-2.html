@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Chủ đề</title>
+<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="js/select2.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" type="text/javascript"></script>
+<script src="js/daterangepicker.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="css/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="css/select2.min.css" />
+<script type="text/javascript" src="js/owl.carousel.js"></script>
+<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="css/jquery.bxslider.css"/>
+<link rel="stylesheet" type="text/css" href="css/owl.carousel.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300i,400,400i,500,700" rel="stylesheet">
+</head>
+<body class="banner-home" style="background-image: url(images/aff3.jpg);">
+<header class="header">
+	<div class="top-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<ul class="top-header-menu">
+						<li><a href="#">Trang chủ</a></li>
+						<li><a href="#">EnviSoft</a></li>
+						<li><a href="#">EnviInfo</a></li>
+						<li><a href="#">Emma</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6  col-sm-6 col-xs-12 search-forms text-right">
+					<form class="form-search">
+						<input type="text" class="form-control form-input" value="" placeholder="Tìm kiếm"/>
+						<input type="submit" class="btn-search" value=""/>
+					</form>
+					<div class="box-social-right">
+						<a href="#" class="link-top"><i class="fa fa-youtube"></i></a>
+						<a href="#" class="link-top"><i class="fa fa-twitter"></i></a>
+						<a href="#" class="link-top"><i class="fa fa-google-plus"></i></a>
+						<a href="#" class="link-top"><i class="fa fa-facebook"></i></a>
+						<div class="box-lang">
+							<div class="dropdown">
+								<a href="#" class="lang mr5 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img src="images/vn.png"/></a>
+								<ul class="dropdown-menu pull-menu-left">
+									<li><a href="#">Tiếng anh</a></li>
+									<li><a href="#">Tiếng trung</a></li>
+									<li><a href="#">Tiếng pháp</a></li>
+									<li><a href="#">Tiếng hàn</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bg-header">
+		 <div class="container background-white">
+		 	<div class="box-white">
+			 	<a href="javascript:void(0)" id="menu_mobile"><img src="images/icon-menu.svg"/></a>
+			 	<div class="row">
+					<div class="col-md-6 col-xs-12">
+						<div class="box-left">
+							<a href="#" class="logo"><img src="images/logo.png"/></a>
+							<h1 class="title-blue">Cổng thông tin quan trắc môi trường</h1>
+							<span class="trung-tam">Trung tâm quan trắc môi trường miền bắc</span>
+							<span class="title-grey">Tổng cục môi trường</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-xs-12 hidden-sm hidden-xs">
+						<div class="box-right">
+							<a href="#" class="login">Đăng nhập</a>
+							<a href="#" class="register">Đăng ký</a>
+							
+							<script>
+								$('#btn_search').click(function(){
+									if ($('.form-search').css('display') == "none")
+									{
+										$('.form-search').slideDown();
+									}
+									else
+									{
+										$('.form-search').slideUp();
+									}
+								});
+							</script>
+						</div>
+					</div>
+				</div>
+				<div class="adstop">
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-4 pdr9 mbmb15">
+							<a href="#"><img src="images/adstop3.jpg" class="img-100" /></a>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-4 pdr5 pdl5 mbmb15">
+							<a href="#"><img src="images/adstop.jpg" class="img-100" /></a>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-4 pdl9 mbmb15">
+							<a href="#"><img src="images/adstop1.jpg" class="img-100" /></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="box-all" id="box_menu">
+					<div class="box-menu box-all">
+						<nav id="nav-main">
+							<div class="mbtab">
+								<form class="form-search">
+									<input type="text" class="form-control form-input" value="" placeholder="Tìm kiếm"/>
+									<input type="submit" class="btn-search" value=""/>
+								</form>
+								<a href="#" class="login">Đăng nhập</a>
+								<a href="#" class="register">Đăng ký</a>
+								<div class="langmb">
+									<div class="box-lang">
+										<div class="dropdown">
+											<a href="#" class="lang mr5 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img src="images/vn.png"/></a>
+											<ul class="dropdown-menu pull-menu-left">
+												<li><a href="#">Tiếng anh</a></li>
+												<li><a href="#">Tiếng trung</a></li>
+												<li><a href="#">Tiếng pháp</a></li>
+												<li><a href="#">Tiếng hàn</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<ul class="menu_main" id="menu_main_ul">
+								<li class="active">
+									<a href="#">Trang chủ</a>
+								</li>
+								<li>
+									<a href="#">Quan trắc định kỳ</a>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Quan trắc tự động</a>
+									<span class="arrow-down" data-toggle="collapse" data-target="#quantractudong"></span>
+									<ul class="sub-small dropdown-menu collapse" id="quantractudong">
+										<li><a href="#">Sản phẩm 1</a></li>
+										<li><a href="#">Sản phẩm 2</a></li>
+										<li><a href="#">Sản phẩm 3</a></li>
+										<li><a href="#">Sản phẩm 4</a></li>
+									</ul>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Phân tích</a>
+									<span class="arrow-down" data-toggle="collapse" data-target="#phantich"></span>
+									<ul class="sub-small dropdown-menu collapse" id="phantich">
+										<li><a href="#">Sản phẩm 1</a></li>
+										<li><a href="#">Sản phẩm 2</a></li>
+										<li><a href="#">Sản phẩm 3</a></li>
+										<li><a href="#">Sản phẩm 4</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Kiểm định</a>
+								</li>
+								<li>
+									<a href="#">Dịch vụ</a>								
+								</li>
+								<li class="">
+									<a href="#">Tin tức</a>	
+									<span class="arrow-down" data-toggle="collapse" data-target="#tintuc"></span>
+										<ul class="sub-small dropdown-menu collapse" id="tintuc">
+											<li><a href="#">Tiêu điểm</a></li>
+											<li><a href="#">Tin tức</a></li>
+										</ul>						
+								</li>
+								<li>
+									<a href="#">Văn bản</a>								
+								</li>
+								<li>
+									<a href="#">Liên hệ</a>
+								</li>
+								<li>
+									<a href="#">Ảnh</a>
+								</li>
+								<li>
+									<a href="#">Video</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<section class="box-all">
+	<div class="container background-white">
+		<div class="ads-main">
+			<a href="javascript:void(0)" class="close-ads"></a>
+			<div class="ads-main-inner">
+				<img src="images/ads-main.jpg"/>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="box-all wrap-content">
+	<div class="container background-white">
+		<div class="slide">
+    
+		    <a id="_fade_0" class="_trackLink" tracking="_frombox=home_topbaner" href="#tv show_banner_box_1" style="">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/c/3/6/5/c365e99f989ed81283455fb0f6761e9e.jpg" alt="Anh Chàng Độc Thân - The Bachelor Vietnam">
+		        <span id="_fade_text_0" class="slide-data animated">Anh Chàng Độc Thân - The Bachelor Vietnam</span>
+		    </a>
+		    
+		    <a id="_fade_1" class="_trackLink" style="display: none;" tracking="_frombox=home_topbaner" href="#tv show_banner_box_2">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/9/9/6/a/996a77d2c13b81d366e0c3afa855d460.jpg" alt="Hurry Up, Brothers - Season 6">
+		        <span id="_fade_text_1" class="slide-data animated">Hurry Up, Brothers - Season 6</span>
+		    </a>
+		    
+		    <a id="_fade_2" class="_trackLink" style="display: none" tracking="_frombox=home_topbaner" href="#tv show_banner_box_3">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/7/c/6/f/7c6fc171547093871e96b1d2e50eaf3c.jpg" alt="Idol Producer - Thực Tập Sinh Thần Tượng">
+		        <span id="_fade_text_2" class="slide-data animated">Idol Producer - Thực Tập Sinh Thần Tượng</span>
+		    </a>
+		    
+		    <a id="_fade_3" class="_trackLink" style="display: none" tracking="_frombox=home_topbaner" href="#tv show_banner_box_4">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/e/a/8/f/ea8fc8e9823724bb7be85b369308b6d8.jpg" alt="Sự Ra Đời Của Người Diễn Viên">
+		        <span id="_fade_text_3" class="slide-data animated">Sự Ra Đời Của Người Diễn Viên</span>
+		    </a>
+		    
+		    <a id="_fade_4" class="_trackLink" style="display: none;" tracking="_frombox=home_topbaner" href="#tv show_banner_box_5">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/0/2/5/3/0253cac2576cfebdf9a9625705387883.jpg" alt="Bố Ơi, Mình Đi Đâu Thế Phiên Bản Trung Quốc Season 5">
+		        <span id="_fade_text_4" class="slide-data animated">Bố Ơi, Mình Đi Đâu Thế Phiên Bản Trung Quốc Season 5</span>
+		    </a>
+		    
+		    <a id="_fade_5" class="_trackLink" style="display: none;" tracking="_frombox=home_topbaner" href="#tv show_banner_box_6">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/3/4/a/7/34a798f6c539416ca792cc4221095530.jpg" alt="Một Tuần Lãng Mạn">
+		        <span id="_fade_text_5" class="slide-data animated">Một Tuần Lãng Mạn</span>
+		    </a>
+		    
+		    <a id="_fade_6" class="_trackLink" style="display: none;" tracking="_frombox=home_topbaner" href="#tv show_banner_box_7">
+		        <img src="https://zingtv-photo-td.zadn.vn/channel/f/5/f/0/f5f0f40ef86965b1451c6e040b85808c.jpg" alt="Người Nổi Tiếng Sống Trong Nhà Tôi Phần 2">
+		        <span id="_fade_text_6" class="slide-data animated">Người Nổi Tiếng Sống Trong Nhà Tôi Phần 2</span>
+		    </a>
+		    
+		    <div class="inner-slide fluid">
+		        <div class="slide-thumbnail">
+		            <ul>
+		                
+		                <li>
+		                    <a class="_nav_fade active" rel="0" tracking="_frombox=home_topbaner" href="#tv show_banner_box_1">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/d/e/d/4/ded43add9a1d456c9b9d4007a0dee776.jpg" alt="Anh Chàng Độc Thân - The Bachelor Vietnam">
+		                    </a>
+		                </li>
+		                
+		                <li>
+		                    <a class="_nav_fade" rel="1"  tracking="_frombox=home_topbaner" href="#tv show_banner_box_2">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/e/d/6/a/ed6adefb0f23925d6550a0f8b2b6a923.jpg" alt="Hurry Up, Brothers - Season 6">
+		                    </a>
+		                </li>
+		                
+		                <li>
+		                    <a class="_nav_fade" rel="2" tracking="_frombox=home_topbaner" href="#tv show_banner_box_3">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/1/f/6/6/1f660fb66d83cbb6cda5061c52728959.jpg" alt="Idol Producer - Thực Tập Sinh Thần Tượng">
+		                    </a>
+		                </li>
+		                
+		                <li>
+		                    <a class="_nav_fade" rel="3" tracking="_frombox=home_topbaner" href="#tv show_banner_box_4">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/1/e/e/4/1ee4cab16c2fdc87563be2520ff349b1.jpg" alt="Sự Ra Đời Của Người Diễn Viên">
+		                    </a>
+		                </li>
+		                
+		                <li>
+		                    <a class="_nav_fade" rel="4" tracking="_frombox=home_topbaner" href="#tv show_banner_box_5">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/8/9/2/1/89217548496e5cc83771a930d0e93089.jpg" alt="Bố Ơi, Mình Đi Đâu Thế Phiên Bản Trung Quốc Season 5">
+		                    </a>
+		                </li>
+		                
+		                <li>
+		                    <a class="_nav_fade" rel="5" tracking="_frombox=home_topbaner" href="#tv show_banner_box_6">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/8/2/d/2/82d227bf3094989025af9564a213efb5.jpg" alt="Một Tuần Lãng Mạn">
+		                    </a>
+		                </li>
+		                
+		                <li>
+		                    <a class="_nav_fade" rel="6" href="##tv show_banner_box_7">
+		                        <img width="60" height="60" src="https://zingtv-photo-td.zadn.vn/channel/7/1/6/b/716bd2a8df580e094b3ab0dd3fd94624.jpg" alt="Người Nổi Tiếng Sống Trong Nhà Tôi Phần 2">
+		                    </a>
+		                </li>
+		                
+		            </ul>
+		        </div>
+		    </div>
+		    <div id="_banner_next" class="slide-direction s-next"><span></span></div>
+		    <div id="_banner_prev" class="slide-direction s-prev"><span></span></div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">    
+    var MP3 = {
+        VIP: "",
+        ZINGTV_VIP:0,
+        IMAGE_URL:"images/",
+        TV_URL: "",
+        TV_URL_SKIN: "",
+        INTERACTION_URL: "/",
+        STATIC_URL_V3 : "",
+        ME_WIDGET_URL:"/",
+        ZLOGIN_WIDGET: "/",
+        BAD_WORDS: "",
+        USER_ID: parseInt(''),
+        ACCOUNT_ID:0,
+        USER_NAME: "",
+        USER_DISPLAY: "",
+        LOG_URL:"",
+        LOG_INFO:"",
+        FACEBOOK_APPID:"523132271032907",
+        ADTIMA_BANNER_ENABLE: 1,
+        DISABLED_TV_ADS : 0,
+    };
+</script>
+<script type="text/javascript" language="javascript" src="js/slider.1.2.js"></script>
+
+<section class="box-all bg-white" id="title_news_offset">
+	<div class="container background-white position-relative">
+		<div class="main-filter">
+		    <a href="/" class="popular is-active">
+		        <i class="spr spr--pin-hot"></i>
+		        <span>Nóng</span>
+		    </a>
+		    <a href="/tin-moi.epi" class="latest">
+		        <i class="spr spr--pin-latest"></i>
+		        <span>Mới</span>
+		        <span class="number">26</span>
+		    </a>
+		    <a href="/tin-video.epi" class="video">
+		        <i class="spr spr--pin-video"></i>
+		        <span>Video</span>
+		    </a>
+		    
+		    <a href="/chu-de.epi" class="topiclist">
+		        <i class="spr spr--pin-event"></i>
+		        <span>Chủ đề</span>
+		    </a>
+		    <a href="/de-xuat.epi" class="is-last recommend login-required">
+		        <i class="spr spr--pin-recommend"></i>
+		        <span>Đề xuất</span>
+		    </a>
+		    <a href="#" class="is-last gallery login-required">
+		        <i class="spr spr--pin-gallery"></i>
+		        <span>Ảnh</span>
+		    </a>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-8">
+				<h2 class="title-event title-bd bg-title-w mgb20 mgt0"><span>Chủ đề</span></h2>
+				<div class="box-all mgt10">
+					<div class="header-title">
+						<a href="#"><h3><span>Aff Cup 2018</span></h3></a>
+					</div>
+					<div class="box-topic">
+						<div class="owl-carousel slider-owl-topic" id="slider_owl_1">
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$('#slider_owl_1').owlCarousel({
+								loop:true,
+								margin:20,
+								dots:false,
+								responsiveClass:true,
+								nav:true,
+								responsive:{
+									0:{
+										items:1
+									},
+									440:{
+										items:2
+									},
+									580:{
+										items:2
+									},
+									792:{
+										items:3
+									},
+									1200:{
+										items:3
+									}
+								}
+							});
+						</script>
+					</div>
+				</div>
+
+				<div class="box-all mgt10">
+					<div class="header-title">
+						<a href="#"><h3><span>XÉT XỬ SAI PHẠM Ở DAB</span></h3></a>
+					</div>
+					<div class="box-topic">
+						<div class="owl-carousel slider-owl-topic" id="slider_owl_2">
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$('#slider_owl_2').owlCarousel({
+								loop:true,
+								margin:20,
+								dots:false,
+								responsiveClass:true,
+								nav:true,
+								responsive:{
+									0:{
+										items:1
+									},
+									440:{
+										items:2
+									},
+									580:{
+										items:2
+									},
+									792:{
+										items:3
+									},
+									1200:{
+										items:3
+									}
+								}
+							});
+						</script>
+					</div>
+				</div>
+
+				<div class="box-all mgt10">
+					<div class="header-title">
+						<a href="#"><h3><span>CỔ VŨ CHUNG KẾT AFF CUP</span></h3></a>
+					</div>
+					<div class="box-topic">
+						<div class="owl-carousel slider-owl-topic" id="slider_owl_3">
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$('#slider_owl_3').owlCarousel({
+								loop:true,
+								margin:20,
+								dots:false,
+								responsiveClass:true,
+								nav:true,
+								responsive:{
+									0:{
+										items:1
+									},
+									440:{
+										items:2
+									},
+									580:{
+										items:2
+									},
+									792:{
+										items:3
+									},
+									1200:{
+										items:3
+									}
+								}
+							});
+						</script>
+					</div>
+				</div>
+
+				<div class="box-all mgt10">
+					<div class="header-title">
+						<a href="#"><h3><span>CHUNG KẾT VIỆT NAM - MALAYSIA</span></h3></a>
+					</div>
+					<div class="box-topic">
+						<div class="owl-carousel slider-owl-topic" id="slider_owl_4">
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$('#slider_owl_4').owlCarousel({
+								loop:true,
+								margin:20,
+								dots:false,
+								responsiveClass:true,
+								nav:true,
+								responsive:{
+									0:{
+										items:1
+									},
+									440:{
+										items:2
+									},
+									580:{
+										items:2
+									},
+									792:{
+										items:3
+									},
+									1200:{
+										items:3
+									}
+								}
+							});
+						</script>
+					</div>
+				</div>
+
+				<div class="box-all mgt10">
+					<div class="header-title">
+						<a href="#"><h3><span>CHUNG KẾT VIỆT NAM - MALAYSIA</span></h3></a>
+					</div>
+					<div class="box-topic">
+						<div class="owl-carousel slider-owl-topic" id="slider_owl_5">
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$('#slider_owl_5').owlCarousel({
+								loop:true,
+								margin:20,
+								dots:false,
+								responsiveClass:true,
+								nav:true,
+								responsive:{
+									0:{
+										items:1
+									},
+									440:{
+										items:2
+									},
+									580:{
+										items:2
+									},
+									792:{
+										items:3
+									},
+									1200:{
+										items:3
+									}
+								}
+							});
+						</script>
+					</div>
+				</div>
+
+				<div class="box-all mgt10">
+					<div class="header-title">
+						<a href="#"><h3><span>#CỔ ĐỘNG VIÊN</span></h3></a>
+					</div>
+					<div class="box-topic">
+						<div class="owl-carousel slider-owl-topic" id="slider_owl_6">
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/vietnam.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="item-topic">
+									<a href="#">
+										<img src="images/malaysia.jpg"/>
+										<span class="title-topic-item">Nàng juliet của trường nội trú</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$('#slider_owl_6').owlCarousel({
+								loop:true,
+								margin:20,
+								dots:false,
+								responsiveClass:true,
+								nav:true,
+								responsive:{
+									0:{
+										items:1
+									},
+									440:{
+										items:2
+									},
+									580:{
+										items:2
+									},
+									792:{
+										items:3
+									},
+									1200:{
+										items:3
+									}
+								}
+							});
+						</script>
+					</div>
+				</div>
+
+				<div class="box-all mgt40">
+					<div class="col-md-6 col-sm-6 col-xs-6">
+						<a href="#"><img src="images/fb-marketing.jpg"/></a>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-6">
+						<a href="#"><img src="images/zalo.jpg"/></a>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4">
+				<div class="bg-widget-grey">
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Video hot</span></h2>
+						<div class="content-widget">
+							<ul class="item-img">
+								<li>
+									<a href="detail.html">
+										<div class="box-video">
+											<img src="images/play.png" class="btn-play" />
+											<img src="images/img-video.jpg"/>
+										</div>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+									<div class="tags-bottom">
+										<a href="#" class="name-cat">Môi trường</a>
+										<span class="num-hour">3 giờ</span>
+										<a href="#" class="relate-posts">25 bài liên quan</a>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html">
+										<div class="box-video">
+											<img src="images/play.png" class="btn-play" />
+											<img src="images/img-video2.jpg"/>
+										</div>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+									<div class="tags-bottom">
+										<a href="#" class="name-cat">Môi trường</a>
+										<span class="num-hour">3 giờ</span>
+										<a href="#" class="relate-posts">25 bài liên quan</a>
+									</div>
+								</li>
+							</ul>
+							<div class="text-center">
+								<a href="#" class="btn btn-more btn-mgt0">Xem thêm</a>
+							</div>
+						</div>
+					</div>
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Video đề xuất</span></h2>
+						<div class="content-widget">
+							<ul class="item-img">
+								<li>
+									<a href="detail.html">
+										<div class="box-video">
+											<img src="images/play.png" class="btn-play" />
+											<img src="images/img-video.jpg"/>
+										</div>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+									<div class="tags-bottom">
+										<a href="#" class="name-cat">Môi trường</a>
+										<span class="num-hour">3 giờ</span>
+										<a href="#" class="relate-posts">25 bài liên quan</a>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html">
+										<div class="box-video">
+											<img src="images/play.png" class="btn-play" />
+											<img src="images/img-video2.jpg"/>
+										</div>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+									<div class="tags-bottom">
+										<a href="#" class="name-cat">Môi trường</a>
+										<span class="num-hour">3 giờ</span>
+										<a href="#" class="relate-posts">25 bài liên quan</a>
+									</div>
+								</li>
+							</ul>
+							<div class="text-center">
+								<a href="#" class="btn btn-more btn-mgt0">Xem thêm</a>
+							</div>
+						</div>
+					</div>
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Hình ảnh</span></h2>
+						<div class="content-widget">
+							<ul class="item-img">
+								<li>
+									<a href="detail.html">
+										<img src="images/trash.jpg"/>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+									<div class="tags-bottom">
+										<a href="#" class="name-cat">Môi trường</a>
+										<span class="num-hour">3 giờ</span>
+										<a href="#" class="relate-posts">25 bài liên quan</a>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html">
+										<img src="images/trash.jpg"/>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+									<div class="tags-bottom">
+										<a href="#" class="name-cat">Môi trường</a>
+										<span class="num-hour">3 giờ</span>
+										<a href="#" class="relate-posts">25 bài liên quan</a>
+									</div>
+								</li>
+							</ul>
+							<div class="text-center">
+								<a href="#" class="btn btn-more btn-mgt0">Xem thêm</a>
+							</div>
+						</div>
+					</div>
+					
+					<div class="widget">
+						<div class="content-widget">
+							<div id="ads_right">
+								<div class="ads-right">
+									<a href="#"><img src="images/ads-right.jpg" class="img-100" /></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="box-all bg-white">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<h2 class="title-event bg-title-w"><span>Liên kết</span></h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="owl-carousel pd50" id="slider-link">
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/tn-mt.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Bộ tài nguyên và môi trường</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/cntt.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục công nghệ thông tin</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kt-tv.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Trung tâm khí tượng thuỷ văn quốc gia</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/cntt.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục công nghệ thông tin</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kt-tv.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Trung tâm khí tượng thuỷ văn quốc gia</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="box-grey box-formnewsletter">
+	<div class="container">
+		<div class="box-center">
+			<div class="col-md-3 col-sm-4 col-xs-12">
+				<span class="email">Đăng ký nhận tin</span>
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-12">
+				<form class="form-newsletters">
+					<input type="text" class="form-newsletter" placeholder="Nhập email của bạn"/>
+					<input type="submit" value="Đăng ký" class="btn-register" />
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<footer class="bg-footer box-all mt30">
+	<div class="box-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="box-logof">
+						<a href="#" class="logof"><img src="images/logo.png"/></a>
+						<h3 class="name-company">CỔNG THÔNG TIN QUAN TRẮC MÔI TRƯỜNG</h3>
+						<span class="trung-tam">Trung tâm quan trắc môi trường miền bắc</span>
+						<h4 class="title-tongcuc">TỔNG CỤC MÔI TRƯỜNG</h4>
+						<div class="box-info-footer">
+							Cơ quan chủ quản: <span class="text-blue-ft">Trung tâm quan trắc môi trường miền bắc - Tổng cục môi trường</span><br>
+							Giấy phép số: 278/GP-TTĐT do cục Phát thanh - Truyền hình và thông tin điện tử cấp ngày 26/10/2018<br>
+							Chịu trách nhiệm chính: TS. Trần Thị Minh Hương - Giám đốc Trung tâm quan trắc môi trường Miền Bắc.
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<h2 class="txtFooterW">Liên hệ</h2>
+					<div class="box-address">
+						<span class="address">
+							Số 556, đường Nguyễn Văn Cừ, Phường Gia Thuỵ, quận Long Biên, hà Nội, Việt Nam
+						</span>
+						<span class="phone">
+							84.024.3577 1816<br>
+							Fax: 84.024.3577 1855
+						</span>
+						<span class="icon-email">
+							cem@vea.gov.vn
+						</span>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<h2 class="txtFooterW">Fanpage</h2>
+					<div class="content-footer">
+						<img src="images/fan.jpg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="ft1">
+				<h3 class="title-topic">Quan trắc định kỳ</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			<div class="ft2">
+				<h3 class="title-topic">Quan trắc tự động</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			<div class="ft3">
+				<h3 class="title-topic">Phân tích</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			<div class="ft4">
+				<h3 class="title-topic">Kiểm định</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			
+			<div class="ft5">
+				<h3 class="title-topic">Tải ứng dụng</h3>
+				<div class="content-widget">
+						<div class="row-footer">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="pull-left mgr15">
+									<a href="#" class="appstore"></a><br>
+									<a href="#" class="chplay"></a>
+								</div>
+								<a href="#" class="qrcode"><img src="images/qrcode.png"/></a>
+							</div>
+							<div class="col-md-5 col-sm-8 col-xs-6">
+								
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<div class="container" id="wrapper">
+			<div class="copyright">
+				Copyright © 2018 cem.gov.vn. All rights reserved
+			</div>
+		</div>
+	</div>
+</footer>
+<div id="banner_l" class="banners">
+	<a target="_blank" href="#">
+		<span class="title-ads">Quảng cáo</span>
+		<img src="images/adsleft.jpg"/>
+		<img src="images/adsleft.jpg"/>
+	</a>
+</div>
+<div id="banner_r" class="banners">
+	<a target="_blank" href="#">
+		<span class="title-ads">Quảng cáo</span>
+		<img src="images/adsright.jpg"/>
+		<img src="images/adsright.jpg"/>
+	</a>
+</div>
+<script type="text/javascript" src="js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+</body>
+</html>

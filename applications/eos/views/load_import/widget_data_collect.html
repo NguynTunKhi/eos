@@ -1,0 +1,86 @@
+
+
+<!-- Block 3 -->
+<div class="animated fadeIn no-margins" style="">
+    <div class="row">
+        <div class="p-w-md m-t-sm white-bg">
+            <div class="row">
+                <div class="col-sm-4">
+                    <!-- <div class=""><h1 class="m-b-xs">89,900</h1> <i class="fa fa-level-up"></i></div> -->
+<!--                    <br><br><br>-->
+                    <br>
+                    <h5 class="m-b-xs">{{=T('This month')}}</h5>
+                    <div class="" style="font-size: 22pt; padding: 10px 0px 0px 0px">
+                        {{=n_this_month}}%
+                        <span class="{{=collect_icon}}" style="font-size: 12pt; display: none;"></span></div>
+                    <small>{{=n_qty_this_month}} {{=T('data collected of')}} {{=expected_this_month}} {{=T('data')}} {{=T('need to collect')}}</small>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                        {{for item in alarm_level_this_month:}}
+                        <div class="col-xs-6">
+                            <small class="stats-label">{{=alarm_level_this_month[item]['name']}} <span class="{{=alarm_level_this_month[item]['icon']}}" style="display: none"></span></small>
+                            <h4>{{=alarm_level_this_month[item]['percent']}}% <small>({{=alarm_level_this_month[item]['qty']}} {{=T('data')}})</small> </h4>
+                        </div>
+                        {{pass}}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+<!--                    <br><br><br>-->
+                    <br>
+                    <h5 class="m-b-xs">{{=T('Last month')}}</h5>
+                    <div class="" style="font-size: 22pt; padding: 10px 0px 0px 0px">
+                    {{=n_last_month}}%
+                    </div>
+                    <small>{{=n_qty_last_month}} {{=T('data collected of')}} {{=expected_last_month}} {{=T('data')}} {{=T('need to collect')}}</small>
+                    <!-- <div id="sparkline2" class="m-b-sm"></div> -->
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                        {{for item in alarm_level_last_month:}}
+                        <div class="col-xs-6">
+                            <!-- <small class="stats-label">{{#=alarm_level_last_month[item]['name']}} <span class="{{=alarm_level_last_month[item]['icon']}}"></span></small> -->
+                            <small class="stats-label">{{=alarm_level_last_month[item]['name']}} </small>
+                            <h4>{{=alarm_level_last_month[item]['percent']}}% <small>({{=alarm_level_last_month[item]['qty']}} {{=T('data')}})</small> </h4>
+                        </div>
+                        {{pass}}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <br>
+                    <div class="row m-t-xs">
+                        <div class="col-xs-6">
+                            <h5 class="m-b-xs">{{=T('This month')}}</h5>
+                            <h2 class="no-margins">
+                            {{=n2_this_month}}
+                            </h2>
+                            <small class="">{{=T('Lost data events')}}</small>
+                        </div>
+                        <div class="col-xs-6">
+                            <h5 class="m-b-xs">{{=T('Last month')}}</h5>
+                            <h2 class="no-margins">
+                            {{=n2_last_month}}
+                            </h2>
+                            <small class="">{{=T('Lost data events')}}</small>
+                        </div>
+                    </div>
+                    <table class="table small m-t-sm">
+                        <tbody>
+                        {{for item in station_type_this_month:}}
+                            <tr>
+                                <td class="text-left"><strong>
+                                {{=station_type_this_month[item]['qty']}}
+                                </strong><small>&nbsp;{{=station_type_this_month[item]['name']}}
+                                </small></td>
+                                <td class="text-left"><strong>
+                                {{=station_type_last_month[item]['qty']}}
+                                </strong>&nbsp;{{=station_type_last_month[item]['name']}}</td>
+                            </tr>
+                        {{pass}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

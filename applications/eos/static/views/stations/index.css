@@ -1,0 +1,10 @@
+.td-station-name {
+    min-width: 150px !important;
+}
+.ul-tw-sync-station {
+    list-style-type: none;
+}
+.ul-tw-sync-station li {
+    float:left;
+    text-align: left;
+}

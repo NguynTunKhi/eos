@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  mariadb:
+    container_name: eos-mariadb
+    image: mariadb:10.7
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - eos-mysql-vol:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=S3cret
+      - MYSQL_PASSWORD=An0thrS3crt
+      - MYSQL_USER=citizix_user
+      - MYSQL_DATABASE=citizix_db
+    networks:
+      - eos-network
+
+  mongodb:
+    container_name: eos-mongodb
+    image: mongo:4.0.1
+    restart: always
+    volumes:
+      - eos-mysql-vol:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=S3cr3t
+      - MONGO_INITDB_DATABASE=eos
+    networks:
+      - eos-network
+
+  redis:
+    container_name: eos-redis
+    image: redis:5.0.6
+    ports:
+      - "6379:6379"
+    networks:
+      - eos-network
+
+  trino:
+    container_name: eos-trino
+    build: ./.trino/coordinator
+    working_dir: "/"
+    ports:
+      - "8080:8080"
+    networks:
+      - eos-network
+
+  backend:
+    container_name: eos-backend
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mariadb
+      - mongodb
+      - trino
+    networks:
+      - eos-network
+
+volumes:
+  eos-mysql-vol:
+    driver: local
+
+networks:
+  eos-network:
+    driver: bridge

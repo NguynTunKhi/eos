@@ -1,0 +1,52 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Gen data</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Log data')}}</a></li>
+            <li class="active"><strong>{{=T('Alarm logs')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+        
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class='row form-group'>
+                <label class='col-md-2' for='commands_title'>Gen data from <span style='color:red;'>*</span></label>
+                <div class='col-md-2'>
+                    <input type="text" class="form-control date" id="start" placeholder="Start"/>
+                </div>
+                <div class='col-md-2'>
+                    <input type="text" class="form-control date" id="end" placeholder="End" />
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-12 text-right'>
+                    <a id='btnSave' class='btn btn-primary'>Generate minute data</a>
+                    <a id='btnCalc' class='btn btn-primary'>Calc hour/day/month</a>
+                    <a id='btnThreshold' class='btn btn-primary'>Update thresholds</a>
+                    <a id='btnCreateDataAdjust' data-url="{{=URL('gen_data', 'call/json/copy_data_adjust')}}" class='btn btn-primary'>Copy data adjust</a>
+                </div>
+            </div>
+            <textarea id="content" class="form-control" rows="15"></textarea>
+            <div class='row form-group'>
+                <div class='col-md-12 text-left'>
+                    <a id='btnGetData2' class='btn btn-primary'>Test Get_data2</a>
+                    <a id='btnGetData3' class='btn btn-primary'>Test Get_data3</a>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="urlGen" value="{{=URL('call/json/gen_data')}}" />
+        <input type="hidden" id="urlCalc" value="{{=URL('call/json/calc_data')}}" />
+        <input type="hidden" id="urlThreshold" value="{{=URL('call/json/update_threshold')}}" />
+        <input type="hidden" id="urlGetData2" value="{{=URL('call/json/test_get_data2')}}" />
+        <input type="hidden" id="urlGetData3" value="{{=URL('call/json/test_get_data3')}}" />
+    </div>
+</div>
+

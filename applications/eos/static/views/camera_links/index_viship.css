@@ -1,0 +1,50 @@
+.btnChangeColumn{
+    display: inline-block!important;
+    width: auto!important;
+}
+.videos h3{
+    text-align: center;
+}
+.videos .item{
+    margin-bottom: 15px;
+}
+.videos .item iframe{
+    width: 100%;
+}
+.videos .item.col-sm-3 iframe{
+    height: 150px;
+}
+.videos .item.col-sm-4 iframe{
+    height: 200px;
+}
+.videos .item.col-sm-6 iframe{
+    height: 275px;
+}
+.videos .item.col-sm-12 iframe{
+    height: 500px;
+}
+.bg-video{
+    width: 100%;
+    height: 210px;
+    background-color: rgb(24, 24, 24);
+    background-image: url("/eos/static/images/example.jpg");
+    background-position: center;
+    background-size: 50% 50%;
+    padding: 0px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.bg-video:hover{
+    opacity: 1.0;
+}
+
+
+.d-item > img {
+    height: 60vh !important;
+    width: 95% !important;
+}
+
+.d-item > p {
+    margin-top: 16px; text-align: center; font-weight: 600; font-size: 15px;
+}

@@ -1,0 +1,39 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-md">
+        <div class="modal-header">
+            <h4>
+                <strong>Cấu hình công bố</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            {{f = frm.custom.widget}}
+            <form enctype="multipart/form-data" id="frmPopupConfigPublic" method="POST"
+                  action="{{=URL('call/json/ajax_add_config_public')}}">
+                <div class='row form-group' id = 'public' >
+                    <label class='col-sm-6 col-md-3'>Thời gian công bố (Giờ)</label>
+                    <div class='col-sm-6 col-md-9' >{{=f.time_public}}</div>
+                </div>
+                 <hr border-top: 1px solid #bbb;>
+                <div class='row form-group hide' id="infoPublic" style="margin-left:0" >
+                </div>
+            </form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn-info btnCheck" id = "check"  data-params="public" data-url="{{=URL('public', 'call/json/get_data_public')}}"><i></i>
+                    Kiểm tra</a>
+                <a href="javascript: void(0);" class="btn btn-primary btn_SaveConfigPublic"><i class="fa fa-save"></i>
+                    {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-primary btnSave hide"><i class="fa fa-save"></i>
+                    {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-warning btnCancel"><i class="fa fa-times"></i>
+                    {{=T('Close')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

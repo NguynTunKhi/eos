@@ -1,0 +1,162 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('REQUEST CREATE STATIONS')}}</h2>
+        <ol class="breadcrumb">
+            <li><a>{{=T('Home')}}</a></li>
+            <li><a>{{=T('Master data')}}</a></li>
+            <li class="active"><strong>{{=T('REQUEST CREATE STATIONS')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="row animated fadeIn ">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-2">
+                    <select class="form-control" name="type" id="type">
+                        <option value="">{{=T('-- Select station type --')}}</option>
+                        {{for item in common.get_station_types():}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" name="province_id" id="province_id">
+                        <option value="">{{=T('-- Select province --')}}</option>
+                        {{for item in provinces:}}
+                        <option value="{{=item.id}}">{{=item.province_name}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" name="ftp_connection_status" id="ftp_connection_status">
+                        <option value="">{{=T('-- Select ftp status --')}}</option>
+                        <option value=true>{{=T('Connect')}}</option>
+                        <option value=false>{{=T('Not connect')}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" name="status" id="status">
+                        <option value="">{{=T('-- Select status --')}}</option>
+                        {{ from applications.eos.modules import const }}
+                        {{for key, item in const.STATION_STATUS.iteritems():}}
+                        {{if item['value'] not in [1, 2]:}}
+                        <option value="{{=item['value']}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" name="approve_status" id="approve_status">
+                        <option value="">{{=T('-- Select approve status --')}}</option>
+                        {{for key, item in const.REQUEST_CREATE_STATION_APPROVE_STATUS.items():}}
+                        <option value="{{=key}}">{{=T(item['name'])}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="sometext" name='sometext'
+                               placeholder="{{=T('Search')}}">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" id="btn_search">{{=T('Go!')}}</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'
+                   data-url="{{=URL('request_create_stations', '/call/json/get_list_request_create_stations')}}">
+                <thead>
+                <tr>
+                    <th onclick="sortRequestCreateStation(0)" style="cursor: grabbing;">{{=T('LBL_STT')}}</th>
+                    <th id="sorts" sort="True" onclick="sortRequestCreateStation(1)" style="cursor: grabbing;">
+                        {{=T('LBL_STATION_NAME')}}
+                    </th>
+                    <th>{{=T('LBL_FTP_STATUS')}}</th>
+                    <th>{{=T('Station type')}}</th>
+                    <th>{{=T('LBL_PROVINCE')}}</th>
+                    <th>{{=T('LBL_ADDRESS')}}</th>
+                    <th>{{=T('Area')}}</th>
+                    <th>{{=T('Email')}}</th>
+                    <th>{{=T('Phone')}}</th>
+                    <th>{{=T('Order')}}</th>
+                    <th>{{=T('FTP')}}</th>
+                    <th>{{=T('Approve Status')}}</th>
+                    <th>{{=T('Approve/Rejected Reason')}}</th>
+                    <th>{{=T('Edit')}}</th>
+                    <th>{{=T('Approve')}}</th>
+                    <th><input type='checkbox' group="0" class='select_all' id='chk_all_0'/></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                {{if auth.has_permission('create', 'request_create_stations'):}}
+                <a class='btn btn-primary' type='button' href="{{=URL('form')}}"><i class="fa fa-plus"></i>
+                    {{=T('BTN_CREATE')}}</a>
+                {{pass}}
+                {{if auth.has_permission('delete', 'request_create_stations'):}}
+                <a id='btnDelete' class='btn btn-primary btnDisabled' type='button' href='javascript:void(0);'
+                   data-url="{{=URL('call/json/del_request_create_stations')}}"
+                   data-iTable="0"
+                   data-confirm="{{=T('MSG_CONFIRM_DELETE')}}"
+                   onclick="app.executeFunction(this);">
+                    <i class="fa fa-trash fa-white"></i> {{=T('BTN_DELETE')}}
+                </a>
+                {{pass}}
+                {{from applications.eos.common import my_const}}
+                {{pass}}
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i
+                        class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+{{if auth.has_permission('approve', 'request_indicators'):}}
+<div class="modal fade" id="approveModal" tabindex="-1" role="dialog"
+     aria-labelledby="approveModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">{{=T('Approve Request Create Station')}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="rcsSelectAction">{{=T('Approve/Reject')}}: </label>
+                    <select class="form-control form-control-lg" id="rcsSelectAction">
+                        <option value="0">{{=T('APPROVE')}}</option>
+                        <option value="1">{{=T('REJECT')}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reason">{{=T('Approve/Rejected Reason')}}</label>
+                    <textarea class="form-control" id="reason" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{=T('Close')}}</button>
+                <button type="button" class="btn btn-primary" id="btnSubmitApprove" onclick="submitApprove()">
+                    {{=T('BTN_SUBMIT')}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{pass}}
+<input type="hidden" id="hfUrlLinkApproveRequestCreateStation"
+       value="{{=URL('request_create_stations', 'call/json/approve_request_create_station')}}"/>
+
+{{block js}}
+<script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

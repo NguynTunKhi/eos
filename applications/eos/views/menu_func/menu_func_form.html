@@ -1,0 +1,76 @@
+{{extend 'layout_master.html'}}
+
+<div class="widget widget-table">
+    <div class="widget-header">
+        <h3><i class="fa fa-table"></i> {{=T('TITLE_FUNC_FORM')}}</h3>
+    </div>
+    <div class="widget-content">
+        <div class='row form-group'>
+            <div class='col-sm-6 col-md-6 col-lg-6 form_border'>
+                <div class='panel panel-default'>
+                    {{=form.custom.begin}}
+                    {{val.validation_summary(form)}}
+                    <div class='panel-body'>
+                        <div class='row form-group'>
+                            <div class='col-sm-6 col-md-3 col-lg-3'><label>{{=T('LBL_NAME')}}</label></div>
+                            <div class='col-sm-6 col-md-9 col-lg-9'>{{=form.custom.widget.name}}</div>
+                        </div>
+                        <div class='row form-group'>
+                            <div class='col-sm-6 col-md-3 col-lg-3'><label>{{=T('LBL_BELONG_TO')}}</label></div>
+                            <div class='col-sm-6 col-md-9 col-lg-9'>
+                                {{parent_id = form.vars.parent_id}}
+                                <select class="form-control" id="func_parent_id" name="parent_id" style="width:95%"></select>
+                            </div>
+                        </div>
+                        <div class='row form-group'>
+                            <div class='col-sm-6 col-md-3 col-lg-3'><label>{{=T('LBL_DESCRIPTION')}}</label></div>
+                            <div class='col-sm-6 col-md-9 col-lg-9'>{{=form.custom.widget.description}}</div>
+                        </div>
+                        <div class='row form-group'>
+                            <div class='col-sm-6 col-md-3 col-lg-3'><label>{{=T('LBL_CODE')}}</label></div>
+                            <div class='col-sm-6 col-md-9 col-lg-9'>{{=form.custom.widget.code}}</div>
+                        </div>
+                    </div>
+                    <div class='panel-footer align-right'>
+                        <a id='btnAdd' class='btn btn-primary' href="javascript: void(0);">
+                            <i class="fa fa-save fa-white"></i>&nbsp;{{=T('BTN_SAVE')}}</a>
+                        <a class="btn btn-primary " type="button" onclick='confirmBack()'>
+                            <i class="fa fa-undo fa-white"></i>&nbsp;{{=T('BTN_BACK')}}
+                        </a>
+                    </div>
+                    {{val.server_errors(form)}}
+                    {{=form.custom.end}}
+                </div>
+            </div>
+            <div class='col-sm-6 col-md-6 col-lg-6'>
+                <div class="pane">
+                    <div id="jstree"></div>
+                </div>
+                <div style="float:right; margin-top:5px;">
+                    <a class='btn btn-primary' href="javascript: void(0);" onclick="$('#jstree').jstree('open_all');" >
+                        <i class="fa fa-folder-open fa-white"></i>&nbsp;{{=T('OPEN_ALL')}}</a>
+                    <a class="btn btn-primary " type="button" href="javascript:void(0);"  onclick="$('#jstree').jstree('close_all');$('#jstree').jstree('open_node', '#1');">
+                        <i class="fa fa-folder fa-white"></i>&nbsp;{{=T('CLOSE_ALL')}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='hide'>
+        <input id="get-menu-func-url" type="text" value="{{=URL('get_menu_func')}}">
+        <input id="rename-url" type="text" value="{{=URL('rename_menu_func')}}">
+        <input id="del-url" type="text" value="{{=URL('del_menu_func')}}">
+        <input id="label-del" type="text" value="{{=T('BTN_DELETE')}}">
+        <input id="label-rename" type="text" value="{{=T('LNK_RENAME')}}">
+        <input id="parent-id" type="text" value="{{=form.vars.parent_id}}">
+    </div>
+</div>
+
+{{block css }}
+    <link rel="stylesheet" href="{{=URL('static', 'js/jstree/themes/default/style.min.css')}}" />
+    <link rel="stylesheet" href="{{=URL('static', 'css/custom_tree.css')}}" />
+{{ end }}
+
+{{ block js }}
+    <script src="{{=URL('static', 'js/jstree/jstree.min.js')}}"></script>
+{{ end }}

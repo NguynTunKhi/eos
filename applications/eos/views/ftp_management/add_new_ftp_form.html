@@ -1,0 +1,79 @@
+{{extend 'layout_master.html'}}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('PROVINCE INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Master data')}}</li>
+            <li>{{=T('ftp_management')}}</li>
+            <li class="active"><strong>{{=T('ftp_information_title')}}</strong></li>
+        </ol>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            {{f = frm.custom.widget}}
+            {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for="ftp_ip" >{{=T('ftp_ip')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    {{=f.ftp_ip}}
+                </div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for="ftp_port">{{=T('ftp_port')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    {{=f.ftp_port}}
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for="ftp_user">{{=T('ftp_user')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                 {{=f.ftp_user}}
+                </div>
+              <label class='col-sm-6 col-md-2 col-lg-2' for='ftp_password'>{{=T('ftp_password')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                  <input type="password" class="form-control" id="ftp_password" name="ftp_password" value="{{=ftp_pwd}}"/>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for="ftp_administration_level" >{{=T('administration_level')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    <select class="form-control" name="ftp_administration_level" id="ftp_id">
+                        <option value="">Chọn đơn vị</option>
+                        {{selected=''}}
+                        {{for agent in agents:}}
+                            {{if str(ftp_administration_level) == str(agent['id']):}}
+                                {{selected='selected'}}
+                            {{pass}}
+                            <option value="{{=agent['id']}}" {{=selected}}>{{=agent['agent_name']}}</option>
+                            {{selected=''}}
+                        {{pass}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                  <a href="javascript: void(0);" class="btn btn-primary" ID="btnCheckFTP"
+                     title="{{=T('BTN_CREATE')}}" data-url="{{=URL('ftp_management', 'call/json/check_connection_ftp')}}">
+                     {{=T('ftp_test_connection')}}
+                  </a>
+                 <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                 <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+             {{=frm.custom.end}}
+        </div>
+    </div>
+</div>
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{end}}

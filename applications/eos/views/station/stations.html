@@ -1,0 +1,123 @@
+{{extend 'layout_master.html'}}
+
+{{block css }}
+
+{{ end }}
+<div class="row wrapper border-bottom white-bg page-heading animated fadeIn">
+    <div class="col-lg-10">
+        <h2>{{=T('Stations %(name)s') %dict(name = selected_st_name)}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Stations')}}</a></li>
+            <li class="active"><strong>{{=selected_st_name}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <div class="row">
+                <div class="col-sm-2">
+                    <select class="form-control" name="province_id" id="province_id">
+                        <option value="">{{=T('-- Select province --')}}</option>
+                        {{for item in provinces.keys():}}
+                        <option value="{{=item}}">{{=provinces[item]['province_name']}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" name="area_id" id="area_id">
+                        <option value="">{{=T('-- Select areas --')}}</option>
+                        {{for item in areas:}}
+                        <option value="{{=item.id}}">{{=item.area_name}}</option>
+                        {{pass}}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="cbbDuration" name="duration" class="form-control choose" style="">
+                        <option value="" selected>{{=T('Duration')}}</option>
+                        <option value="1">{{=T('1 day')}}</option>
+                        <option value="7">{{=T('7 days')}}</option>
+                        <option value="15">{{=T('15 days')}}</option>
+                        <option value="30">{{=T('30 days')}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="cbbShowBy" class="form-control choose" style="width: 150px;">
+                        <option value="1" selected>{{=T('Show by minute')}}</option>
+                        <option value="2">{{=T('Show by hour')}}</option>
+                        <option value="3">{{=T('Show by day')}}</option>
+                        <option value="4">{{=T('Show by month')}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control date" id="chartStart" placeholder="{{=T('From')}}"> 
+                        <span class="input-group-btn"> 
+                            <button type="button" class="btn btn-primary btnStationTypeGo">{{=T('Go!')}}</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-2 text-right">
+                    <a type="button" class="btn btn-primary btnAddNew graph_detail_adjust_data" style="display: none;" href="#"
+                        data-hasScroll="1"
+                        data-callback="graph_detail_reload_chart();"
+                        data-url="{{=URL('popup_adjust')}}">
+                        <i class="fa fa-wrench"></i> {{=T('Adjust data')}}
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-md-3" style="padding: 0px 5px">
+                    <div class="no-borders no-margins">
+                        <select class="form-control" name="station_id" id="station_id"
+                            data-url="{{=URL('stations', 'call/json/dropdown_content/stations/station_id/id/station_name')}}">
+                            <option value="">{{=T('-- Select station --')}}</option>
+                            {{for item in stations:}}
+                            <option value="{{=str(item.id)}}">{{=item.station_name}}</option>
+                            {{pass}}
+                        </select>
+                        <table class="table table-striped no-margins">
+                            <thead>
+                                <tr>
+                                    <!-- <th width="5%" class="text-left">{{=T('#')}}</th> -->
+                                    <th width="70%" class="text-left">{{=T('Station name')}}</th>
+                                    <th width="30%">{{=T('Status')}}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="no-margins">
+                        <div class="scroll_content">
+                            <table id='custom_datatable_0' class='table table-striped table-hover'
+                                data-url="{{=URL('station', 'call/json/get_list_station', vars={'station_type': station_type})}}">
+                                <thead class="hide"></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 no-padding">
+                    <div id="graph_detail"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hfStationId" value="" />
+<input type="hidden" id="hfStationType" value="{{=station_type}}" />
+<input type="hidden" id="hfUrlLoadGraph" value="{{=URL('load_import', 'graph_detail')}}" />
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/highcharts.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/modules/exporting.js') }}"></script>
+{{end}}
+

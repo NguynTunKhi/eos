@@ -1,0 +1,24 @@
+{{if current_user:}}
+    <li class="dropdown" style="margin: 0 auto;">
+        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+            <i class="fa fa-bell"></i>  {{if total:}}<span class="label label-primary">{{=total}}</span>{{pass}}
+        </a>
+        {{if total:}}
+        <ul class="dropdown-menu dropdown-alerts">
+            {{for idx, item in enumerate(items):}}
+                <li>
+                    <a href="javascript: void(0);">
+                        <div>
+                            <i class="fa fa-circle fa-fw"></i> {{=item['station_name']}}
+                            <span class="pull-right text-muted small">{{=item['start_off']}}</span>
+                        </div>
+                    </a>
+                </li>
+                {{if idx < total - 1:}}
+                <li class="divider"></li>
+                {{pass}}
+            {{pass}}
+        </ul>
+        {{pass}}
+    </li>
+{{pass}}

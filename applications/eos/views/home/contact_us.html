@@ -1,0 +1,73 @@
+{{extend 'layout_master.html'}}
+
+<!-- {{=LOAD('load_import', 'import_bread_crumbs', vars = dict(action_name = ca.FORM, title = T('TITLE_CAMPAIGN_SEND_FORM')))}} -->
+
+{{block js}}
+<script src="{{=URL('static', 'js/google-map.js')}}"></script>
+{{end}}
+
+<div>
+    <div class='col-sm-6 margin0A'>
+        <div class="widget">
+            <div class="widget-header">
+                <h3><i class="fa fa-globe"></i> Google Map</h3> <em> - custom styled google map</em>
+            </div>
+            <div class="widget-content no-padding">
+                <div class="google-map">
+                    <div id="map-canvas"></div>
+                </div>
+            </div>
+            <div class="widget-content">
+                <p>Contact info<br>
+                Address: Street 9890, New Something 1234, Country<br>
+                Telephone: 1234 5678<br>
+                Fax: 9876 5432
+                </p>
+                <p><strong>Support info</strong><br>
+                Telephone: 1234 5678<br>
+                Fax: 9876 5432<br>
+                Email: <a href="mailto:support@brankic.net"> ouremail@planetearth.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-6 margin0A'>
+        <div class="widget widget-table">
+            <div class="widget-header">
+                <h3><i class="fa fa-table"></i> {{=T('LBL_LEAVE_MSG')}}</h3>
+            </div>
+            <div class="widget-content">
+                <div class='row form-group'>
+                    <label class='col-sm-4 col-md-4 col-lg-3' for='name'>{{=T('LBL_NAME')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-8 col-md-8 col-lg-9'>
+                        <input id="name" name="name" class="form-control" placeholder="{{=T('LBL_YOUR_NAME')}}" type="text">
+                    </div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-4 col-md-4 col-lg-3' for='email'>{{=T('LBL_EMAIL')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-8 col-md-8 col-lg-9'>
+                        <input id="email" name="email" class="form-control" placeholder="{{=T('LBL_EMAIL')}}" type="text">
+                    </div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-4 col-md-4 col-lg-3' for='phone'>{{=T('LBL_PHONE')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-8 col-md-8 col-lg-9'>
+                        <input id="phone" name="phone" class="form-control" placeholder="{{=T('LBL_PHONE')}}" type="text">
+                    </div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-4 col-md-4 col-lg-3' for='msg'>{{=T('LBL_MSG')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-8 col-md-8 col-lg-9'>
+                        <textarea id="msg" name="msg" class="form-control" placeholder="{{=T('LBL_YOUR_MSG')}}" rows="15"></textarea>
+                    </div>
+                </div>
+                <div class='pull-right form-group'>
+                    <a id='btnSave' class='btn btn-primary '><i class="fa fa fa-envelope"> {{=T('BTN_SEND')}}</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

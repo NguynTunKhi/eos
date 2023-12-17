@@ -1,0 +1,762 @@
+
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+	<title>Phần mềm quản lý dữ liệu quan trắc tự động liên tục</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="environment water air">
+	<meta name="author" content="ATI VN">
+	<!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/font-awesome/css/font-awesome.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/my-custom-styles.css')}}" />
+
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'js/jquery/jquery-ui.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'js/jquery/jquery-confirm/jquery-confirm.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'js/jquery/datetimepicker/jquery.datetimepicker.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/app.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/inspinia/animate.css?v=1')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/inspinia/style.css?v=9')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/plugins/toastr/toastr.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/inspinia/plugins/dataTables/datatables.min.css')}}" />
+    <link rel="stylesheet" href="{{=URL('static', 'css/plugins/chosen/bootstrap-chosen.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'js/DataTables/custom_datatables.css')}}" type="text/css">
+    <!-- <link rel="shortcut icon" href="{{#=URL('static','ico/favicon.ico')}}" type="image/x-icon"> -->
+    <link rel="shortcut icon" href="{{=URL('static','images/logo_32x32.png')}}" type="image/x-icon">
+    {{block css }}{{ end }}
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'views/' + response.view.replace('.html', '.css'))}}?v=1" />
+</head>
+<style>
+    .nav-second-level{
+        padding: 10px;
+        background: rgb(248, 248, 249);
+        z-index: 10000000;
+        top: 0px;
+        width: 200px;
+        left: 100px;
+        position: absolute;
+    }
+    .navbar-static-side{
+        box-shadow: none !important;
+    }
+</style>
+<body class="sidebar-fixed topnav-fixed dashboard md-skin">
+    <header>
+        <a href="#" id="go_top" style="display: none;" title="{{=T('TXT_GO_TO_TOP')}}">
+            <i class="fa fa fa-angle-double-up"></i>
+        </a>
+    </header>
+    <input type="hidden" id="hfEnableDebugClient" value="True" />
+    <input type="hidden" id="hfShortDate" value="{{=date_format_js}}" />
+    <input type="hidden" id="hfMenuNameCommon" value="{{=request.controller}}">
+    <input type='hidden' id='hfCurrentUrl' value='{{=URL(args=request.args, vars=request.get_vars)}}' />
+    <input type="hidden" id="hfLoadingIcon" value="{{=URL('static', 'images/loading.gif')}}">
+    <div id="wrapper">
+
+        {{block left_sidebar}}
+        <nav class="navbar-default navbar-static-side" role="navigation" style="width:100px;position: absolute;height: auto">
+            <div class=""">
+                <ul class="nav metismenu" id="side-menu" >
+                    <li class="nav-header" style="padding-top: 20px;padding-bottom:20px;background: #053566">
+                        <img class="" style="display: block; margin-left: auto; margin-right: auto; width: 100%;" src="/eos/static/images/menu/nav.png"   >
+                    </li>
+                    {{block menu }}
+                    {{if auth.has_permission('view', 'dashboard'):}}
+                    <li style="padding: 10px 0px;">
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/home.png">
+                        <a href="{{=URL('dashboard', 'index')}}" style="padding: 0px;text-align: center" id="changeDashboard"><span class="nav-label">{{=T('Dashboards')}}</span>  </a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'map'):}}
+                    <li style="padding: 10px 0px;">
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/map.png">
+                        <a href="{{=URL('station', 'map')}}" style="padding: 0px;text-align: center"><span class="nav-label">{{=T('Station map')}}</span>  </a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'realtime'):}}
+                    <li style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            {{for item in common.get_station_types():}}
+                            <li><a  style="padding-left:15px;" href="{{=URL('realtime', 'station', vars={'station_type': item['value']})}}">{{=T(item['name'])}}</a></li>
+                            {{pass}}
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/monitoring.png">
+                        <a href="#" style="padding: 0px;text-align: center"><span class="nav-label">{{=T('Realtime monitor')}}</span></a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'view_log'):}}
+                    <li  style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            <li><a  style="padding-left:15px;" href="{{=URL('view_log', 'average_data_by_time')}}">Dữ liệu trung bình</a></li>
+                            <li><a  style="padding-left:15px;" href="{{=URL('view_log', 'aqi_by_time')}}">AQI</a></li>
+                            {{for item in common.sort_dict_const_by_order(const.VIEW_BY):}}
+                                {{if auth.has_permission('view', item[1]['table']) and item[1]['value'] == 8:}}
+                                <li><a  style="padding-left:15px;" href="{{=URL('view_log', 'index', vars=dict(view_type=item[1]['value']))}}">{{=T('Data_by_%s' %(item[1]['value']))}}</a></li>
+                                {{pass}}
+                            {{pass}}
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/searching.png">
+                        <a  style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Historical data')}}</span></a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'view_report'):}}
+                    <li style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                               <a style="padding-left:15px;" href="#"><span class="nav-label">Số liệu nhận được</span> <span class="fa arrow"></span> </a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_info_5')}}">{{=T('Report data info')}}</a>
+                                    </li>
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_info_5_by_station')}}">{{=T('Report data info by station')}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                               <a href="#" style="padding-left:15px;" ><span class="nav-label">Số liệu trung bình</span> <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    {{if auth.has_permission('view', 'report_data_hour_max'):}}
+                                     <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_hour_max_7')}}">{{=T('Report data hour max')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_hour'):}}
+                                     <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_hour_6')}}">{{=T('Report data hour')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_day'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_day_8')}}">{{=T('Report data day')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_month'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_month_11')}}">{{=T('Report data month')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_hour_8h_max'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_hour_8h_max_9')}}">{{=T('Report data hour 8h max')}}</a>
+                                    </li>
+                                    {{pass}}
+                                </ul>
+                            </li>
+                            <li>
+                               <a  style="padding-left:15px;" href="#"><span class="nav-label">AQI</span> <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    {{if auth.has_permission('view', 'report_aqi'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_aqi_10')}}">{{=T('Report aqi')}}</a>
+                                    </li>
+                                    <li>
+                                        <a style="padding-left:20px;"href="{{=URL('view_report', 'report_aqi_day_in_time')}}">{{=T('Report aqi day in time')}}</a>
+                                    </li>
+                                    <li>
+                                        <a  style="padding-left:20px;"href="{{=URL('view_report', 'report_public_aqi_station')}}">{{=T('Report public aqi station')}}</a>
+                                    </li>
+                                    {{pass}}
+                                </ul>
+                            </li>
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/report.png">
+                        <a style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Report')}}</span></a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'view_report'):}}
+                    <li style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                               <a style="padding-left:15px;" href="#"><span class="nav-label">QCVN</span> <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    {{if auth.has_permission('view', 'report_exceed_times'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_exceed_times_2')}}">{{=T('Report exceed time')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_info'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_exceed_a_station')}}">Vượt QCVN của 1 trạm</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_info'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_exceed_by_province')}}">Tổng số trạm vượt QCVN trong tỉnh</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_info'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_exceed_by_year')}}">Tổng số trạm vượt QCVN theo ngày trong năm</a>
+                                    </li>
+                                    {{pass}}
+                                </ul>
+                            </li>
+                            <li>
+                               <a style="padding-left:15px;" href="#"><span class="nav-label">Vượt ngưỡng & Dữ liệu</span> <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    {{if auth.has_permission('view', 'report_exceed_ratio'):}}
+                                       <li>
+                                         <a style="padding-left:20px;" href="{{=URL('view_report', 'report_exceed_ratio_0')}}">{{=T('Report exceed ratio')}}</a>
+                                       </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_exceed_indicator'):}}
+                                       <li>
+                                         <a style="padding-left:20px;" href="{{=URL('view_report', 'report_exceed_indicator_1')}}">{{=T('Report exceed indicator')}}</a>
+                                       </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_time'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_data_time_3')}}">{{=T('Report data time')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_widget_data_collect'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_widget_data_collect_15')}}">{{=T('Statistical data by province')}}</a>
+                                    </li>
+                                    {{pass}}
+                                </ul>
+                            </li>
+                            <li>
+                               <a style="padding-left:15px;" href="#"><span class="nav-label">Mất kết nối</span> <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    {{if auth.has_permission('view', 'report_data_off_log'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('station_off_log', 'index')}}">{{=T('Report data off log')}}</a>
+                                    </li>
+
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_off_log'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('station_off_log', 'station_off_log_by_province')}}">{{=T('Thời gian mất kết nối theo tỉnh')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_data_off_log'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('station_off_log', 'station_off_log_count_time')}}">{{=T('Số lần bị mất kết nối của từng trạm')}}</a>
+                                    </li>
+                                    {{pass}}
+                                </ul>
+                            </li>
+                            <li>
+                               <a style="padding-left:15px;" href="#"><span class="nav-label">Khác</span> <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    {{if auth.has_permission('view', 'report_data_status_history'):}}
+                                    <li>
+                                        <a  style="padding-left:20px;"href="{{=URL('view_report', 'report_data_status_history_14')}}">{{=T('Report connecting status at a moment by province')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_max_min'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_max_min_4')}}">{{=T('Report max min')}}</a>
+                                    </li>
+                                    {{pass}}
+                                    {{if auth.has_permission('view', 'report_lost_indicator'):}}
+                                    <li>
+                                        <a style="padding-left:20px;" href="{{=URL('view_report', 'report_lost_indicator_12')}}">{{=T('Report lost indicator')}}</a>
+                                    </li>
+                                    {{pass}}
+                                </ul>
+                            </li>
+
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/statistic.png">
+                        <a style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Statistic')}}</span></a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'qi') and auth.has_permission('view', 'aqi') :}}
+                    <li style="padding: 10px 0px;">
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/quality_numberr.png">
+                        <a style="padding: 0px;text-align: center" href="{{=URL('qi', 'air')}}"><span class="nav-label">{{=T('WQI / AQI')}}</span></a>
+<!--                        <ul class="nav nav-second-level collapse">-->
+<!--                            {{if auth.has_permission('view', 'aqi'):}}-->
+<!--                            <li><a style="padding-left:15px;" href="{{=URL('qi', 'air')}}">{{=T('MAP AQI')}}</a></li>-->
+<!--                            {{pass}}-->
+<!--                        </ul>-->
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'camera'):}}
+                    <li style="padding: 10px 0px;">
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/camera.png">
+                        <a style="padding: 0px;text-align: center" href="{{=URL('camera_links', 'index')}}"><span class="nav-label">{{=T('Camera')}}</span></a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'alarm_log'):}}
+                    <li style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            <li><a style="padding-left:15px;"  href="{{=URL('alarm_logs', 'index')}}">{{=T('Station alarm logs')}} <span id="station_alarm_menu"></span></a></li>
+                            <li><a style="padding-left:15px;"  href="{{=URL('station_off_log', 'index')}}">{{=T('Station in-active logs')}} <span id="station_inactive_menu"></span></a></li>
+                            <li><a style="padding-left:15px;"  href="{{=URL('station_off_log', 'station_off_log_by_province')}}">{{=T('Thời gian mất kết nối theo tỉnh')}} <span id="station_inactive_menu"></span></a></li>
+                            <li><a style="padding-left:15px;"  href="{{=URL('data_alarm', 'index')}}">{{=T('Indicator alarms')}} <span id="indicator_alarm_menu"></span></a></li>
+                            <li><a style="padding-left:15px;"  href="{{=URL('equipments', 'index_alert')}}">{{=T('Sensor')}} <span id="equipment_error"></span></a></li>
+                            <!--<li><a href="{{=URL('alarm_logs', 'index', vars={'sort':'not_solve'})}}">{{=T('Alarms not solve yet')}} <span id="not_solve_alarm_menu">(0)</span></a></li>-->
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/red_log.png">
+                        <a style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Alarm logs')}}</span></a>
+                    </li>
+                    {{pass}}
+                    {{if auth.has_permission('view', 'qa_qc'):}}
+                    <li  style="padding: 10px 0px;">
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/verify.png">
+                        <a style="padding: 0px;text-align: center"  href="{{=URL('realtime', 'qa_qc')}}"><span class="nav-label">Kiểm Duyệt</span></a>
+                    </li>
+                    {{pass}}
+<!--                    {{if auth.has_permission('view', 'adjust_manager'):}}-->
+<!--                     <li>-->
+<!--                        <a href="#"><i class="fa fa-pause"></i> <span class="nav-label">{{=T('Station adjustment')}}</span><span class="fa arrow"></span>&lt;!&ndash;<span class="label label-warning pull-right">2</span>&ndash;&gt;</a>-->
+<!--                        <ul class="nav nav-second-level collapse">-->
+<!--                             <li><a href="{{=URL('adjustments', 'index')}}">{{=T('Adjustments list')}} &lt;!&ndash;<span class="label label-warning pull-right">2</span> &ndash;&gt;</a></li>-->
+<!--                            <li><a href="{{=URL('adjustments', 'calendar')}}">{{=T('Calendar')}}</a></li>-->
+<!--                            &lt;!&ndash; Hide : de khi vao menu cap 3 nay no focus vao menu cha cua no &ndash;&gt;-->
+<!--                             <li><a class="hide" href="{{=URL('adjustments', 'form')}}">{{=T('Adjustments list')}}</a></li>-->
+<!--                            &lt;!&ndash; End Hide &ndash;&gt;-->
+<!--                            <li>-->
+<!--                                <a href="{{=URL('adjustments_schedule', 'index')}}">{{=T('Manage Adjustments Calendar')}}</a>-->
+<!--                                <a class="hide" href="{{=URL('adjustments_schedule', 'form')}}">{{=T('Adjustments calendar list')}}</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    {{pass}}-->
+<!--                    {{if auth.has_permission('view', 'adjust_company'):}}-->
+<!--                     <li>-->
+<!--                        <a href="#"><i class="fa fa-pause"></i> <span class="nav-label">{{=T('Station adjustment company')}}</span><span class="fa arrow"></span>&lt;!&ndash;<span class="label label-warning pull-right">2</span>&ndash;&gt;</a>-->
+<!--                        <ul class="nav nav-second-level collapse">-->
+<!--                            <li><a href="{{=URL('adjustmentscompany', 'index')}}">{{=T('Adjustments list')}} &lt;!&ndash;<span class="label label-warning pull-right">2</span> &ndash;&gt;</a></li>-->
+<!--                            <li>-->
+<!--                                <a href="{{=URL('adjustmentscompany', 'calendar')}}">{{=T('Calendar')}}</a>-->
+<!--                            &lt;!&ndash; Hide : de khi vao menu cap 3 nay no focus vao menu cha cua no &ndash;&gt;-->
+<!--                                <a class="hide" href="{{=URL('adjustmentscompany', 'form')}}"> </a>-->
+<!--                            &lt;!&ndash; End Hide &ndash;&gt;-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    {{pass}}-->
+                    {{if (auth.has_permission('view', 'commands') | auth.has_permission('view', 'commands_schedule')):}}
+                    <li style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            {{if auth.has_permission('view', 'control'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('commands', 'index')}}">{{=T('Execute Command')}}</a>
+                                <span class="hide" href="{{=URL('commands', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_permission('view', 'command_schedule'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('command_schedule', 'index')}}">{{=T('Command schedule')}}</a></li>
+                            {{pass}}
+<!--                            {{if auth.has_permission('view', 'command_history'):}}-->
+<!--                            <li><a href="{{=URL('commands', 'commands_history')}}">{{=T('Historical commands')}}</a></li>-->
+<!--                            {{pass}}-->
+<!--                            {{if auth.has_permission('view', 'command_result'):}}-->
+<!--                            <li><a href="{{=URL('commands', 'commands_results')}}">{{=T('Command results')}}</a></li>-->
+<!--                            {{pass}}-->
+                            <!-- Hide : de khi vao menu cap 3 nay no focus vao menu cha cua no -->
+                            {{if auth.has_permission('view', 'commands'):}}
+                            <li><a style="padding-left:15px;" class="hide" href="{{=URL('commands', 'form')}}"> </a></li>
+                            {{pass}}
+                            <!-- End Hide -->
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/control_schedule.png">
+                        <a style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Command get data')}}</span></a>
+                    </li>
+                    {{pass}}
+<!--                    {{if auth.has_permission('view', 'manager_station_type'):}}-->
+<!--                    <li>-->
+<!--                        <a href="#"><i class="fa fa-university"></i> <span class="nav-label">{{=T('Stations')}}</span><span class="fa arrow"></span></a>-->
+<!--                        <ul class="nav nav-second-level collapse">-->
+<!--                            &lt;!&ndash; <li><a href="{{=URL('station', 'map')}}">{{=T('Station map')}}</a></li> &ndash;&gt;-->
+<!--                            {{for item in common.get_station_types():}}-->
+<!--                            <li><a href="{{=URL('station', 'stations', vars={'station_type': item['value']})}}">{{=T(item['name'])}}</a></li>-->
+<!--                            {{pass}}-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    {{pass}}-->
+<!--                    {{if auth.has_permission('view', 'ftp_send_receive'):}}-->
+<!--                    <li>-->
+<!--                        <a href="#"><i class="fa fa-exchange"></i> <span class="nav-label">{{=T('Send/receive FTP')}}</span><span class="fa arrow"></span></a>-->
+<!--                        <ul class="nav nav-second-level collapse">-->
+<!--                            <li><a href="{{=URL('ftp_send_receive', 'index')}}">{{=T('History')}}</a></li>-->
+<!--                            &lt;!&ndash; <li><a href="{{=URL('ftp_alarm', 'index')}}">{{=T('Send/Receive alarm')}}</a></li> &ndash;&gt;-->
+<!--                            <li><a href="#">{{=T('Send/Receive alarm')}}</a></li>-->
+
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    {{pass}}-->
+                        <!-- <li> -->
+                        <!-- <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">{{=T('Log data')}}</span><span class="fa arrow"></span></a> -->
+                        <!-- <ul class="nav nav-second-level collapse"> -->
+                            <!-- <li><a href="{{=URL('station_off_log', 'index')}}">{{=T('Station in-active logs')}}</a></li> -->
+
+                        <!-- </ul> -->
+                    <!-- </li> -->
+
+                    <!-- <li data-name="administrator"> -->
+                    {{if auth.has_membership('admin') or auth.has_permission('view', 'admin'):}}
+                     <li style="padding: 10px 0px;" >
+                         <ul class="nav nav-second-level collapse">
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'users'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('users', 'index')}}">{{=T('User list')}}</a>
+                                <span class="hide" href="{{=URL('users', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'groups'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('groups', 'index')}}">{{=T('Group list')}}</a>
+                                <span class="hide" href="{{=URL('groups', 'form')}}"></span>
+                                <span class="hide" href="{{=URL('permissions', 'index')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'reset_password'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('master', 'reset_password')}}">{{=T('Reset password')}}</a></li>
+                            {{pass}}
+                        </ul>
+                         <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/permission.png">
+                        <a style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Administrator')}}</span></a>
+
+                    </li>
+                    {{pass}}
+                    {{if auth.has_membership('admin') or auth.has_permission('view', 'settings'):}}
+                    <li style="padding: 10px 0px;">
+                        <ul class="nav nav-second-level collapse">
+                            {{ if auth.has_membership('admin') or auth.has_permission('view', 'stations'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('stations', 'index')}}">Trạm</a>
+                                <span class="hide" href="{{=URL('stations', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{from applications.eos.common import my_const}}
+                            {{ if os.getenv(my_const.APP_SIDE) == my_const.APP_SIDE_TW and (auth.has_membership('admin') or auth.has_permission('view', 'request_sync_stations')):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('request_sync_stations', 'index')}}">{{=T('Request sync stations')}}</a>
+                                <span class="hide" href="{{=URL('request_sync_stations', 'index')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{from applications.eos.common import my_const}}
+                            {{ if os.getenv(my_const.APP_SIDE) == my_const.APP_SIDE_LOCAL_DP and (auth.has_membership('admin') or auth.has_permission('view', 'request_create_stations')):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('request_create_stations', 'index')}}">{{=T('Request Create Station')}}</a>
+                                <span class="hide" href="{{=URL('request_create_stations', 'index')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'ftp_management'):}}
+                            <li>
+                                <a style="padding-left:15px;" href="{{=URL('ftp_management', 'index')}}">{{=T('ftp_management')}}</a>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'manage_stations_history'):}}
+                            <li>
+                                <a style="padding-left:15px;" href="{{=URL('manage_stations_history', 'index')}}">{{=T('manage_stations_history')}}</a>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'qcvn'):}}
+                            <li style=""><a style="padding-left:15px;" href="{{=URL('qcvn', 'index')}}">{{=T('QCVN')}}</a>
+                                <span class="hide" href="{{=URL('qcvn', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'public'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('public', 'index')}}">{{=T('Public indicators')}}</a></li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'setting_aqi'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('stations', 'setting_qi')}}">{{=T('Setting AQI')}}</a>
+                                <span class="hide" href="{{=URL('stations', 'setting_qi')}}"></span>
+                            </li>
+                            {{pass}}
+<!--                            {{if auth.has_membership('admin') or auth.has_permission('view', 'setting_wqi'):}}-->
+<!--                            <li><a href="{{=URL('stations', 'setting_wqi')}}">{{=T('Setting WQI')}}</a>-->
+<!--                                <span class="hide" href="{{=URL('stations', 'setting_wqi')}}"></span>-->
+<!--                            </li>-->
+<!--                            {{pass}}-->
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'datalogger'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('datalogger', 'index')}}">{{=T('LBL_Datalogger')}}</a>
+                                <span class="hide" href="{{=URL('indicators', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'equipments'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('equipments', 'index')}}">{{=T('Equipments')}}</a></li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'indicators'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('indicators', 'index')}}">{{=T('Indicators')}}</a>
+                                <span class="hide" href="{{=URL('indicators', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+<!--                            {{if os.getenv(my_const.APP_SIDE) == my_const.APP_SIDE_TW and (auth.has_membership('admin') or auth.has_permission('view', 'request_indicators')):}}-->
+<!--                            <li><a href="{{=URL('request_indicators', 'index_tw')}}">{{=T('Request Indicators')}}</a> -->
+<!--                            </li>-->
+<!--                            {{pass}}-->
+<!--                            {{if os.getenv(my_const.APP_SIDE) == my_const.APP_SIDE_LOCAL_DP and (auth.has_membership('admin') or auth.has_permission('view', 'request_indicators')):}}-->
+<!--                            <li><a href="{{=URL('request_indicators', 'index_local_dp')}}">{{=T('Request Indicators')}}</a>-->
+<!--                            </li>-->
+<!--                            {{pass}}-->
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'station_types'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('station_types', 'index')}}">{{=T('Station types')}}</a></li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'areas'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('areas', 'index')}}">{{=T('Areas')}}</a>
+                                <span class="hide" href="{{=URL('areas', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'provinces'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('provinces', 'index')}}">{{=T('Provinces')}}</a>
+                                <span class="hide" href="{{=URL('provinces', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'agents'):}}
+                            <li><a style="padding-left:15px;" href="{{=URL('agents', 'index')}}">{{=T('Management agents')}}</a>
+                                <span class="hide" href="{{=URL('agents', 'form')}}"></span>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'owner_information'):}}
+                            <li>
+                                <a style="padding-left:15px;" href="{{=URL('owner_information', 'form')}}">{{=T('Owner Information')}}</a>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'mail_server'):}}
+                            <li>
+                                <a style="padding-left:15px;" href="{{=URL('mail_server', 'form')}}">{{=T('Mail Server')}}</a>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin') or auth.has_permission('view', 'vnair_notify'):}}
+                            <li>
+                                <a style="padding-left:15px;" href="{{=URL('vnair_notify', 'index')}}">{{=T('VN_Air Notification')}}</a>
+                            </li>
+                            {{pass}}
+                            {{if auth.has_membership('admin'): }}
+                            <li class="">
+                            <a style="padding-left:15px;" href="#" aria-expanded="false">{{=T('Share API')}}<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level collapse" aria-expanded="false" style="height: 0px;">
+                                <li>
+                                    <a style="padding-left:15px;" href="{{=URL('sharing_api', 'sharing_api')}}">{{=T('API list')}}</a>
+                                </li>
+                                <li>
+                                    <a style="padding-left:15px;" href="{{=URL('sharing_api', 'authentication_api')}}">{{=T('API Assign')}}</a>
+                                </li>
+                            </ul>
+                            </li>
+                            {{pass}}
+                        </ul>
+                        <img style="display: block; margin-left: auto; margin-right: auto; width: 30px;" src="/eos/static/images/menu/setting.png">
+                        <a style="padding: 0px;text-align: center" href="#"><span class="nav-label">{{=T('Master data')}}</span></a>
+
+                    </li>
+                    {{pass}}
+<!--                    {{if auth.has_membership('admin'):}}-->
+<!--                    <li>-->
+<!--                        <a href="#"><i class="fa fa-database"></i> <span class="nav-label">{{=T('Quản lý tin tức')}}</span><span class="fa arrow"></span></a>-->
+<!--                        <ul class="nav nav-second-level collapse">-->
+<!--                            <li>-->
+<!--                                <a href="{{=URL('news_cat', 'index')}}">{{=T('Danh mục tin tức')}}</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="{{=URL('news', 'index')}}">{{=T('Tin tức')}}</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    {{pass}}-->
+                    {{ end }}
+                    <li><a href="#"></a></li>
+                </ul>
+            </div>
+        </nav>
+        {{end}}
+        {{block page_wrapper}}
+        <div id="page-wrapper" class="gray-bg" style="overflow: hidden;">
+        {{end}}
+            {{block top_menu}}
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0;background-color:#0a5fa3 !important; ">
+                    <div>
+                        <div class="navbar-header" style="text-align: center;padding:10px;">
+                        <img style="width:60px;" src="/eos/static/images/menu/logo.png" loading="lazy" alt="" class="image-13">
+
+<!--                        <h5 class='appNameOnTop'><a href='/eos'>{{=T('LBL_APP_NAME')}}</a></h5>-->
+                    </div>
+                    <div class="navbar-header" style="text-align: left;padding-top:20px ;">
+                        <h5 class='appNameOnTop' style="color: #FFFFFF;font-size: 18px;">BỘ TÀI NGUYÊN MÔI TRƯỜNG</h5><br>
+                         <h5 class='appNameOnTop' style="color:  #FFFFFF;font-size: 20px;">PHẦN MỀM QUẢN LÝ DỮ LIỆU QUAN TRẮC</h5>
+<!--                        <h5 class='appNameOnTop'><a href='/eos'>{{=T('LBL_APP_NAME')}}</a></h5>-->
+                    </div>
+                    </div>
+
+
+                    <ul class="nav navbar-top-links navbar-right">
+                        <!-- <li> -->
+                            <!-- <span class="m-r-sm text-muted welcome-message"></span> -->
+                        <!-- </li> -->
+                        {{if current_user:}}
+                        <li class="dropdown" id="notifications">
+                            <!-- load notification on menu -->
+                        </li>
+                        <li class="dropdown" id="alarm_logs_header">
+                            <!-- load notification on menu -->
+                        </li>
+                        {{#=LOAD('load_import', 'notification', target='divCommonNotification')}}
+                        <li style="margin-right: 20px;float: inline-end;text-align: center;color: #FFFFFF">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="true">
+                               <i class="fa fa-user" style="font-size: 30px;"></i><div class="text-block-52"><strong>{{=LOAD('load_import', 'user_info')}}</strong> </div>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a style="color: #0a0a0a"  href="/eos/master/change_password" previewlistener="true">Thay đổi mật khẩu</a></li>
+                                <li class="divider"></li>
+                                <li><a style="color: #0a0a0a"  href="/eos/master/loggedout" previewlistener="true">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                        {{else:}}
+                        <li>
+                            <a href="{{=URL('master', 'login')}}">
+                                <i class="fa fa-sign-in"></i> {{=T('LBL_LOGIN')}}
+                            </a>
+                        </li>
+                        {{pass}}
+                    </ul>
+                </nav>
+            </div>
+            {{end}}
+            <div class="wrapper wrapper-content" style="padding-top: 0px;">
+                {{include}}
+            </div>
+
+            {{block footer}}
+            <div class="footer">
+                <div class="pull-right">
+                    <li class="dropdown" style="display: inline-block;">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <!-- <i class="fa fa-envelope"></i> -->
+                             <img src="{{=URL('static', 'images/vi-VN.gif')}}" width="18px" id="imageLanguage" />
+                            <!-- <img src="{{=URL('static', 'images/')}}" width="18px" id="imageLanguage" />-->
+                        </a>
+                        <ul class="dropdown-menu" style="top: -95px; left: -150px;">
+                            <li>
+                                <a href="{{=URL('dashboard', 'index', args=['us-en'])}}" id="changeEN">
+                                    <div>
+                                        <img src="{{=URL('static', 'images/en-US.gif')}}" width="18px"/>&nbsp;&nbsp;&nbsp; English
+                                    </div>
+                                </a>
+<!--                                <a href="{{=URL('dashboard', 'index', args=['us-en'])}}">-->
+<!--                                <a href="{{=URL('dashboard', 'index', args=['en'])}}">-->
+<!--                                    <div>-->
+<!--                                        <img src="{{=URL('static', 'images/en-US.gif')}}" width="18px" />&nbsp;&nbsp;&nbsp; English-->
+<!--                                    </div>-->
+<!--                                </a>-->
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="{{=URL('dashboard', 'index', args=['vn-vi'])}}" id="changeVN">
+                                    <div>
+                                        <img src="{{=URL('static', 'images/vi-VN.gif')}}" width="18px" />&nbsp;&nbsp;&nbsp; Tiếng Việt
+                                    </div>
+                                </a>
+<!--                                <a href="{{=URL('dashboard', 'index', args=['vn-vi'])}}">-->
+<!--                                <a href="{{=URL('dashboard', 'index', args=['vn'])}}">-->
+<!--                                    <div>-->
+<!--                                        <img src="{{=URL('static', 'images/vi-VN.gif')}}" width="18px" />&nbsp;&nbsp;&nbsp; Tiếng Việt-->
+<!--                                    </div>-->
+<!--                                </a>-->
+                            </li>
+                        </ul>
+                    </li>
+                    <a href=''><u><strong>{{=T('Contact us')}}</strong></u></a>
+                </div>
+                <div>
+                    <small>
+                        {{=session.ownerDivision.upper()}} - {{=session.ownerName.upper()}} &copy; 2018
+                    </small>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    <div id="myModal" class="modal fade" style="display: none"></div>
+	<!-- Mainly scripts -->
+    {{if request.url not in ["/eos/faq/form", "/eos/news/form"] :}}
+    <script src="{{=URL('static', 'js/jquery/jquery-2.1.1.js')}}"></script>
+    {{pass}}
+    <script src="{{=URL('static', 'js/bootstrap/bootstrap.min.js')}}"></script>
+	<script src="{{=URL('static', 'js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+	<script src="{{=URL('static', 'js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+
+	<script src="{{=URL('static', 'js/plugins/datatable/jquery.dataTables.min.js')}}"></script>
+	<script src="{{=URL('static', 'js/plugins/datatable/dataTables.bootstrap.js')}}"></script>
+    <script src="{{=URL('static', 'js/jquery/jquery.blockUI.js') }}"></script>
+    <script src="{{=URL('static', 'js/inspinia.js') }}"></script>
+    <script src="{{=URL('static', 'js/plugins/pace/pace.min.js') }}"></script>
+    <script src="{{=URL('static', 'js/plugins/gritter/jquery.gritter.min.js') }}"></script>
+    <script src="{{=URL('static', 'js/plugins/toastr/toastr.min.js') }}"></script>
+
+    {{#include 'web2py_ajax.html'}}
+    {{include 'widget_script_analytics.html'}}
+    <!-- get_language_for_js -->
+    <div id="js_strings" class="hide" style="display: none!important;">{{=response.js_string}}</div>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery.class.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery-confirm/jquery-confirm.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/datetimepicker/jquery.datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/notify.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.formError.js')}}"></script>
+    <script src="{{=URL('static', 'js/plugins/chosen/chosen.jquery.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/common.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/app.js')}}"></script>
+    {{ block js }}{{ end }}
+    <script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}?v=16"></script>
+
+    {{block js_block}} {{end}}
+
+    {{if session.request_active_task_get_data:}}
+    <input type="hidden" id="urlStartTaskNow" value="{{=URL('tasks', 'call/json/start_task_get_data')}}"/>
+    <input type="hidden" id="urlStartTaskLater" value="{{=URL('tasks', 'call/json/start_task_get_data_later')}}"/>
+    <script type="text/javascript" src="{{=URL('static', 'js/request_active_task_get_data.js')}}"></script>
+    {{pass}}
+
+    <input type="hidden" id="urlNotify_menu" value="{{=URL('notifications', 'call/json/notify_menu')}}"/>
+    <script type="text/javascript" src="{{=URL('static', 'js/notify_menu.js')}}"></script>
+<!--    <input type="hidden" id="urlAlarmLogs_menu" value="{{=URL('alarm_logs', 'call/json/alarm_menu')}}"/>-->
+    <script type="text/javascript" src="{{=URL('static', 'js/alarm_logs_menu.js')}}"></script>
+    <input type="hidden" id="urlLogo_menu" value="{{=URL('owner_information', 'call/json/get_logo')}}"/>
+    <script type="text/javascript" src="{{=URL('static', 'js/logo_menu.js')}}"></script>
+
+    <script>
+        $('#changeEN').click(function(){
+            var language = ['us-en']
+            localStorage.setItem('lang', language);
+<!--            var a = document.getElementById("imageLanguage");-->
+<!--            a.setAttribute('src', '/eos/static/images/en-US.gif');-->
+
+        });
+         $('#changeVN').click(function(){
+            var language = ['vn-vi']
+            localStorage.setItem('lang', language);
+<!--            var a = document.getElementById("imageLanguage");-->
+<!--            a.setAttribute('src', '/eos/static/images/vi-VN.gif');-->
+
+        });
+        $('#changeDashboard').click(function(){
+            langLocal = localStorage.lang
+            if (langLocal != undefined) {
+                var URL = document.getElementById("changeDashboard").href
+                document.getElementById("changeDashboard").href = URL + '/' + langLocal
+            }
+        });
+    </script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": true,
+            "preventDuplicates": true,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "400",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        // Lenh goi : toastr['success'](app.translate('JS_MSG_SAVE_SUCCESS'));
+        // các kiểu : success / info / warning / error
+    </script>
+
+
+</body>
+</html>

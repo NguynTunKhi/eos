@@ -1,0 +1,51 @@
+"""
+ FCM KEY
+"""
+# NCEM
+# SERVER_KEY_FCM = 'AAAARnaA1Dc:APA91bEvZ_LCPoEZxspAocC5Zb0_Q4NMu7KhRRBNNfcrV-3Kewt5Uc_VSlXV6E8HWdtuo0IjbegEPcPaOU3dK9Njzo394XEXShWHxw8UvaIVW9ZfYOoV6NLMQZlvh29rtQlzv6rEfIR5'
+SERVER_KEY_FCM = ''
+# DEAHAN SI
+# SERVER_KEY_FCM = 'AAAAqU9IlqU:APA91bG27647MSw6myx56zLGZLIqXVZIYZjSUYfQkRH8DUOpBmtI8RHQ2w2uWTUyNAxvUAMNofMmqG_M4L36atsQ5fdRgxIAVA23OEACJEuFVBHOd1fGjLVupdYw0llbsrnvO7cjnmga'
+
+"""
+ CONNECT STRING
+"""
+STRING_CONNECTION = 'mongodb://ati_GK6M37T9WdzL2020&$#:Q44mAZSGtPDpPRrj5jFsYYBVnCmkP2ffF2029&$#@mongodb:27017/eos'
+"""
+  REDIS
+"""
+REDIS_KEY = ''
+REDIS_HOST = 'redis'
+REDIS_PORT = 6379
+TONG_HOP_DU_LIEU = True
+# TONG_HOP_DU_LIEU = False
+STATION_LIMIT = None
+TONG_HOP_THEO_TPMT = None # None is ALL | [1,2,3,4]
+# TONG_HOP_THEO_TPMT = [4] # station_type IDs
+
+REMOVE_REDIS = True
+
+# Thong tin gui khac phuc su co
+# EMAIL_BK = 'thuandv7@gmail.com'
+EMAIL_BK = 'thuandv7@gmail.com,ntlnamvocam1997@gmail.com'
+TIME_CHECK_EMAIL = 10 # Phut
+SYS_NAME = 'LAI CHAU'
+MAIL_CF = {
+    # "sender_email": "hd.envisoft@gmail.com",
+    "sender_email": "abc@gmail.com",
+    "mail_server": "smtp.gmail.com",
+    # "sender_email_password": "ttqtduan!$2019",
+    "sender_email_password": "",
+    "mail_server_port": 587,
+  }
+
+IS_PUBLISH_EXCEED = False
+
+# CAMERA
+# H_CAMERA = 'https://cloudcam.deahan-si.com'
+H_CAMERA = ''
+
+
+# DKLM
+INVENTIA_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImludmVudGlhIiwibmJmIjoxNTcyMDk2MjM1LCJleHAiOjE4ODc3MTU0MzUsImlhdCI6MTU3MjA5NjIzNX0.xwIEveY5H9xy7ZdY_q4wKFZJSXRCpI4_9iW-ni0dnfw"
+INVENTIA_API = "http://192.168.101.19:8080/api/inventia"

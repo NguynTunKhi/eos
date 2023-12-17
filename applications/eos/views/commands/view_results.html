@@ -1,0 +1,59 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Command results')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Station name')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>
+                    <input type="text" class="form-control" readonly value="{{=record.station_name}}" />
+                </div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2'>{{=T('Command title')}}</label>
+                <div class='col-sm-6 col-md-10 col-lg-10'>
+                    <input type="text" class="form-control" readonly value="{{=record.title}}" />
+                </div>
+            </div>
+            <div class='row'>
+                <table id='custom_datatable_0' class='table table-striped table-bordered table-hover table-responsive'>
+                    <thead>
+                        <tr>
+                            <th style="width:30%">{{=T('Indicator')}}</th>
+                            <th style="width:20%">{{=T('Value')}}</th>
+                            <th style="width:30%">{{=T('Indicator')}}</th>
+                            <th style="width:20%">{{=T('Value')}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{keys = record.results.keys()}}
+                    {{if keys:}}
+                        {{for i in xrange(0, len(keys), 2):}}   
+                            <tr>
+                                <td><label>{{=keys[i]}}</label></td>
+                                <td>{{=record.results.get(keys[i])}}</td>
+                                <td><label>{{=keys[i + 1] if i+1 < len(keys) else ''}}</label></td>
+                                <td>{{=record.results.get(keys[i + 1]) if i+1 < len(keys) else ''}}</td>
+                            </tr>
+                        {{pass}}
+                    {{else:}}
+                        <tr><td colspan="4">{{=T('No data found!')}}</td></tr>
+                    {{pass}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn-primary btnCancel"><i class="fa fa-times"></i> {{=T('Close')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

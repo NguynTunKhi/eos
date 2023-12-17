@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Liên hệ</title>
+<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="js/select2.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" type="text/javascript"></script>
+<script src="js/daterangepicker.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="css/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="css/select2.min.css" />
+<script type="text/javascript" src="js/owl.carousel.js"></script>
+<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="css/jquery.bxslider.css"/>
+<link rel="stylesheet" type="text/css" href="css/owl.carousel.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300i,400,400i,500,700" rel="stylesheet">
+</head>
+<body>
+<header class="header">
+	<div class="top-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<ul class="top-header-menu">
+						<li><a href="#">Trang chủ</a></li>
+						<li><a href="#">EnviSoft</a></li>
+						<li><a href="#">EnviInfo</a></li>
+						<li><a href="#">Emma</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6  col-sm-6 col-xs-12 search-forms text-right">
+					<form class="form-search">
+						<input type="text" class="form-control form-input" value="" placeholder="Tìm kiếm"/>
+						<input type="submit" class="btn-search" value=""/>
+					</form>
+					<div class="box-social-right">
+						<a href="#" class="link-top"><i class="fa fa-youtube"></i></a>
+						<a href="#" class="link-top"><i class="fa fa-twitter"></i></a>
+						<a href="#" class="link-top"><i class="fa fa-google-plus"></i></a>
+						<a href="#" class="link-top"><i class="fa fa-facebook"></i></a>
+						<div class="box-lang">
+							<div class="dropdown">
+								<a href="#" class="lang mr5 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img src="images/vn.png"/></a>
+								<ul class="dropdown-menu pull-menu-left">
+									<li><a href="#">Tiếng anh</a></li>
+									<li><a href="#">Tiếng trung</a></li>
+									<li><a href="#">Tiếng pháp</a></li>
+									<li><a href="#">Tiếng hàn</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bg-header">
+		 <div class="container background-white">
+		 	<div class="box-white">
+			 	<a href="javascript:void(0)" id="menu_mobile"><img src="images/icon-menu.svg"/></a>
+			 	<div class="row">
+					<div class="col-md-6 col-xs-12">
+						<div class="box-left">
+							<a href="#" class="logo"><img src="images/logo.png"/></a>
+							<h1 class="title-blue">Cổng thông tin quan trắc môi trường</h1>
+							<span class="trung-tam">Trung tâm quan trắc môi trường miền bắc</span>
+							<span class="title-grey">Tổng cục môi trường</span>
+						</div>
+					</div>
+					<div class="col-md-6 col-xs-12 hidden-sm hidden-xs">
+						<div class="box-right">
+							<a href="#" class="login">Đăng nhập</a>
+							<a href="#" class="register">Đăng ký</a>
+							
+							<script>
+								$('#btn_search').click(function(){
+									if ($('.form-search').css('display') == "none")
+									{
+										$('.form-search').slideDown();
+									}
+									else
+									{
+										$('.form-search').slideUp();
+									}
+								});
+							</script>
+						</div>
+					</div>
+				</div>
+				<div class="adstop">
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-4 pdr9 mbmb15">
+							<a href="#"><img src="images/adstop3.jpg" class="img-100" /></a>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-4 pdr5 pdl5 mbmb15">
+							<a href="#"><img src="images/adstop.jpg" class="img-100" /></a>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-4 pdl9 mbmb15">
+							<a href="#"><img src="images/adstop1.jpg" class="img-100" /></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="box-all" id="box_menu">
+					<div class="box-menu box-all">
+						<nav id="nav-main">
+							<div class="mbtab">
+								<a href="#" class="login">Đăng nhập</a>
+								<a href="#" class="register">Đăng ký</a>
+							</div>
+							<ul class="menu_main" id="menu_main_ul">
+								<li class="active">
+									<a href="#">Trang chủ</a>
+								</li>
+								<li>
+									<a href="#">Quan trắc định kỳ</a>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Quan trắc tự động</a>
+									<span class="arrow-down" data-toggle="collapse" data-target="#quantractudong"></span>
+									<ul class="sub-small dropdown-menu collapse" id="quantractudong">
+										<li><a href="#">Sản phẩm 1</a></li>
+										<li><a href="#">Sản phẩm 2</a></li>
+										<li><a href="#">Sản phẩm 3</a></li>
+										<li><a href="#">Sản phẩm 4</a></li>
+									</ul>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Phân tích</a>
+									<span class="arrow-down" data-toggle="collapse" data-target="#phantich"></span>
+									<ul class="sub-small dropdown-menu collapse" id="phantich">
+										<li><a href="#">Sản phẩm 1</a></li>
+										<li><a href="#">Sản phẩm 2</a></li>
+										<li><a href="#">Sản phẩm 3</a></li>
+										<li><a href="#">Sản phẩm 4</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Kiểm định</a>
+								</li>
+								<li>
+									<a href="#">Dịch vụ</a>								
+								</li>
+								<li class="">
+									<a href="#">Tin tức</a>	
+									<span class="arrow-down" data-toggle="collapse" data-target="#tintuc"></span>
+										<ul class="sub-small dropdown-menu collapse" id="tintuc">
+											<li><a href="#">Tiêu điểm</a></li>
+											<li><a href="#">Tin tức</a></li>
+										</ul>						
+								</li>
+								<li>
+									<a href="#">Văn bản</a>								
+								</li>
+								<li>
+									<a href="#">Liên hệ</a>
+								</li>
+								<li>
+									<a href="#">Ảnh</a>
+								</li>
+								<li>
+									<a href="#">Video</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<section class="box-all">
+	<div class="container background-white">
+		<div class="banner">
+			<ul id="slider2">
+				<li>
+					<img src="images/banner.jpg" />
+				</li>
+				<li>
+					<img src="images/banner2.jpg" />
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
+<script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/api2/v1543818755456/recaptcha__en.js"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<section class="box-all bg-white" id="title_news_offset">
+	<div class="container position-relative">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-8">
+				<h2 class="title-event title-bd bg-title-w mgb20 mgt0"><span>Liên hệ</span></h2>
+				<div class="box-all mgt25">
+					<form class="form-contact" action="" method="post">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="form-group">
+									<label>Họ và tên: <span class="text-red">*</span></label><br>
+									<input type="text" class="form-control" placeholder="Họ và tên" />
+								</div>
+								<div class="form-group">
+									<label>Địa chỉ Email: <span class="text-red">*</span></label><br>
+									<input type="text" class="form-control" placeholder="Địa chỉ Email" />
+								</div>
+								<div class="form-group">
+									<label>Tiêu đề: <span class="text-red">*</span></label><br>
+									<input type="text" class="form-control" placeholder="Tiêu đề" />
+								</div>
+								<div class="form-group">
+									<label>Nội dung tin nhắn: <span class="text-red">*</span></label><br>
+									<textarea class="form-control" placeholder="Nội dung tin nhắn" rows="6"></textarea>
+								</div>
+								<div class="form-group">
+									<div class="g-recaptcha" data-sitekey="6LeS4O8SAAAAALWqAVWnlcB6TDeIjDDAqoWuoyo9" data-callback="recaptchaCallback" data-expired-callback="recaptchaExpired" style="margin-top: 3rem;"></div>
+								</div>
+								<div class="form-group">
+									<input type="submit" class="btn btn-primary" value="Gửi" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="contact-info">
+					<h2 class="title-event title-bd bg-title-w mgb20"><span>Thông tin liên hệ</span></h2>
+					- Địa chỉ: số 556, Đường Nguyễn Văn Cừ, Phường Gia Thuỵ, Quận Long Biên, Hà Nội.<br>
+					- Điện thoại: (84).024.3577 1816/38726845<br>
+					- Fax: (84).024.3577 1855/38726847<br>
+					- Website:http://quantracmoitruong.gov.vn/; http://cem.gov.vn/<br>
+					- Email:cem@vea.gov.vn
+				</div>
+
+				<div class="maps box-all">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.6023909673095!2d105.88055131488372!3d21.048589585987607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a978c5322543%3A0x93cee6c6b0e71486!2zVHJ1bmcgVMOibSBUxrAgVuG6pW4gVsOgIEPDtG5nIE5naOG7hyBNw7RpIFRyxrDhu51uZw!5e0!3m2!1sen!2s!4v1544887280574" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4">
+				<div class="bg-widget-grey">
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Địa phương</span></h2>
+						<div class="content-widget">
+							<select class="form-control">
+								<option value="Tp HCM">Tp HCM</option>
+								<option value="An Giang">An Giang</option>
+								<option value="Tp Hà Nội">Tp Hà Nội</option>
+							</select>
+							<ul class="list-news-right">
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Tin mới</span></h2>
+						<div class="content-widget">
+							<ul class="list-news-right">
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a href="detail.html" class="img-news-left"><img src="images/noimage.png"/></a>
+									<div class="title-news-right">
+										<a href="detail.html">8 phụ nữ vượt biên sang Trung Quốc để mang thai hộ bị trả về</a>
+										<div class="tags-bottom">
+											<a class="name-cat" href="#">PetroTimes</a>
+											<span class="num-hour">2 giờ</span>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Tải ứng dụng</span></h2>
+						<div class="content-widget">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="pull-left mgr15">
+										<a href="#" class="appstore"></a><br>
+										<a href="#" class="chplay"></a>
+									</div>
+									<a href="#" class="qrcode"><img src="images/qrcode.png"/></a>
+								</div>
+								<div class="col-md-5 col-sm-8 col-xs-6">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Video</span></h2>
+						<div class="content-widget">
+							<ul class="item-img">
+								<li>
+									<a href="detail.html">
+										<div class="box-video">
+											<img src="images/play.png" class="btn-play" />
+											<img src="images/img-video.jpg"/>
+										</div>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+								</li>
+								<li>
+									<a href="detail.html">
+										<div class="box-video">
+											<img src="images/play.png" class="btn-play" />
+											<img src="images/img-video2.jpg"/>
+										</div>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+								</li>
+							</ul>
+							<div class="text-center">
+								<a href="#" class="btn btn-more btn-mgt0">Xem thêm</a>
+							</div>
+						</div>
+					</div>
+					<div class="widget">
+						<h2 class="title-event title-bd"><span>Hình ảnh</span></h2>
+						<div class="content-widget">
+							<ul class="item-img">
+								<li>
+									<a href="detail.html">
+										<img src="images/trash.jpg"/>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+								</li>
+								<li>
+									<a href="detail.html">
+										<img src="images/trash.jpg"/>
+										<span>Quản lý rác thải vì môi trường nông thôn bền vững</span>
+									</a>
+								</li>
+							</ul>
+							<div class="text-center">
+								<a href="#" class="btn btn-more btn-mgt0">Xem thêm</a>
+							</div>
+						</div>
+					</div>
+					
+					<div class="widget">
+						<div class="content-widget">
+							<div id="ads_right">
+								<div class="ads-right">
+									<a href="#"><img src="images/ads-right.jpg" class="img-100" /></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="box-all bg-white">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<h2 class="title-event bg-title-w"><span>Liên kết</span></h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="owl-carousel pd50" id="slider-link">
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/tn-mt.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Bộ tài nguyên và môi trường</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/cntt.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục công nghệ thông tin</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kt-tv.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Trung tâm khí tượng thuỷ văn quốc gia</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kh-cn.jpg"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục khoa học và công nghệ</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/cntt.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Cục công nghệ thông tin</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="box-white-human">
+							<div class="img-human">
+								<img src="images/kt-tv.png"/>
+							</div>
+							<div class="info-human">
+								<span class="name-human">Trung tâm khí tượng thuỷ văn quốc gia</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="box-grey box-formnewsletter">
+	<div class="container">
+		<div class="box-center">
+			<div class="col-md-3 col-sm-4 col-xs-12">
+				<span class="email">Đăng ký nhận tin</span>
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-12">
+				<form class="form-newsletters">
+					<input type="text" class="form-newsletter" placeholder="Nhập email của bạn"/>
+					<input type="submit" value="Đăng ký" class="btn-register" />
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<footer class="bg-footer box-all mt30">
+	<div class="box-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="box-logof">
+						<a href="#" class="logof"><img src="images/logo.png"/></a>
+						<h3 class="name-company">CỔNG THÔNG TIN QUAN TRẮC MÔI TRƯỜNG</h3>
+						<span class="trung-tam">Trung tâm quan trắc môi trường miền bắc</span>
+						<h4 class="title-tongcuc">TỔNG CỤC MÔI TRƯỜNG</h4>
+						<div class="box-info-footer">
+							Cơ quan chủ quản: <span class="text-blue-ft">Trung tâm quan trắc môi trường miền bắc - Tổng cục môi trường</span><br>
+							Giấy phép số: 278/GP-TTĐT do cục Phát thanh - Truyền hình và thông tin điện tử cấp ngày 26/10/2018<br>
+							Chịu trách nhiệm chính: TS. Trần Thị Minh Hương - Giám đốc Trung tâm quan trắc môi trường Miền Bắc.
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<h2 class="txtFooterW">Liên hệ</h2>
+					<div class="box-address">
+						<span class="address">
+							Số 556, đường Nguyễn Văn Cừ, Phường Gia Thuỵ, quận Long Biên, hà Nội, Việt Nam
+						</span>
+						<span class="phone">
+							84.024.3577 1816<br>
+							Fax: 84.024.3577 1855
+						</span>
+						<span class="icon-email">
+							cem@vea.gov.vn
+						</span>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<h2 class="txtFooterW">Fanpage</h2>
+					<div class="content-footer">
+						<img src="images/fan.jpg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="ft1">
+				<h3 class="title-topic">Quan trắc định kỳ</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			<div class="ft2">
+				<h3 class="title-topic">Quan trắc tự động</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			<div class="ft3">
+				<h3 class="title-topic">Phân tích</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			<div class="ft4">
+				<h3 class="title-topic">Kiểm định</h3>
+				<ul class="menu-content">
+					<li><a href="#">Mạng lưới quan trắc</a></li>
+					<li><a href="#">Công nghệ quan trắc</a></li>
+					<li><a href="#">Báo cáo</a></li>
+				</ul>
+			</div>
+			
+			<div class="ft5">
+				<h3 class="title-topic">Tải ứng dụng</h3>
+				<div class="content-widget">
+						<div class="row-footer">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="pull-left mgr15">
+									<a href="#" class="appstore"></a><br>
+									<a href="#" class="chplay"></a>
+								</div>
+								<a href="#" class="qrcode"><img src="images/qrcode.png"/></a>
+							</div>
+							<div class="col-md-5 col-sm-8 col-xs-6">
+								
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<div class="container" id="wrapper">
+			<div class="copyright">
+				Copyright © 2018 cem.gov.vn. All rights reserved
+			</div>
+		</div>
+	</div>
+</footer>
+<div id="banner_l" class="banners">
+	<a target="_blank" href="#">
+		<span class="title-ads">Quảng cáo</span>
+		<img src="images/adsleft.jpg"/>
+		<img src="images/adsleft.jpg"/>
+	</a>
+</div>
+<div id="banner_r" class="banners">
+	<a target="_blank" href="#">
+		<span class="title-ads">Quảng cáo</span>
+		<img src="images/adsright.jpg"/>
+		<img src="images/adsright.jpg"/>
+	</a>
+</div>
+<script type="text/javascript" src="js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+</body>
+</html>

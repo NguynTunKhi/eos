@@ -1,0 +1,60 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Add new receive data agent')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			<form enctype="multipart/form-data" id="frmPopupAddAgent" method="POST" action="{{=URL('call/json/ajax_save_agent_detail')}}">
+                <div class='row form-group'>
+                    <label class='col-md-2' for='areas_order_no'>{{=T('Receive data agent')}}</label>
+                    <div class='col-md-4'>
+                        <select class="form-control" name="receive_agent" id="receive_agent"
+                            data-url="{{=URL('call/json/get_agent_detail')}}">
+                            <option value="">{{=T('-- Select agent --')}}</option>
+                            {{for item in agents:}}
+                            <option value="{{=item.id}}">{{=item.agent_name}}</option>
+                            {{pass}}
+                        </select>
+                    </div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_data_server'>{{=T('Server link')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" class="form-control" value="" name="data_server" id="data_server" readonly />
+                    </div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_data_server_port'>{{=T('Port')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" class="form-control" value="" name="data_server_port" id="data_server_port" readonly />
+                    </div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_username'>{{=T('Directory format')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" class="form-control" value="" name="directory_format" id="directory_format" readonly />
+                    </div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='agents_pwd'>{{=T('File format')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" class="form-control" value="" name="file_format" id="file_format" readonly />
+                    </div>
+                </div>
+                <div class='hide row form-group'>
+                    <input type="text" class="form-control" value="" name="username" id="username" readonly />
+                    <input type="text" class="form-control" value="" name="pwd" id="pwd" readonly />
+                </div>
+                <input type="hidden" name="agent_id" value="{{=agent_id}}" />
+			</form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary btnSave"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

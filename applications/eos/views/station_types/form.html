@@ -1,0 +1,66 @@
+{{extend 'layout_master.html'}}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('STATION TYPE INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Master data')}}</li>
+            <li>{{=T('Station types list')}}</li>
+            <li class="active"><strong>{{=T('STATION TYPE INFORMATION')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+        {{f = frm.custom.widget}}
+        {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_station_type'>{{=T('Station type vn')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_type}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_station_type_english'>{{=T('Station type english')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.station_type_english}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_qi_type'>{{=T('LBL_CAL_QI')}}<span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.qi_type}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_code'>{{=T('Code')}} <span style='color:red;'>*</span></label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.code}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_order'>{{=T('Order')}} </label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order}}</div>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_color'>{{=T('Color')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.color}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_types_icon'>{{=T('Icon')}}</label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.icon}}</div>
+            </div>
+            <div class='hide row form-group'>
+                <label class='col-sm-6 col-md-2 col-lg-2' for='station_test'>Test</label>
+                <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.test}}</div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        {{=frm.custom.end}}
+        </div>
+    </div>
+</div>
+
+<input type='hidden' value='{{=msg}}' id='hfError' />

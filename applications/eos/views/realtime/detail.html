@@ -1,0 +1,77 @@
+{{extend 'layout_master.html'}}
+
+{{block head}}
+<style type='text/css'>
+    
+</style>
+{{end}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('%(name)s STATION REALTIME MONITORING') %dict(name = selected_st_name.upper())}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Realtime monitor')}}</li>
+            <li>{{=T('%(name)s station list') %dict(name=selected_st_name)}}</li>
+            <li class="active"><strong>{{=T('Station indicators')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    {{if not station_info:}}
+        <h3>{{=T('Record not founds')}}</h3>
+    {{else:}}
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=station.station_name.upper()}}</h5>
+            <div class="ibox-tools">
+                <div class="">
+                    <a class="btn btn-primary btn-sm" href="{{=URL('detail_graph', args=[station.id])}}">{{=T('Graphs')}}</a>
+                    <a class="btn btn-primary btn-sm" href="{{=URL('detail_camera', args=[station.id])}}">{{=T('Cameras')}}</a>
+                    <!-- <a class="collapse-link"><i class="fa fa-chevron-up"></i></a> -->
+                </div>
+            </div>
+        </div>
+        <!-- <div class="panel-heading"> -->
+        <!-- <div class="well"> -->
+        <div class="ibox-content p-xxs">
+            <div class="bg-muted p-xs">
+                <div class="row">
+                    {{for item in items:}}
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <label class='col-md-7 no-margins'>{{=item['name']}}</label>
+                                    <div class='col-md-5 h4 text-right no-margins'>{{=item['value']}}</div>
+                                </div>
+                                <div class="row text-right">
+                                    <div class='col-md-12 '><small> {{=item['unit']}}</small></div>
+                                </div>
+                                <div class="progress progress-mini">
+                                    <div style="width: {{=item['percent']}}%;" class="progress-bar"></div>
+                                </div>
+                                <div class="m-t-sm small">
+                                    {{if item['percent']:}}
+                                        {{=T('Limit value:')}}&nbsp;{{=item['percent']}}
+                                    {{pass}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{pass}}
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnBack' class='btn btn-primary ' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+    {{pass}}
+</div>
+

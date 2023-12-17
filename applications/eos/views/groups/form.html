@@ -1,0 +1,129 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('TITLE_ROLE_FORM')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Administrator')}}</li>
+            <li class="active">{{=T('Group list')}}</li>
+            <li class="active"><strong>{{=T('Group form')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row border-bottom">
+    <div class="ibox float-e-margins" style="margin-bottom: 10px;">
+        <div class="ibox-content">
+            {{f = form.custom.widget}}
+            {{=form.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-sm-2' for="auth_group_role">{{=T('Group name')}}&nbsp;<span style='color:red;'>*</span></label>
+                <div class='col-sm-4'>{{=f.role}}</div>
+                <label class='col-sm-2' for="auth_group_manager">{{=T('Manager')}}</label>
+                <div class='col-sm-4'>{{=f.manager}}</div>
+            </div>
+             <div class='row form-group'>
+                <label class='col-sm-2' for="auth_group_description">{{=T('Description')}}</label>
+                <div class='col-sm-10'>{{=f.description}}</div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnSave' class='btn btn-primary' data-id="{{=id}}">
+                    <i class="fa fa-save fa-white"></i>&nbsp;{{=T('Save')}}
+                </a>
+                <a class="btn btn-primary" href="{{=URL('index')}}">
+                    <i class="fa fa-undo fa-white"></i>&nbsp;{{=T('Back')}}
+                </a>
+            </div>
+            {{=form.custom.end}}
+        </div>
+        <input type="hidden" id="hfError" value="{{=errors_response}}">
+    </div>
+    {{if id:}}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class='row'>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#home2" role="tab" data-toggle="tab"><i class="fa fa-info-circle"></i> {{=T('Users in group')}}</a></li>
+                    <li><a href="#profile2" role="tab" data-toggle="tab"><i class="fa fa-user"></i> {{=T('Users not in group')}}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="home2">
+                        <br>
+                        <table id='custom_datatable_0' class='table table-striped table-bordered table-hover dataTables-example' 
+                            data-url="{{=URL('call/json/get_list_users_by_groups', vars={'type':'belong', 'groups_id':id})}}">
+                            <thead>
+                                <tr>
+                                    <th class='col-sm-1'>{{=T('#')}}</th>
+                                    <th class='col-sm-3'>{{=T('Username')}}</th>
+                                    <th class='col-sm-3'>{{=T('Email address')}}</th>
+                                    <th class='col-sm-4'>{{=T('Fullname')}}</th>
+                                    <th class='col-sm-1'><input type='checkbox' class='select_all' id='chk_all_0' /></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        {{if auth.has_permission('delete_user', 'groups'):}}
+                        <div class="hr-line-dashed"></div>
+                        <div class='row'>
+                            <div class="col-sm-12 text-right">
+                                <a id='btn-delete' class="btn btn-primary" type="button"><i class="fa fa-user-times"></i> {{=T('Remove from group')}}</a>
+                            </div>
+                        </div>
+                        {{pass}}
+                    </div>
+                    <div class="tab-pane fade" id="profile2">
+                        <br>
+                        <table id='custom_datatable_1' class='table table-striped table-bordered table-hover dataTables-example' 
+                        data-url="{{=URL('call/json/get_list_users_by_groups', vars={'type':'notbelong', 'groups_id':id})}}">
+                            <thead>
+                                <tr>
+                                    <th class='col-sm-1'>{{=T('#')}}</th>
+                                    <th class='col-sm-3'>{{=T('Username')}}</th>
+                                    <th class='col-sm-3'>{{=T('Email address')}}</th>
+                                    <th class='col-sm-4'>{{=T('Fullname')}}</th>
+                                    <th class='col-sm-1'><input type='checkbox' class='select_all' id='chk_all_1' /></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        {{if auth.has_permission('add_user', 'groups'):}}
+                        <div class="hr-line-dashed"></div>
+                        <div class='row'>
+                            <div class="col-sm-12 text-right">
+                                <a id='btn-add' class="btn btn-primary" type="button" data-id="{{=id}}"><i class="fa fa-user-plus"></i> {{=T('Add to group')}}</a>
+                            </div>
+                        </div>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+            <div class="hide">
+                <input id="add-action" type="text" value="{{=URL('call/json/insert_membership')}}">
+                <input id="del-action" type="text" value="{{=URL('call/json/del_membership')}}">
+            </div>
+    {{pass}}
+        </div>
+    </div>
+</div>
+
+{{ block js }}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+    <script>
+    {{if id:}}
+        $(document).ready(function() {
+            if ("{{=errors_response}}") {
+                app.showError("{{=T('MSG_ERR')}} <br />" + "<span class='text-red'>{{=errors_response}}</span>");
+            }
+            
+            loadDataTableForPage();
+            loadDataTableForPage_1();
+        });
+    {{pass}}
+    </script>
+{{ block }}
+

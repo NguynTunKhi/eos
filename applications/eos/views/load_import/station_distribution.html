@@ -1,0 +1,64 @@
+
+<div class="animated fadeIn no-margins" style="">
+    <div class="row">
+        <div class="ibox float-e-margins" style="margin-bottom: 0px; margin-top: -10px;">
+            <!-- <div class="ibox-title gray-bg" style="border-top:0px;"> -->
+            <div class="ibox-title" style="border-top:0px;">
+                <h5>{{=T('Stations distribution')}}</h5>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-xs btn-white btnStationDistribution active"
+                            data-url="{{=URL('load_import', 'call/json/get_station_distribution_by_province')}}"
+                            data-url2="{{=URL('load_import', 'call/json/get_station_data_by_province')}}">{{=T('by Province')}}</button>
+                        <button type="button" class="btn btn-xs btn-white btnStationDistribution"
+                            data-url2="{{=URL('load_import', 'call/json/get_station_data_by_area')}}"
+                            data-url="{{=URL('load_import', 'call/json/get_station_distribution_by_area')}}">{{=T('by Area')}}</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="ibox-content gray-bg" style="padding-top: 5px"> -->
+            <div class="ibox-content" style="padding-top: 5px;padding-bottom:86px;height: 400px;">
+                <div class="row">
+                    <div class="col-lg-3" style="padding-top: 25px; display: none!important;">
+                        <ul class="stat-list">
+                            <li>
+                                <h2 class="no-margins">{{=total_provinces_station}}</h2>
+                                <small>{{=T('Total provinces covered currently')}}</small>
+                                <div class="stat-percent">{{=pp}}%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: {{=pp}}%;" class="progress-bar"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h2 class="no-margins ">{{=total_station}}</h2>
+                                <small>{{=T('Total stations')}}</small>
+                                <div class="stat-percent">100%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 100%;" class="progress-bar"></div>
+                                </div>
+                            </li>
+                            <li>
+                            <h2 class="no-margins ">{{=total_equipments}}</h2>
+                            <small>{{=T('Total equipements installed & running')}}</small>
+                            <div class="stat-percent">{{=percent_total_equipments_in_use}}%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: {{=percent_total_equipments_in_use}}%;" class="progress-bar"></div>
+                            </div>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12" style="padding-left: 0px">
+                        <div class="flot-chart">
+                            <div id="distributeChart" style="min-width: 400px; height: 300px; margin: 0 auto"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

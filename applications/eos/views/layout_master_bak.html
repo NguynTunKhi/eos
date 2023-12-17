@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+	<title>Phần mềm quản lý dữ liệu quan trắc tự động liên tục</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="environment water air">
+	<meta name="author" content="ATI VN">
+	<!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/font-awesome/css/font-awesome.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/my-custom-styles.css')}}" />
+
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'js/jquery/jquery-ui.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'js/jquery/jquery-confirm/jquery-confirm.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'js/jquery/datetimepicker/jquery.datetimepicker.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/app.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/inspinia/animate.css?v=1')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/inspinia/style.css?v=9')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/plugins/toastr/toastr.min.css')}}" />
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/inspinia/plugins/dataTables/datatables.min.css')}}" />
+    <link rel="stylesheet" href="{{=URL('static', 'css/plugins/chosen/bootstrap-chosen.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{=URL('static', 'js/DataTables/custom_datatables.css')}}" type="text/css">
+    <!-- <link rel="shortcut icon" href="{{#=URL('static','ico/favicon.ico')}}" type="image/x-icon"> -->
+    <link rel="shortcut icon" href="{{=URL('static','images/logo_32x32.png')}}" type="image/x-icon">
+    {{block css }}{{ end }}
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'views/' + response.view.replace('.html', '.css'))}}?v=1" />
+</head>
+<style>
+    .nav-second-level{
+        padding: 10px;
+        background: rgb(248, 248, 249);
+        z-index: 10000000;
+        top: 0px;
+        width: 200px;
+        left: 100px;
+        position: absolute;
+    }
+    .navbar-static-side{
+        box-shadow: none !important;
+    }
+</style>
+<body class="gray-bg">
+    <input type="hidden" id="hfEnableDebugClient" value="True" />
+    <input type="hidden" id="hfShortDate" value="{{=date_format_js}}" />
+    <input type="hidden" id="hfMenuNameCommon" value="{{=request.controller}}">
+    <input type='hidden' id='hfCurrentUrl' value='{{=URL(args=request.args, vars=request.get_vars)}}' />
+    <input type="hidden" id="hfLoadingIcon" value="{{=URL('static', 'images/loading.gif')}}">
+    <div id="wrapper" style="padding: 10px;">
+        {{block page_wrapper}}
+        <div style="margin: 0 0 0 0px;" class="gray-bg" style="overflow: hidden;">
+        {{end}}
+            <div class="wrapper wrapper-content" style="padding-top: 0px;height: 1000px;">
+                {{include}}
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal fade" style="display: none"></div>
+	<!-- Mainly scripts -->
+    {{if request.url not in ["/eos/faq/form", "/eos/news/form"] :}}
+    <script src="{{=URL('static', 'js/jquery/jquery-2.1.1.js')}}"></script>
+    {{pass}}
+    <script src="{{=URL('static', 'js/bootstrap/bootstrap.min.js')}}"></script>
+	<script src="{{=URL('static', 'js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+	<script src="{{=URL('static', 'js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+
+	<script src="{{=URL('static', 'js/plugins/datatable/jquery.dataTables.min.js')}}"></script>
+	<script src="{{=URL('static', 'js/plugins/datatable/dataTables.bootstrap.js')}}"></script>
+    <script src="{{=URL('static', 'js/jquery/jquery.blockUI.js') }}"></script>
+    <script src="{{=URL('static', 'js/inspinia.js') }}"></script>
+    <script src="{{=URL('static', 'js/plugins/pace/pace.min.js') }}"></script>
+    <script src="{{=URL('static', 'js/plugins/gritter/jquery.gritter.min.js') }}"></script>
+    <script src="{{=URL('static', 'js/plugins/toastr/toastr.min.js') }}"></script>
+
+    {{#include 'web2py_ajax.html'}}
+    {{include 'widget_script_analytics.html'}}
+    <!-- get_language_for_js -->
+    <div id="js_strings" class="hide" style="display: none!important;">{{=response.js_string}}</div>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery.class.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/jquery-confirm/jquery-confirm.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery/datetimepicker/jquery.datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/notify.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.formError.js')}}"></script>
+    <script src="{{=URL('static', 'js/plugins/chosen/chosen.jquery.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/common.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/app.js')}}"></script>
+    {{ block js }}{{ end }}
+    <script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}?v=16"></script>
+
+    {{block js_block}} {{end}}
+
+    {{if session.request_active_task_get_data:}}
+    <input type="hidden" id="urlStartTaskNow" value="{{=URL('tasks', 'call/json/start_task_get_data')}}"/>
+    <input type="hidden" id="urlStartTaskLater" value="{{=URL('tasks', 'call/json/start_task_get_data_later')}}"/>
+    <script type="text/javascript" src="{{=URL('static', 'js/request_active_task_get_data.js')}}"></script>
+    {{pass}}
+
+    <input type="hidden" id="urlNotify_menu" value="{{=URL('notifications', 'call/json/notify_menu')}}"/>
+    <script type="text/javascript" src="{{=URL('static', 'js/notify_menu.js')}}"></script>
+<!--    <input type="hidden" id="urlAlarmLogs_menu" value="{{=URL('alarm_logs', 'call/json/alarm_menu')}}"/>-->
+    <script type="text/javascript" src="{{=URL('static', 'js/alarm_logs_menu.js')}}"></script>
+    <input type="hidden" id="urlLogo_menu" value="{{=URL('owner_information', 'call/json/get_logo')}}"/>
+    <script type="text/javascript" src="{{=URL('static', 'js/logo_menu.js')}}"></script>
+
+    <script>
+        $('#changeEN').click(function(){
+            var language = ['us-en']
+            localStorage.setItem('lang', language);
+<!--            var a = document.getElementById("imageLanguage");-->
+<!--            a.setAttribute('src', '/eos/static/images/en-US.gif');-->
+
+        });
+         $('#changeVN').click(function(){
+            var language = ['vn-vi']
+            localStorage.setItem('lang', language);
+<!--            var a = document.getElementById("imageLanguage");-->
+<!--            a.setAttribute('src', '/eos/static/images/vi-VN.gif');-->
+
+        });
+        $('#changeDashboard').click(function(){
+            langLocal = localStorage.lang
+            if (langLocal != undefined) {
+                var URL = document.getElementById("changeDashboard").href
+                document.getElementById("changeDashboard").href = URL + '/' + langLocal
+            }
+        });
+    </script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": true,
+            "preventDuplicates": true,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "400",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        // Lenh goi : toastr['success'](app.translate('JS_MSG_SAVE_SUCCESS'));
+        // các kiểu : success / info / warning / error
+    </script>
+
+
+</body>
+</html>

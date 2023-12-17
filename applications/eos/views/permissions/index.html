@@ -1,0 +1,61 @@
+{{extend 'layout_master.html'}}
+{{from applications.eos.modules import const}}
+{{if group:}}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('TITLE_ROLE_LIST')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Administrator')}}</li>
+            <li>{{=T('Group list')}}</li>
+            <li class="active"><strong>{{=T('Priviledge')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{='%s %s : "%s" ' % (T('Grand permissions'), T('for group'), group.role)}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            {{system_action = common.sort_dict_const_by_value(const.SYSTEM_ACTIONS)}}
+            <table id='custom_datatable_0' class='table table-striped table-bordered table-hover dataTables-example'
+                data-url="{{=URL('/call/json/get_list_permissions', vars={'group_id':group.id, 'type':'controller'})}}">
+                <thead>
+                    <tr>
+                        <th>{{=T('#')}}</th>
+                        <th>System functions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="hr-line-dashed"></div>
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <a id='btnSave' class="btn btn-primary" type="button"
+                        data-url="{{=URL('call/json/update_permissions')}}"
+                        data-iTable="0"
+                        data-group="{{=group.id}}"
+                        data-confirm="{{=T('Are you sure to update permissions?')}}">
+                        <i class="fa fa-save fa-white"></i>&nbsp;{{=T('Save')}}</a>
+                    <a id='btnBack' class='btn btn-primary' href="#" onclick='app.confirmBack();'><i class="fa fa-undo fa-white"></i>&nbsp;{{=T('Back')}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ block js }}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{ block }}
+
+{{pass}}

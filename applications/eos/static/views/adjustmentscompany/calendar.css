@@ -1,0 +1,37 @@
+.ibox-content.change-type{
+    padding: 0px;
+}
+.ibox-content.change-type .ibox{
+    margin: 0px;
+}
+.ibox-content.change-type .ibox .ibox-title{
+    padding: 5px;
+    min-height: 32px;
+    border: none;
+    background: #eee;
+}
+.ibox-content.change-type .ibox .ibox-title h5{
+    font-size: 1.0em;
+    font-weight: 600;
+    margin: 0px;
+    line-height: 22px;
+}
+.ibox-content.change-type .ibox .ibox-content{
+    padding: 0px;
+}
+.ibox-content.change-type .ibox .ibox-content .item{
+    width: 100%;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+.ibox-content.change-type .ibox .ibox-content .item a{
+
+}
+.ibox-content.change-type .ibox .ibox-content .item span{
+    float: right;
+    font-weight: 600;
+}
+/* .ibox-title{ */
+    /* padding: 5px; */
+    /* min-height: 25px; */
+/* } */

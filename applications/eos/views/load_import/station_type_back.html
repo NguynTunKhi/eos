@@ -1,0 +1,165 @@
+<div class="ibox float-e-margins" style="margin-bottom: -40px;">
+    <div class="ibox-title" style="">
+        <div class="row">
+            <div class="col-md-10">
+                <h5 style="padding-top: 0px;">{{=T("Statitical summary")}} : &nbsp;</h5>
+                <span class="">
+                    <label>{{=T("Total station")}}: {{=total_station}}, {{=T("Total station offline")}}: {{=total_offline}}, {{=T("Total station online")}}: {{=total_online}} ({{=T('Total station good')}}: {{=total_good}}, {{=T('Total station exceed')}}: {{=total_exceed}}, {{=T('Total sensor error')}}: {{=total_error}}, {{=T('Total station adjust')}}: {{=total_adjust}})</label>
+                </span>
+            </div>
+            <div class="col-md-2 text-right">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content gray-bg" style="padding-top: 5px">
+            <div class="row">
+                {{color_block_1 = ['success', 'info', 'primary', 'warning', 'danger']}}
+                {{for i, item in enumerate(sorted(station_type_online)):}}
+                    {{st = station_type_online[item]}}
+                    {{online = st['online'] if st.has_key('online') and st['online']!=0 else 0}}
+                    {{good = st['good'] if st.has_key('good') and st['good']!=0 else 0}}
+                    {{exceed = st['exceed'] if st.has_key('exceed') and st['exceed']!=0 else 0}}
+                    {{error = st['error'] if st.has_key('error') and st['error']!=0 else 0}}
+                    {{adjust = st['adjust'] if st.has_key('adjust') and st['adjust']!=0 else 0}}
+                    {{offline = st['offline'] if st.has_key('offline') and st['offline']!=0 else 0}}
+                    {{error = st['error'] if st.has_key('error') and st['error']!=0 else 0}}
+                    {{total = st['total'] if st.has_key('total') and st['total']!=0 else 0}}
+
+                <div class="col-lg-2 widget_st">
+                    <a type="button" class="" href="{{=URL('station', 'stations', vars=dict(station_type=st['value']))}}">
+                        <div class="ibox" style="padding-bottom: 0px;">
+                            <div class="ibox-content p-xs product-box1">
+                                <div class="input-group">
+                                    <h4>{{=T(st['name'])}}</h4>
+                                </div>
+                                <!-- <h3 style="margin-top: -10px; margin-bottom: 15px;">{{#='%s/%s' % (online, total)}}</h3> -->
+                                <div class="text-center">
+                                    <div id="sparkline_{{=str(i)}}"></div>
+                                </div>
+
+                                <table class="table table-stripped small m-t-md">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <col width="10%"><col width="10%">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-circle text-primary" style="color:#1ab394!important"></i></td>
+                                            <td colspan="9" class="text-left no-borders item-block-1">{{='%s: %s' % (T('ActiveLabel'), online)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1"></td>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-circle text-primary" style="color:#1ab394!important"></i></td>
+                                            <td colspan="8" class="text-left no-borders item-block-1">{{='%s: %s' % (T('Good'), good)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1"></td>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-circle text-primary" style="color:red!important"></i></td>
+                                            <td colspan="8" class="text-left no-borders item-block-1">{{='%s: %s' % (T('Exceed'), exceed)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1"></td>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-times-circle-o text-primary" style="color:red!important"></i></td>
+                                            <td colspan="8" class="text-left no-borders item-block-1">{{='%s: %s' % (T('Sensor error'), error)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1"></td>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-pause" style="color:purple"></i></td>
+                                            <td colspan="8" class="text-left no-borders item-block-1">{{='%s: %s' % (T('Adjustment'), adjust)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-stop" style="color:#999999!important"></i></td>
+                                            <td colspan="9" class="text-left no-borders item-block-1">{{='%s: %s' % (T('Disconnect'), offline)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" class="no-borders"><i class="fa fa-sigma text-info"></i></td>
+                                            <td colspan="9" class="text-left no-borders item-block-1">{{='%s: %s' % (T('Total station'), total)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {{pass}}
+            </div>
+        </div>
+</div>
+
+<link type="text/css" rel="stylesheet" href="{{=URL('static', 'views/load_import/station_type.css')}}" />
+
+<script type="text/javascript" src="{{=URL('static', 'views/load_import/station_type.js')}}"></script>
+<script>
+    var stationTypeInterval = setInterval(function (e) {
+        if (typeof jQuery != 'function'){
+            return false;
+        }
+        clearInterval(stationTypeInterval);
+        $(document).ready(function () {
+            {{for i, item in enumerate(sorted(station_type_online)):}}
+                {{st = station_type_online[item]}}
+                {{online = st['online'] if st.has_key('online') and st['online']!=0 else 0}}
+                {{good = st['good'] if st.has_key('good') and st['good']!=0 else 0}}
+                {{exceed = st['exceed'] if st.has_key('exceed') and st['exceed']!=0 else 0}}
+                {{error = st['error'] if st.has_key('error') and st['error']!=0 else 0}}
+                {{adjust = st['adjust'] if st.has_key('adjust') and st['adjust']!=0 else 0}}
+                {{offline = st['offline'] if st.has_key('offline') and st['offline']!=0 else 0}}
+                // {{error = st['error'] if st.has_key('error') and st['error']!=0 else 0}}
+                {{total = st['total'] if st.has_key('total') and st['total']!=0 else 0}}
+                <!-- $("#sparkline_{{=str(i)}}").sparkline([5, 3], { -->
+                <!-- $("#sparkline_{{=str(i)}}").sparkline([{{=total - online - error}}, {{=online + error}}], {
+                -->
+                var values = [{{=good}}, {{=exceed}}, {{=error}}, {{=adjust}}, {{=offline}}];
+                var color_map = {
+                    "#1dce6c": "{{=T('Good')}}",
+                    "#EA3223":"{{=T('Exceed')}}",
+                    "#ff7e00":"{{=T('Sensor error')}}",
+                    "purple":"{{=T('Adjust')}}",
+                    "#999999":"{{=T('Offline')}}"
+                }
+                $("#sparkline_{{=str(i)}}").sparkline(values, {
+                    type: 'pie',
+                    height: '100',
+                    sliceColors: ['#1dce6c', '#EA3223', '#ff7e00', 'purple', '#999999'],
+                    tooltipFormatter: (function (sparkline, options, fields){
+                        // console.log(fields);
+                        var define = color_map[fields.color];
+                        return define + ":" + fields.value;;
+                    }),
+                    options: {
+                        tooltips: {
+                            yAlign: "bottom"
+                        }
+                    }
+
+                });
+            {{pass}}
+            // var data = randomData();
+            // var range_map = $.range_map({
+                // '0:1': 'red',
+                // '2:4': 'yellow',
+                // '5:7': 'black',
+                // '8:9': 'blue',
+                // '10:': 'purple'
+            // })
+            // $("#line1").sparkline(data, {
+                // type: 'bar',
+                // barColor: '#1ab394',
+                // negBarColor: '#c6c6c6',
+                // height: '35px',
+                // barWidth: 8,
+                // colorMap: eval($("#line1").attr('sparkColorMap'))
+            // });
+
+
+        });
+    }, 100);
+
+</script>

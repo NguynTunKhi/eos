@@ -1,0 +1,214 @@
+.btnChangeColumn{
+    display: inline-block!important;
+    width: auto!important;
+}
+.videos h3{
+    text-align: center;
+}
+.videos .item{
+    margin-bottom: 0px;
+}
+.videos .item iframe{
+    width: 100%;
+}
+.videos .item.col-sm-3 iframe{
+    max-height: 150px;
+}
+.videos .item.col-sm-4 iframe{
+    max-height: 200px;
+}
+.videos .item.col-sm-6 iframe{
+    max-height: 500px;
+}
+.videos .item.col-sm-12 iframe{
+    max-height: 1000px;
+}
+.bg-video{
+    width: 100%;
+    height : 210px;
+    background-color: rgb(24, 24, 24);
+    background-image: url("/eos/static/images/example.jpg");
+    background-position: center;
+    background-size: 50% 50%;
+    padding: 0px;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+}
+.bg-video1{
+    width: 100%;
+    padding: 0px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.bg-video2{
+    width: 100%;
+    height: 140px;
+    padding: 0px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.bg-video:hover{
+    opacity: 1.0;
+}
+.bg-video1:hover{
+    opacity: 1.0;
+}
+
+.div_record{
+    display:flex;
+    justify-content:center;
+    background:#f5f5f5;
+}
+
+.camera{
+  position: relative;
+  width: 100%;
+}
+
+.record1{
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border: solid 5px red;
+    width: 30px;
+    height: 30px;
+    background: red;
+}
+.record{
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: red;
+  color: white;
+  font-size: 16px;
+  padding: 5px;
+  border: solid 5px red;
+  cursor: pointer;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  text-align: center;
+}
+
+.fullscreen-mode {
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:1000;
+    width:100%;
+    height:100%;
+    line-height:100%;
+    background:rgba(0,0,0,0.5);
+}
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 1270px;
+  height: 548px;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus{
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.camera_img{
+    padding: 0px;
+    background-color: black;
+}
+
+.camera_title {
+  display: -webkit-box;
+  max-width: 100%;
+  height: 15px;
+  margin: 0 auto;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+
+.setup {
+  flex-basis:90%;
+  display: -webkit-box;
+  max-width: 100%;
+  height: 15px;
+  margin: 0 auto;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.camera_setting {
+    border: 0px;
+    background: black;
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+.camera_option {
+    background: black;
+    color: wheat;
+    text-align: right;
+}
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+
+.dropdown-content {
+  margin-left:25px;
+  display: block;
+  position: absolute;
+  background-color: black;
+  min-width: 50px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  text-decoration: none;
+  display: block;
+}
+
+.a:hover {
+  color:blue;
+}
+
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

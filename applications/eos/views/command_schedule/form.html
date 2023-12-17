@@ -1,0 +1,163 @@
+{{extend 'layout_master.html'}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('COMMANDS SCHEDULE')}}</h2>
+        <ol class="breadcrumb">
+            <li><a >{{=T('Home')}}</a></li>
+            <li><a>{{=T('Command get data')}}</a></li>
+            <li class="active"><strong>{{=T('Commands schedule')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Set schedule for command')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-sm-5 p-xs">
+                    <div class="row form-group">
+                        <label class='col-md-3'>{{=T('LBL_STATION')}}</label>
+                        <div class='col-md-9'>
+                            <select class="form-control " id="station_id" data-url="{{=URL('command_schedule', 'call/json/dropdown_content/datalogger_command/station_id/id/command_name')}}">" >
+                                <option value="">{{=T('-- Select station --')}}</option>
+                                {{for item in stations:}}
+                                <option value="{{=item.id}}" >{{=item.station_name}}</option>
+                                {{pass}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class='col-md-3'>{{=T('Title')}} <span style='color:red;'>*</span></label>
+                        <div class='col-md-9'>
+                            <select class="form-control " id="command_id" data-url="{{=URL('call/json/get_command_by_id')}}" >
+                                <option value="">{{=T('-- Choose command --')}}</option>
+                                {{for item in commands:}}
+                                <option value="{{=item.id}}" >{{=item.command_name}}</option>
+                                {{pass}}
+                            </select>
+                        </div>
+                    </div>
+<!--                    <div class="row form-group">-->
+<!--                        <label class='col-md-3'>{{=T('No of bottles')}} <span style='color:red;'>*</span></label>-->
+<!--                        <div class='col-md-9'>-->
+<!--                            <input id="command_bottle" class="form-control form-group"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row form-group">-->
+<!--                        <label class='col-md-3'>{{=T('Datalogger_ID')}} <span style='color:red;'>*</span></label>-->
+<!--                        <div class='col-md-9'>-->
+<!--                            <input id="command_logger_id" class="form-control form-group" disabled/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="row form-group">
+                        <label class='col-md-3'>{{=T('Command content')}} <span style='color:red;'>*</span></label>
+                        <div class='col-md-9'>
+                        <textarea id="command" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-7">
+                    <br>
+                    <div class="row form-group">
+                        <label class='col-md-3'>{{=T('Inteval')}} <span style='color:red;'>*</span></label>
+                        <div class='col-md-9 form-inline'>
+                            <input type="text" class="form-control form-group datetime" id="start_date" name="start_date" placeholder="{{=T('From Date')}}" />
+                            <input type="text" class="form-control form-group datetime" id="end_date" name="end_date" placeholder="{{=T('To Date')}}"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class='col-md-3'>{{=T('No of bottles')}} <span style='color:red;'>*</span></label>
+                        <div class='col-md-9'>
+                            <input id="command_bottle" class="form-control form-group"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class='col-md-3'>{{=T('Datalogger_ID')}} <span style='color:red;'>*</span></label>
+                        <div class='col-md-9'>
+                            <input id="command_logger_id" class="form-control form-group" disabled/>
+                        </div>
+                    </div>
+<!--                    <div class="row form-group">-->
+<!--                        <label class='col-md-3'>{{=T('Hour start')}} <span style='color:red;'>*</span></label>-->
+<!--                        <div class='col-md-9 form-inline'>-->
+<!--                            <input type="text" class="form-control form-group " id="start_time" name="start_time" placeholder="{{=T('Hour From')}}" style="width: 20%"/>-->
+<!--                            <input type="text" class="form-control form-group " id="end_time" name="end_time" placeholder="{{=T('Hour To')}}" style="width: 20%"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row form-group">-->
+<!--                        <br>-->
+<!--                        <label class='col-md-2'>{{=T('Repeat')}}</label>-->
+<!--                        <div class='col-md-10'>-->
+<!--&lt;!&ndash;                            <div class="i-checks"><label> <input type="radio" value="0" name="repeatMode" checked> <i></i> {{=T('No repeat')}} </label></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <div class="i-checks"><label> <input type="radio" value="1" name="repeatMode"> <i></i> {{=T('by minute')}} </label></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <div class="i-checks"><label> <input type="radio" value="2" name="repeatMode"> <i></i> {{=T('by hour')}} </label></div>&ndash;&gt;-->
+<!--                            <div class="i-checks"><label>-->
+<!--                                <input id="optionsRadiosDaily" type="radio" value="daily" name="repeatMode"> <i></i> {{=T('Every day')}} </label>-->
+<!--                            </div>-->
+<!--                            <div class="i-checks ">-->
+<!--                                <label>-->
+<!--                                    <input id="optionsRadiosWeekly" type="radio" value="weekly" name="repeatMode"> <i></i> {{=T('Every week at')}}-->
+<!--                                    <select id="weeklyFrequency" data-placeholder="{{=T('Choose a day')}}" class="chosen-select" multiple style="width:420px;" tabindex="4">-->
+<!--&lt;!&ndash;                                            <option value="">{{=T('Select')}}</option>&ndash;&gt;-->
+<!--                                            <option selected value="0">{{=T('Mon')}}</option>-->
+<!--                                            <option value="1">{{=T('Tue')}}</option>-->
+<!--                                            <option value="2">{{=T('Wed')}}</option>-->
+<!--                                            <option value="3">{{=T('Thu')}}</option>-->
+<!--                                            <option value="4">{{=T('Fri')}}</option>-->
+<!--                                            <option value="5">{{=T('Sat')}}</option>-->
+<!--                                            <option value="6">{{=T('Sun')}}</option>-->
+<!--                                    </select>-->
+<!--                                </label>-->
+<!--                            </div>-->
+<!--                            <div class="i-checks">-->
+<!--                                <label>-->
+<!--                                    <input id="optionsRadiosMonthly" type="radio" value="monthly" name="repeatMode"> <i></i> {{=T('Every month at')}}-->
+<!--&lt;!&ndash;                                    <input id="monthlyFrequency" type="number" min="1" max="28" style="width: 20%;text-align:center;" value="1" disabled>&ndash;&gt;-->
+<!--                                    <select id="monthlyFrequency" data-placeholder="{{=T('Choose a day')}}" class="chosen-select" multiple style="width:420px;" tabindex="4">-->
+<!--&lt;!&ndash;                                        <option value="">{{=T('Select')}}</option>&ndash;&gt;-->
+<!--                                        <option selected value="1">{{=T('Day')}} 1</option>-->
+<!--                                        {{for i in range(2,32):}}-->
+<!--                                            <option value="{{=i}}">{{=T('Day')}} {{=i}}</option>-->
+<!--                                        {{pass}}-->
+<!--                                    </select>-->
+<!--                                </label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                {{if auth.has_permission('schedule', 'commands_schedule'):}}
+                <a class='btn btn-primary' type='button' id="btnSetSchedule" data-url="{{=URL('call/json/ajax_set_command_schedule')}}">
+                    <i class="fa fa-plus"></i> {{=T('Set schedule')}}
+                </a>
+                {{pass}}
+                <a class='btn btn-primary' type='button' href='javascript: window.history.back();'><i class="fa fa-undo fa-white"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+            <input type="hidden" id="hfCommandId" value="{{=command_id if command_id else ''}}" />
+            <input type="hidden" id="hfCalendarId" value = "{{=URL('call/json/ajax_get_command_calendar')}}" />
+            <input type="hidden" id="indexUrl" value = "{{=URL('command_schedule','index')}}" />
+        </div>
+    </div>
+    
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/plugins/sweetalert/sweetalert.min.js')}}"></script>
+{{end}}
+
+{{block css }}
+    <link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/plugins/sweetalert/sweetalert.css')}}" />
+{{end}}

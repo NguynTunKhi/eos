@@ -1,0 +1,114 @@
+{{extend 'layout_master.html'}}
+{{from datetime import datetime}}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('NOTIFICATION INFORMATION')}}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Notifications list')}}</li>
+            <li class="active"><strong>{{=T('Form')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 animated fadeInRight">
+        <div class="mail-box-header">
+            <div class="pull-right tooltip-demo">
+                <a href='javascript: window.history.back();' class="btn btn-white btn-sm"><i class="fa fa-reply"></i> {{=T('Back')}}</a>
+                <!-- <a href="#" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> </a> -->
+                <a href="javascript: void(0);" id="btnDelete1" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"
+                    data-url="{{=URL('call/json/del_records/notifications', vars={'id': record.id})}}" ><i class="fa fa-trash-o"></i> </a>
+            </div>
+            <h2>{{=T('Message')}}</h2>
+            <div class="mail-tools tooltip-demo m-t-md">
+                <h3><span class="font-noraml">{{=T('Subject: ')}}</span>{{=record.title}}</h3>
+                <h5>
+                    <span class="pull-right font-noraml">{{=record.notify_time.strftime("%I:%M%p   %d %b %Y")}}</span>
+                    <span class="font-noraml">{{=T('From: ')}}</span> {{if sender:}}{{='%s (%s)' % (sender.fullname, sender.email)}} {{pass}}
+                </h5>
+            </div>
+        </div>
+        <div class="mail-box">
+            <div class="mail-body">
+            <p>
+                {{=record.content}}
+            </p>
+        </div>
+        <input type="hidden" id="notification_id" value="{{=record.id if record else ''}}" />
+            <!-- <div class="mail-attachment"> -->
+                <!-- <p> -->
+                    <!-- <span><i class="fa fa-paperclip"></i> 2 attachments - </span> -->
+                    <!-- <a href="#">Download all</a> -->
+                    <!-- | -->
+                    <!-- <a href="#">View all images</a> -->
+                <!-- </p> -->
+
+                <!-- <div class="attachment"> -->
+                    <!-- <div class="file-box"> -->
+                        <!-- <div class="file"> -->
+                            <!-- <a href="#"> -->
+                                <!-- <span class="corner"></span> -->
+                                <!-- <div class="icon"><i class="fa fa-file"></i></div> -->
+                                <!-- <div class="file-name"> -->
+                                    <!-- Document_2014.doc -->
+                                    <!-- <br/> -->
+                                    <!-- <small>Added: Jan 11, 2014</small> -->
+                                <!-- </div> -->
+                            <!-- </a> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                    <!-- <div class="file-box"> -->
+                        <!-- <div class="file"> -->
+                            <!-- <a href="#"> -->
+                                <!-- <span class="corner"></span> -->
+                                <!-- <div class="image"> -->
+                                    <!-- <img alt="image" class="img-responsive" src="img/p1.jpg"> -->
+                                <!-- </div> -->
+                                <!-- <div class="file-name"> -->
+                                    <!-- Italy street.jpg -->
+                                    <!-- <br/> -->
+                                    <!-- <small>Added: Jan 6, 2014</small> -->
+                                <!-- </div> -->
+                            <!-- </a> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                    <!-- <div class="file-box"> -->
+                        <!-- <div class="file"> -->
+                            <!-- <a href="#"> -->
+                                <!-- <span class="corner"></span> -->
+                                <!-- <div class="image"> -->
+                                    <!-- <img alt="image" class="img-responsive" src="img/p2.jpg"> -->
+                                <!-- </div> -->
+                                <!-- <div class="file-name"> -->
+                                    <!-- My feel.png -->
+                                    <!-- <br/> -->
+                                    <!-- <small>Added: Jan 7, 2014</small> -->
+                                <!-- </div> -->
+                            <!-- </a> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                    <!-- <div class="clearfix"></div> -->
+                <!-- </div> -->
+            <!-- </div> -->
+            <div class="mail-body text-right tooltip-demo">
+                <a class="btn btn-sm btn-white" href="javascript: window.history.back();"><i class="fa fa-reply"></i> {{=T('Back')}}</a>
+                <!-- <button title="" data-placement="top" data-toggle="tooltip" type="button" data-original-title="Print" class="btn btn-sm btn-white"><i class="fa fa-print"></i> {{=T('Print')}}</button> -->
+                <button id="btnDelete2" title="" data-placement="top" data-toggle="tooltip" data-original-title="Trash" class="btn btn-sm btn-white"
+                    data-url="{{=URL('call/json/del_records/notifications', vars={'id': record.id})}}" >
+                    <i class="fa fa-trash-o"></i> {{=T('Delete')}}
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+{{ block js }}
+    <script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+{{ block }}

@@ -1,0 +1,15 @@
+#cbbIndicatorId_chosen{
+    width: 100%!important;
+}
+
+#custom_datatable_1 td span{
+    display: block;
+}
+
+.nav-tabs > li > a:focus {
+  background-color: transparent;
+}
+
+table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable td:last-child {
+    border-right-width: 1px;
+}

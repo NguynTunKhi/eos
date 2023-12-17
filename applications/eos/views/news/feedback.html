@@ -1,0 +1,52 @@
+{{extend 'layout_master.html'}}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{=LOAD('components', 'breadcrumb', vars=dict(title='News', items=[
+    dict(title='Home', link='/eos/dashboard/index'),
+    dict(title='Settings', link=''),
+    dict(title='Feedback', link='/eos/news/feedbacks'),
+    dict(title='BTN_CREATE', link='')
+]))}}
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=T('Create new / edit')}}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="ibox-content">
+        {{f = frm.custom.widget}}
+        {{=frm.custom.begin}}
+            <div class='row form-group'>
+                <label class='col-md-12 col-lg-2' for='news_province_id'>{{=T('Province')}} <span style='color:red;'>*</span></label>
+                <div class='col-md-12 col-lg-10' id="news_province_id">{{=f.province_id}}</div>
+            </div>
+            <div class='row form-group hide'>
+                <label class='col-md-12 col-lg-2' for='news_title'>{{=T('LBL_TITLE')}} <span style='color:red;'>*</span></label>
+                <div class='col-md-12 col-lg-10' id="news_title">{{=f.title}}</div>
+            </div>
+            <div class='row form-group'>
+                <label class='col-md-12 col-lg-2' for='news_summary'>{{=T('description')}}<span style='color:red;'>*</span></label>
+                <div class='col-md-12 col-lg-10' id="news_summary">{{=f.summary}}</div>
+            </div>
+            <div class="row form-group">
+                <label class='col-md-12 col-lg-2' for='news_published'>{{=T('Status')}} </label>
+                <div class='col-md-12 col-lg-10' id="news_published">{{=f.published}}</div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <input type="text" id="province_name" name="province_name" class="hide">
+                <div class='hide' id="user_id">{{=f.user_id}}</div>
+                <div class='hide' id="u_display">{{=f.u_display}}</div>
+                <div class='hide' id="avatar">{{=f.avatar}}</div>
+                <div class="hide" id="news_new_type">{{=f.new_type}}</div>
+                <a id='btnSave' class='btn btn-primary '><i class="fa fa-save"></i> {{=T('BTN_SAVE')}}</a>
+                <a id='btnBack' class='btn' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        {{=frm.custom.end}}
+        </div>
+    </div>
+</div>
+
+<input type='hidden' value='{{=msg}}' id='hfError' />

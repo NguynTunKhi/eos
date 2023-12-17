@@ -1,0 +1,55 @@
+{{extend 'layout_master.html'}}
+
+
+<div class="widget widget-table">
+    <div class="widget-header">
+        <h3><i class="fa fa-table"></i> {{=T('TITLE_CUSTOMERS_FORM')}}</h3>
+    </div>
+    <div class="widget-content">
+        <div class='col-sm-5'>
+            <div class='panel panel-default'>
+                <div class="row form-group">
+                    <label class='col-sm-4'>{{=T('LBL_NAME')}}</label>
+                    <label class='col-sm-8'>{{=role_form.record.name}}</label>
+                </div>
+                <div class="row form-group">
+                    <label class='col-sm-4'>{{=T('LBL_DESCRIPTION')}}</label>
+                    <label class='col-sm-8'>{{=role_form.record.description}}</label>
+                </div>
+            </div>
+            <div class="text-right">
+                <button type='button' class='btn btn-primary' style="width:100px;" onclick="update_permission()">
+                    {{=T('BTN_SAVE')}}
+                </button>
+                <a class="btn btn-primary " type="button" style="width:100px;" href="{{=URL('role', 'role_list')}}">
+                    {{=T('BTN_BACK')}}
+                </a>
+            </div>
+            <div class='clear'></div>
+        </div>
+        <div class='col-sm-1'>
+             <div class='clear'></div>   
+        </div>
+        <div class='col-sm-6'>
+            <div class="pane" style="height: 450px">
+                <div id="jstree"></div>
+            </div>
+        </div>
+    </div>
+    <div class='hide'>
+        <input id="jstree-url" type="text" value="{{=URL('role', 'call', args=['json', 'func_json'], vars=dict(role_id = role_id))}}">
+        <input id="func-code-url" type="text" value="{{=URL('role', 'get_func_code')}}">
+        <input id="update-url" type="text" value="{{=URL('role', 'update_permission')}}">
+        <input id="record-id" type="text" value="{{=role_form.record.id}}">
+        <input id="lbl-get-func-code" type="text" value="{{=T('LBL_GET_FUNC_CODE')}}">
+    </div>
+</div>
+
+{{block css }}
+    <link rel="stylesheet" href="{{=URL('static', 'js/jstree/themes/default/style.min.css')}}" />
+    <link rel="stylesheet" href="{{=URL('static', 'css/custom_tree.css')}}" />
+{{ end }}
+
+{{ block js }}
+    <script src="{{=URL('static', 'js/jstree/jstree.min.js')}}"></script>
+{{ end }}

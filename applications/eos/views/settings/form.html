@@ -1,0 +1,106 @@
+{{extend 'layout_master.html'}}
+
+
+{{block head}}
+<style type='text/css'>
+    <!-- css -->
+</style>
+{{end}}
+
+{{f = frm.custom.widget}}
+{{=frm.custom.begin}}
+    <div class='col-sm-12 margin0A'>
+        <div class='panel panel-default'>
+            <div class='panel-body'>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='settings_lack_data_value'>{{=T('LBL_LACK_DATA_VALUE')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.lack_data_value}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='settings_paging'>{{=T('LBL_PAGING')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.paging}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='settings_online_refresh_timing'>{{=T('LBL_ONLINE_REFRESH_TIMING')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.online_refresh_timing}}</div>
+            </div>
+        </div>
+        <div class='text-right marginT5'>
+            <a id='btnSave' class='btn btn-primary '>{{=T('BTN_SAVE')}}</a>
+            <a id='btnReset' class='btn btn-primary ' onclick='resetForm()'>{{=T('BTN_RESET')}}</a>
+            <a id='btnBack' class='btn btn-primary ' onclick='confirmBack()'>{{=T('BTN_BACK')}}</a>
+        </div>
+    </div>
+{{=frm.custom.end}}
+
+
+<script>
+    $(document).ready(function() {
+
+        {{if msg and app_const.ENABLE_DEBUG_CLIENT:}}
+            $.message({
+                s_content: '{{=msg}}'
+            });
+        {{pass}}
+
+        $('#btnSave').click(function() {
+            if (!validateForm()) return;
+            $.message({
+                s_content: "{{=T('MSG_CONFIRM_SAVE')}}",
+                fn_call: function(answer) {
+                    if (answer) {
+                        $('#frmMain').submit();
+                    }
+                }
+            });
+        });
+
+        onlyTypeNumber('#settings_online_refresh_timing');
+    });
+
+    // Validate form
+    function validateForm() {
+        if (!validateMandatory()) return false;
+        if (!validateType()) return false;
+        if (!validateBussiness()) return false;
+        
+        return true;
+    }
+
+    // Validate for fields mandatory
+    function validateMandatory() {
+        return true;
+    }
+    
+    // Validate for type of fields
+    function validateType() {
+        return true;
+    }
+    
+    // Validate for bussiness of fields
+    function validateBussiness() {
+        // Todo
+        return true;
+    }
+    
+    function resetForm() {
+        // Todo
+        return true;
+    }
+
+    function confirmBack() {
+        window.history.back();
+        /*
+        $.message({
+            s_content: '{{=T("MSG_CONFIRM_BACK")}}',
+            fn_call: function(answer) {
+                if(answer){
+                    window.location = '{{=URL(ca.LIST)}}'
+                } else {
+                    return null;
+                }
+            }
+        });
+        */
+    }
+
+</script>
+

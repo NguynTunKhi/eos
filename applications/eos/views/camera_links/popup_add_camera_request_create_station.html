@@ -1,0 +1,60 @@
+<!-- The Modal -->
+<div class="modal">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <h4>
+                <strong>{{=T('Camara Record information')}}</strong>
+                <span class="close">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+			{{f = frm.custom.widget}}
+			<form enctype="multipart/form-data" id="frmPopupAddCamera" method="POST" action="{{=URL('camera_links', 'call/json/ajax_save_camera_create_request_station')}}">
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_description'>{{=T('Camera name')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.description}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_order_no'>{{=T('Order number')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.order_no}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_auto_record'>{{=T('Auto Record')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.auto_record}}</div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_is_visible'>{{=T('Visible')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>{{=f.is_visible}}</div>
+                </div>
+                <div class='row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_camera_source'>{{=T('Source of camera')}} <span style='color:red;'>*</span></label>
+                    <div class='col-sm-6 col-md-10 col-lg-10'>{{=f.camera_source}}</div>
+                </div>
+                <div class='hide row form-group'>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_station_id'>{{=T('Request Create Station ID')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" name="request_create_station_id" value="{{=request_create_station_id}}" />
+                    </div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_station_type'>{{=T('Type')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" name="station_type" value="{{=type}}" />
+                    </div>
+                    <label class='col-sm-6 col-md-2 col-lg-2' for='camera_links_station_name'>{{=T('Name')}}</label>
+                    <div class='col-sm-6 col-md-4 col-lg-4'>
+                        <input type="text" name="station_name" value="{{=name}}" />
+                    </div>
+                </div>
+                <div class='hide row form-group'>
+                    {{if frm.record:}}
+                    <input type="text" value="{{=frm.record.id}}" name="id" />
+                    {{pass}}
+                </div>
+			</form>
+            <p class="errors text-danger"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <a href="javascript: void(0);" class="btn btn btn-primary btnSave"><i class="fa fa-save"></i> {{=T('Save')}}</a>
+                <a href="javascript: void(0);" class="btn btn-default btnCancel"><i class="fa fa-undo"></i> {{=T('Cancel')}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

@@ -1,0 +1,151 @@
+{{extend 'layout_master.html'}}
+{{from applications.eos.modules import const}}
+
+{{block css }}
+<link rel="stylesheet" href="{{=URL('static', 'css/plugins/slick/slick.css')}}" type="text/css">
+<link rel="stylesheet" href="{{=URL('static', 'css/plugins/slick/slick-theme.css')}}" type="text/css">
+<link type="text/css" rel="stylesheet" href="{{=URL('static', 'css/style-switcher.css')}}"/>
+{{ end }}
+
+<!-- Block 1 -->
+<div class="animated fadeIn no-margins">
+    <div class="row" id="station_type_div" style="min-height: 50px;" data-url="{{=URL('load_import', 'station_type')}}">
+        {{=LOAD('load_import', 'station_type')}}
+    </div>
+</div>
+
+<!-- Block 2 -->
+<div class="animated fadeIn" style="margin-top: 10px!important;">
+    <div class="row" style="min-height: 50px;">
+        <div class="ibox float-e-margins" style="margin-bottom: -40px;">
+            <div class="ibox-title " style="">
+                <h5 style="padding-top: 0px;">{{=T("Station's condition & status")}}</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="ibox-content gray-bg" id="blockChart2"
+                 data-url="{{=URL('load_import', 'station_condition_status')}}">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Block 3 -->
+<div class="animated fadeIn" style="margin-top: 10px!important;">
+    <div class="row" style="min-height: 50px;">
+        <div class="ibox float-e-margins" style="margin-bottom: -40px;">
+            <div class="ibox-title" style="border: 0px">
+                <h5>{{=T('Stations by type')}}</h5>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content" style="padding-top: 5px; padding-bottom:5px">
+                <div class="row">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            {{is_set = True}}
+                            {{for item in common.get_station_types():}}
+                            <li class="{{='active' if is_set else ''}}"
+                                onclick="$('.chosen-container-single').css('width', '100%');"><a data-toggle="tab"
+                                                                                                 href="#wbst-tab-{{=item['value']}}">{{=T(item['name'])}}</a>
+                            </li>
+                            {{is_set = False}}
+                            {{pass}}
+                        </ul>
+                        <div class="tab-content">
+                            {{active_class='active'}}
+                            {{for item in common.get_station_types():}}
+                            {{=LOAD('load_import', 'widget_by_station_type', vars=dict(station_type=item['value']),
+                            target='wbst-tab-' + str(item['value']), _class='tab-pane ' + active_class)}}
+                            {{active_class = ''}}
+                            {{pass}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Block 4 -->
+<div class="row animated fadeIn" style="margin-top: 10px!important;">
+    {{=LOAD('load_import', 'aqi_wqi')}}
+</div>
+
+<!-- Block 5 - Distribution -->
+<div id="widget_station_distribution_div" data-url="{{=URL('load_import', 'station_distribution')}}">
+    {{=LOAD('load_import', 'station_distribution')}}
+</div>
+<div id="widget_data_collect_div" data-url="{{=URL('load_import', 'widget_data_collect')}}">
+    {{#=LOAD('load_import', 'widget_data_collect')}}
+</div>
+<!-- Block 6 - Camera-->
+
+
+<!-- STYLE SWITCHER -->
+<div class="del-style-switcher">
+    <div class="del-switcher-toggle toggle-hide"></div>
+    <form>
+        <section class="del-section del-section-skin">
+            <h5 class="del-switcher-header">{{=T('Choose province:')}}</h5>
+            <select class="form-control" name="province_id2" id="global_province_id">
+                <option value="">{{=T('-- Select province --')}}</option>
+                {{for item in default_provinces:}}
+                <option selected value="{{=item.id}}">{{=item.province_name}}</option>
+                {{pass}}
+
+                {{for item in provinces.keys():}}
+                <option value="{{=item}}">{{=provinces[item]['province_name']}}</option>
+                {{pass}}
+            </select>
+        </section>
+        <section class="del-section del-section-skin">
+            <h5 class="del-switcher-header">{{=T('Choose area:')}}</h5>
+            <select class="form-control" name="area_id2" id="global_area_id">
+                <option value="">{{=T('-- Select areas --')}}</option>
+                {{for item in areas:}}
+                <option value="{{=item.id}}">{{=item.area_name}}</option>
+                {{pass}}
+            </select>
+
+        </section>
+        <p>
+            <button type="button" class="btn btn-block btn-primary btnGlobalGo">{{=T('Go!')}}</button>
+        </p>
+    </form>
+</div>
+<!-- END STYLE SWITCHER -->
+{{block js}}
+<script type="text/javascript" src="{{=URL('static', 'js/deliswitch.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/deliswitch.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/DataTables/custom_datatables.js?v=1')}}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/highcharts.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/modules/exporting.js') }}"></script>
+
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/slick/slick.min.js') }}"></script>
+
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/flot/jquery.flot.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/flot/jquery.flot.spline.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/flot/jquery.flot.pie.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/flot/jquery.flot.symbol.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/flot/jquery.flot.time.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/flot/jquery.flot.resize.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/easypiechart/jquery.easypiechart.js') }}"></script>
+<!-- <script type="text/javascript" src="{{=URL('static', 'js/plugins/sparkline/jquery.sparkline.min.js') }}"></script> -->
+<script type="text/javascript" src="{{=URL('static', 'js/demo/sparkline-demo.js') }}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/chartJs/Chart.min.js') }}"></script>
+
+<script type="text/javascript" src="{{=URL('static', 'js/jwplayer-7.6.0/jwplayer.js')}}"></script>
+
+<!-- <script type="text/javascript" src="{{=URL('static', 'js/demo/chartjs-demo.js') }}"></script> -->
+<script type="text/javascript" src="{{=URL('static', 'js/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
+
+{{end}}
+
+<style>
+
+</style>

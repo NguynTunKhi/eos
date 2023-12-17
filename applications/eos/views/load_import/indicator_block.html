@@ -1,0 +1,58 @@
+
+<div class="ibox float-e-margins no-margins no-padding indicator">
+    <div class="ibox-title">
+        <div class="row">
+            <div class="col-md-8">
+                <label class="h4  no-margins no-padding">{{=station.station_name if station else ''}}</label>
+                <small>{{='   (%s : %s)' % (T('Updated time'), updated_time)}}</small>
+            </div>
+            <!-- <div class="ibox-tools"> -->
+            <div class="col-md-4 text-right">
+                <a class="" href="{{=URL('load_import', 'get_file_lastest', args = [station.id if station else ''])}}" target=" _blank"><i class="fa fa-file fa-2x text-info hover"></i></a>&nbsp;&nbsp;
+                <a class="hide" href="{{=URL('realtime', 'detail', args = [station.id if station else ''])}}"><i class="fa fa-folder-open-o fa-2x text-info hover"></i></a>&nbsp;&nbsp;
+                <a class="" href="{{=URL('station', 'map', vars = dict(station_id=station.id if station else ''))}}"><i class="fa fa-map-marker fa-2x text-info"></i></a>&nbsp;&nbsp;
+                <a class="view-camera" href="javascript: void(0);"
+                   data-st="{{=station.id if station else ''}}"
+                    data-url="{{=URL('stations', 'view_camera_on_dashboard')}}"><i class="fa fa-video-camera fa-2x text-info"></i></a>&nbsp;&nbsp;
+                <a class="" href="{{=URL('realtime', 'detail_graph', args = [station.id if station else ''])}}"><i class="fa fa-bar-chart-o fa-2x text-info"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content gray-bg" style="padding-top: 0px">
+        <div class="row">
+            {{for k in station_indicator:}}
+            <div class="col-lg-3" style="margin-top: 20px;height: 90px">
+                <div class="ibox-content product-box" style="padding: 10px 10px;"
+                     data-st="{{=station.station_type if station else ''}}"
+                    data-redirect="{{=URL('realtime', 'station')}}"
+                    data-url="{{=URL('alarm_logs', 'popup_add')}}">
+                    <h2 class="no-margins text-right text-success">
+                        <span style="float:left; font-size: 0.7em; font-weight: bolder">{{=station_indicator[k]['name']}}</span>
+                        <span style="font-size: inherit; font-weight: 400; color: {{=station_indicator[k]['color']}}">{{=station_indicator[k]['value'] if station_indicator[k]['value'] != '' else '-'}}</span>
+                    </h2>
+                    <div class="stat-percent font-bold">{{=station_indicator[k]['unit']}}</div>
+                    <br />
+                    <small>{{=T('QCVN: ')}}
+                        {{if (str(station_indicator[k]['qcvn_detail_min_value']) != "None" ) & (str(station_indicator[k]['qcvn_detail_max_value']) != "None" ):}}
+                            {{=station_indicator[k]['qcvn_detail_min_value']}} ({{=T('Cmin')}}) <...< {{=station_indicator[k]['qcvn_detail_max_value']}} ({{=T('Cmax')}})
+                        {{elif (str(station_indicator[k]['qcvn_detail_min_value']) != "None" ) :}}
+                            {{=T('Cmin')}} = {{=station_indicator[k]['qcvn_detail_min_value']}}
+                        {{elif (str(station_indicator[k]['qcvn_detail_max_value']) != "None" ) :}}
+                            {{=T('Cmax')}} = {{=station_indicator[k]['qcvn_detail_max_value']}}
+                        {{else:}} --
+                        {{pass}}
+
+                        {{=station_indicator[k]['unit']}}</small>
+                    {{if (str(station_indicator[k]['value']) == "") | (int(station_indicator[k]['status']) == 2):}}
+                    <i class="fa fa-times-circle-o add-alert"
+                       data-st="{{=station.station_type if station else ''}}"
+                       data-station_id="{{=station.id if station else ''}}"
+                       data-indicator_id="{{=k}}"></i>
+                    {{pass}}
+                </div>
+            </div>
+            {{pass}}
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{=URL('static', 'views/' + response.view.replace('.html', '.js'))}}"></script>

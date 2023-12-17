@@ -1,0 +1,65 @@
+{{extend 'layout_master.html'}}
+
+{{block head}}
+<style type='text/css'>
+    
+</style>
+{{end}}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{=T('%(name)s') %dict(name=selected_st_name) }}</h2>
+        <ol class="breadcrumb">
+            <li>{{=T('Home')}}</li>
+            <li>{{=T('Realtime monitor')}}</li>
+            <li class="active"><strong>{{=T('Station cameras')}}</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<br>
+<div class="row">
+    {{if not station:}}
+        <h3>{{=T('Record not founds')}}</h3>
+    {{else:}}
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{{=station.station_name}}</h5>
+            <div class="ibox-tools">
+                <div class="">
+                    <a class="btn btn-primary btn-sm hide" href="{{=URL('detail', args=[station.id])}}">{{=T('Indicators')}}</a>
+                    <a class="btn btn-primary btn-sm" href="{{=URL('detail_graph', args=[station.id])}}">{{=T('Graphs')}}</a>
+                    <!-- <a class="collapse-link"><i class="fa fa-chevron-up"></i></a> -->
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                {{for idx, camera in enumerate(cameras):}}
+                <div class="{{=('col-sm-%s') %(12/len(cameras))}}">
+                    <div class="panel panel-default my-panel">
+                        <div class="panel-heading">
+                            <h3>{{=T('%s') %(camera.description)}}</h3>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-body">
+                            <img id = "camera_id_{{=idx}}" style="width:100%" src="{{=('%s&token=%s') %(camera.camera_source_zm, access_token)}}">
+                        </div>
+                    </div>
+                </div>
+                {{pass}}
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class='text-right'>
+                <a id='btnBack' class='btn btn-primary' onclick='app.confirmBack();'><i class="fa fa-undo"></i> {{=T('BTN_BACK')}}</a>
+            </div>
+        </div>
+    </div>
+    {{pass}}
+</div>
+
+{{block js}}
+    <script type="text/javascript" src="{{=URL('static', 'js/jwplayer-7.6.0/jwplayer.js')}}"></script>
+{{end}}
